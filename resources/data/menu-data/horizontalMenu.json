@@ -1,0 +1,10 @@
+{
+  "menu": [
+    {
+      "url": "dashboard",
+      "name": "home",
+      "icon": "airplay",
+      "slug": "home"
+    }
+  ]
+}
