@@ -2,9 +2,80 @@
   "menu": [
     {
       "url": "dashboard",
-      "name": "home",
-      "icon": "airplay",
-      "slug": "home"
+      "name": "Home",
+      "icon": "home",
+      "slug": "dashboard"
+    },
+    {
+      "name": "Users",
+      "icon": "users",
+      "slug": "",
+      "permissions": ["view-users","create-user"],
+      "submenu": [
+        {
+          "url": "users",
+          "icon": "circle",
+          "permission": "view-users",
+          "name": "Users",
+          "slug": "users.index"
+        },
+        {
+          "url": "users/create",
+          "icon": "circle",
+          "permission": "create-user",
+          "name": "Create User",
+          "slug": "users.create"
+        }
+      ]
+    },
+    {
+      "name": "Roles & Permission",
+      "icon": "shield",
+      "permissions": ["view-roles","view-permissions"],
+      "slug": "",
+      "submenu": [
+        {
+          "url": "roles",
+          "name": "Roles",
+          "icon": "circle",
+          "permission": "view-roles",
+          "slug": "roles.index"
+        },
+        {
+          "url": "permissions",
+          "name": "Permission",
+          "icon": "circle",
+          "permission": "view-permissions",
+          "slug": "permissions.index"
+        }
+      ]
+    },
+    {
+      "url": "backups",
+      "name": "Backups",
+      "icon": "download-cloud",
+      "permissions": "view-backups",
+      "slug": "laravel-backup-panel.index"
+    },
+    {
+      "name": "Settings",
+      "icon": "settings",
+      "slug": "",
+      "permissions": [
+        "view-settings"
+      ],
+      "submenu": [
+        {
+          "url": "settings/general",
+          "name": "General Settings",
+          "icon": "circle",
+          "slug": "settings.general"
+        }
+        
+      ]
     }
+   
+    
+    
   ]
 }
