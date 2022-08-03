@@ -40,9 +40,9 @@
               title="Vinnie Mostowy"
               class="avatar avatar-sm pull-up"
             >
-                @foreach ($role->users as $roleUser)
-                <img class="rounded-circle" src="{{!empty($roleUser->profile_photo_path) ? asset('storage/'.$roleUser->profile_photo_path): asset('images/avatars/1.png')}}" alt="Avatar" />
-                @endforeach
+            @foreach ($role->users as $roleUser)
+              <img class="rounded-circle" src="{{!empty($roleUser->profile_photo_path) ? asset('storage/'.$roleUser->profile_photo_path): asset('images/avatars/1.png')}}" alt="Avatar" />
+            @endforeach
             </li>
           </ul>
         </div>

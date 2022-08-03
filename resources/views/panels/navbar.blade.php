@@ -130,9 +130,12 @@
             <i class="me-50" data-feather="key"></i> API Tokens
           </a>
         @endif
+        
+        @can('view-settings')
         <a class="dropdown-item" href="{{route('settings.general')}}">
           <i class="me-50" data-feather="settings"></i> Settings
         </a>
+        @endcan
 
         @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
           <div class="dropdown-divider"></div>
