@@ -2,6 +2,10 @@
 
 @section('title', 'Create User')
 
+@section('vendor-style')
+  <link rel="stylesheet" href="{{asset('vendors/css/forms/select/select2.min.css')}}">
+@endsection
+
 
 @section('content')
 <section id="basic-vertical-layouts">
@@ -38,6 +42,16 @@
                         <strong>{{ $message }}</strong>
                       </span>
                     @enderror
+                  </div>
+
+                  <div class="mb-1">
+                    <label for="role" class="form-label">Role</label>
+                    <select data-placeholder="Select User Role" class="select2 form-control" name="role">
+                      <option value=""></option>
+                        @foreach ($roles as $role)
+                          <option {{in_array($role->name,$user->getRoleNames()->toArray()) ? 'selected': ''}} value="{{$role->name}}">{{$role->name}}</option>
+                        @endforeach
+                    </select>
                   </div>
       
                   <div class="mb-1">
@@ -81,3 +95,14 @@
   </section>
 @endsection
 
+@section('vendor-script')
+  <script src="{{asset(mix('vendors/js/forms/select/select2.full.min.js'))}}"></script>
+@endsection
+
+@section('page-script')
+<script>
+  $(document).ready(function(){
+    $('.select2').select2();
+  });
+</script>
+@endsection

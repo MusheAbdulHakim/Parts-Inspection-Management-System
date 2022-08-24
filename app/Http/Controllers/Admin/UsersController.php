@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Jetstream;
 use Yajra\DataTables\DataTables;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -67,8 +68,9 @@ class UsersController extends Controller
         $breadcrumbs = [
             ['link' => "users/create", 'name' => "Create User"], ['name' => "Create Users"]
         ];
+        $roles = Role::get();
         return view('admin.users.create',compact(
-            'breadcrumbs'
+            'breadcrumbs','roles'
         ));
 
     }
@@ -86,11 +88,12 @@ class UsersController extends Controller
             'email' => 'required|email',
             'password' => 'required|confirmed|min:8|max:255'
         ]);
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->assignRole($request->role);
         $notification = notify('user has been created');
         return redirect()->route('users.index')->with($notification);
     }
@@ -117,8 +120,9 @@ class UsersController extends Controller
         $breadcrumbs = [
             ['link' => "users/$user->id/edit", 'name' => "Edit User"], ['name' => "Edit User"]
         ];
+        $roles = Role::get();
         return view('admin.users.edit',compact(
-            'breadcrumbs','user'
+            'breadcrumbs','user','roles'
         ));
     }
 
@@ -146,6 +150,10 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => $password,
         ]);
+        foreach($user->getRoleNames() as $userRole){
+            $user->removeRole($userRole);
+        }
+        $user->assignRole($request->role);
         $notification = notify('user has been updated');
         return redirect()->route('users.index')->with($notification);
     }
