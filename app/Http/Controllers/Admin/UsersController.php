@@ -115,7 +115,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         $breadcrumbs = [
-            ['link' => "users/edit", 'name' => "Edit User"], ['name' => "Edit User"]
+            ['link' => "users/$user->id/edit", 'name' => "Edit User"], ['name' => "Edit User"]
         ];
         return view('admin.users.edit',compact(
             'breadcrumbs','user'
