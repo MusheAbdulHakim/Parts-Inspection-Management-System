@@ -10,7 +10,6 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table): void {
             $table->id();
-
             $table->string('group')->index();
             $table->string('name');
             $table->boolean('locked');
