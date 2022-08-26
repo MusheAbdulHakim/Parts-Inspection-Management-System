@@ -22,6 +22,7 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>UserName</th>
                     <th>Email</th>
                     <th>Role</th>
                     <th>Avatar</th>
