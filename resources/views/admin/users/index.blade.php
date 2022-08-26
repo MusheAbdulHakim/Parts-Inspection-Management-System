@@ -48,6 +48,7 @@
             ajax: "{{route('users.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
+                {data: 'username', name: 'username'},
                 {data: 'email', name: 'email'},
                 {data: 'role', name: 'role'},
                 {data: 'avatar', name: 'avatar', orderable: false, searchable: false},

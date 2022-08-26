@@ -70,6 +70,17 @@
               @enderror
             </div>
             <div class="mb-1">
+              <label for="username" class="form-label">UserName</label>
+              <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
+                name="username" placeholder="johndoe" aria-describedby="username" tabindex="1" autofocus
+                value="{{ old('username') }}" />
+              @error('username')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+            <div class="mb-1">
               <label for="register-email" class="form-label">Email</label>
               <input type="text" class="form-control @error('email') is-invalid @enderror" id="register-email"
                 name="email" placeholder="john@example.com" aria-describedby="register-email" tabindex="2"

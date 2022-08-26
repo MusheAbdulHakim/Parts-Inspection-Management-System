@@ -66,7 +66,7 @@
           <form class="auth-login-form mt-2" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-1">
-              <label for="login-email" class="form-label">Email</label>
+              <label for="login-email" class="form-label">Email / UserName</label>
               <input type="text" class="form-control @error('email') is-invalid @enderror" id="login-email" name="email"
                 placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus
                 value="{{ old('email') }}" />
