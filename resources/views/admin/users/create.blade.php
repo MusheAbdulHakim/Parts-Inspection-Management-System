@@ -19,12 +19,23 @@
                 @csrf
               <div class="row">
                 
-                <div class="mb-1">
+                  <div class="mb-1">
                     <label for="register-username" class="form-label">FullName</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="register-username"
-                      name="name" placeholder="johndoe" aria-describedby="register-username" tabindex="1" autofocus
+                      name="name" placeholder="John Doe" aria-describedby="register-username" tabindex="1" autofocus
                       value="{{ old('name') }}" />
                     @error('name')
+                      <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
+                  </div>
+                  <div class="mb-1">
+                    <label for="username" class="form-label">UserName</label>
+                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
+                      name="username" placeholder="johndoe" aria-describedby="username" tabindex="1" autofocus
+                      value="{{ old('username') }}" />
+                    @error('username')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                       </span>

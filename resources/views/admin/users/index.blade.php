@@ -22,6 +22,7 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>UserName</th>
                     <th>Email</th>
                     <th>Role</th>
                     <th>Avatar</th>
@@ -48,6 +49,7 @@
             ajax: "{{route('users.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
+                {data: 'username', name: 'username'},
                 {data: 'email', name: 'email'},
                 {data: 'role', name: 'role'},
                 {data: 'avatar', name: 'avatar', orderable: false, searchable: false},

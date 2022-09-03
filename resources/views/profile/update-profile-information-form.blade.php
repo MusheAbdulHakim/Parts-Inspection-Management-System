@@ -52,6 +52,14 @@
       <x-jet-input-error for="name" />
     </div>
 
+    <!-- UserName -->
+    <div class="mb-1">
+      <x-jet-label class="form-label" for="username" value="{{ __('UserName') }}" />
+      <x-jet-input id="username" type="text" class="{{ $errors->has('username') ? 'is-invalid' : '' }}"
+        wire:model.defer="state.username" autocomplete="username" />
+      <x-jet-input-error for="username" />
+    </div>
+
     <!-- Email -->
     <div class="mb-1">
       <x-jet-label class="form-label" for="email" value="{{ __('Email') }}" />
