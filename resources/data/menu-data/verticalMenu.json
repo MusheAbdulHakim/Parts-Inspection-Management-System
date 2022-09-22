@@ -2,7 +2,7 @@
   "menu": [
     {
       "url": "dashboard",
-      "name": "Home",
+      "name": "Dashboard",
       "icon": "airplay",
       "slug": "dashboard"
     },
