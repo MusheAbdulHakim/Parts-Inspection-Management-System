@@ -56,7 +56,7 @@
   <!-- End: Content-->
 
   {{-- include default scripts --}}
-  @include('panels/scripts')
+  @include('panels.scripts')
 
   <script type="text/javascript">
     $(window).on('load', function() {

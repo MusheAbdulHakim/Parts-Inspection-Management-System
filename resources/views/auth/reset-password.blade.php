@@ -1,4 +1,4 @@
-@extends('layouts/fullLayoutMaster')
+@extends('layouts.fullLayoutMaster')
 
 @section('title', 'Reset Password')
 
