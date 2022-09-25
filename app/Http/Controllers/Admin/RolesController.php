@@ -39,10 +39,10 @@ class RolesController extends Controller
                 ->addColumn('action',function ($row){
                     $editbtn = '<a href="javascript:void(0)" data-id="'.$row->id.'" data-name="'.$row->name.'" data-permissions='.($row->getAllPermissions()->pluck('name')).' class="edit_role"><button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('roles.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></a>';
-                    if(!auth()->user()->hasPermissionTo('edit-role')){
+                    if(!can('edit-role')){
                         $editbtn = '';
                     }
-                    if(!auth()->user()->hasPermissionTo('destroy-role')){
+                    if(!can('destroy-role')){
                         $deletebtn = '';
                     }
                     $btn = $editbtn.' '.$deletebtn;

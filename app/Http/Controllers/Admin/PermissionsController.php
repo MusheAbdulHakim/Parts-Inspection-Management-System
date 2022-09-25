@@ -37,10 +37,10 @@ class PermissionsController extends Controller
                     ->addColumn('action',function ($row){
                         $editbtn = '<a data-id="'.$row->id.'" data-name="'.$row->name.'" href="javascript:void(0)" class="edit"><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button></a>';
                         $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('permissions.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>';
-                        if(!auth()->user()->hasPermissionTo('edit-permission')){
+                        if(!can('edit-permission')){
                             $editbtn = '';
                         }
-                        if(!auth()->user()->hasPermissionTo('destroy-permission')){
+                        if(!can('destroy-permission')){
                             $deletebtn = '';
                         }
                         $btn = $editbtn.' '.$deletebtn;

@@ -45,10 +45,10 @@ class UsersController extends Controller
                 ->addColumn('action',function ($user){
                     $editbtn = '<a href="'.route('users.edit',$user->id).'" class="edit"><button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button></a>';
                     $deletebtn = '<a data-id="'.$user->id.'" data-route="'.route('users.destroy',$user->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></a>';
-                    if(!auth()->user()->hasPermissionTo('edit-user')){
+                    if(!can('edit-user')){
                         $editbtn = '';
                     }
-                    if(!auth()->user()->hasPermissionTo('destroy-user')){
+                    if(!can('destroy-user')){
                         $deletebtn = '';
                     }
                     $btn = $editbtn.' '.$deletebtn;
