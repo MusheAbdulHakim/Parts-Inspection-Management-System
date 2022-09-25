@@ -10,6 +10,12 @@ use Spatie\Permission\Models\Permission;
 
 class RolesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role_or_permission:super-admin|view-roles|create-role|edit-role|destroy-role']);
+    }
+
     /**
      * Display a listing of the resource.
      *

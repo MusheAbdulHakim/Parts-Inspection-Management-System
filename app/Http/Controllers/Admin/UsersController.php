@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['role_or_permission:super-admin|view-users|create-user|edit-user|destroy-user']);
+    }
+    
     /**
      * Display a listing of the resource.
      *

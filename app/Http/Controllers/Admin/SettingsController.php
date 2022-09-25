@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware(['role_or_permission:super-admin|view-settings']);
+    }
+
     public function index(GeneralSettings $settings){
         $pageConfigs = ['pageHeader' => false];
         return view('admin.settings.general',compact(
