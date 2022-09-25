@@ -44,3 +44,15 @@ if(!function_exists('alert')){
         );
     }
 }
+
+/**
+ * return if auth user has a permission
+ * 
+ * @param string $permission
+ * @return bool
+ */
+if(!function_exists('can')){
+    function can($permission){
+        return (ucfirst(auth('web')->user()->roles->first()->name) == 'Super-admin') || auth('web')->user()->hasPermissionTo($permission);
+    }
+}
