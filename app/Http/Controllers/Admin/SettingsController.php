@@ -29,14 +29,14 @@ class SettingsController extends Controller
             'logo' => 'nullable|file|image',
             'favicon' => 'nullable|file|image',
         ]);
-        $logo = '';
+        $logo = $settings->logo;
         if($request->hasFile('logo')){
-            $logo = time().'.'.$request->logo->extension();
+            $logo = 'logo_'.time().'.'.$request->logo->extension();
             $request->logo->move(public_path('storage/settings/general'), $logo);
         }
-        $favicon = '';
+        $favicon = $settings->favicon;
         if($request->hasFile('favicon')){
-            $favicon = time().'.'.$request->favicon->extension();
+            $favicon = 'favicon_'.time().'.'.$request->favicon->extension();
             $request->favicon->move(public_path('storage/settings/general'), $favicon);
         }
         $settings->logo = $logo;

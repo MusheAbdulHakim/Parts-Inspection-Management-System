@@ -7,8 +7,8 @@
 <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
 
-
 @yield('vendor-script')
+@stack('vendor-script')
 <!-- END: Page Vendor JS-->
 <!-- BEGIN: Theme JS-->
 <script src="{{ asset(mix('js/core/app-menu.js')) }}"></script>
@@ -23,6 +23,7 @@
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
 @yield('page-script')
+@stack('page-script')
 <!-- END: Page JS-->
 
 @stack('modals')
