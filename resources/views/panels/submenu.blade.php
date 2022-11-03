@@ -2,7 +2,7 @@
 <ul class="menu-content">
   @if(isset($menu))
   @foreach($menu as $submenu)
-    @if (isset($menu->permission) && !empty($submenu->permission))
+    @if (isset($submenu->permission) && !empty($submenu->permission))
       @can($submenu->permission)
       <li @if($submenu->slug === Route::currentRouteName()) class="active" @endif>
         <a href="{{isset($submenu->url) ? url($submenu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($submenu->newTab) && $submenu->newTab === true  ? '_blank':'_self'}}">
@@ -12,7 +12,7 @@
           <span class="menu-item text-truncate">{{ __('locale.'.$submenu->name) }}</span>
         </a>
         @if (isset($submenu->submenu))
-        @include('panels/submenu', ['menu' => $submenu->submenu])
+        @include('panels.submenu', ['menu' => $submenu->submenu])
         @endif
       </li>
       @endcan
@@ -25,7 +25,7 @@
         <span class="menu-item text-truncate">{{ __('locale.'.$submenu->name) }}</span>
       </a>
       @if (isset($submenu->submenu))
-      @include('panels/submenu', ['menu' => $submenu->submenu])
+      @include('panels.submenu', ['menu' => $submenu->submenu])
       @endif
     </li>
     @endif

@@ -40,7 +40,7 @@ $configData = Helper::applClasses();
               }
             @endphp
             @if (isset($menu->permissions) && !empty($menu->permissions))
-              @can($menu->permissions)
+              @canany($menu->permissions)
               <li class="nav-item {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
                 <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0)' }}" class="d-flex align-items-center"
                   target="{{ isset($menu->newTab) ? '_blank' : '_self' }}">
@@ -53,10 +53,10 @@ $configData = Helper::applClasses();
                   @endif
                 </a>
                 @if (isset($menu->submenu))
-                  @include('panels/submenu', ['menu' => $menu->submenu])
+                  @include('panels.submenu', ['menu' => $menu->submenu])
                 @endif
               </li>
-              @endcan
+              @endcanany
             @else
               <li class="nav-item {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
                 <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0)' }}" class="d-flex align-items-center"
@@ -70,7 +70,7 @@ $configData = Helper::applClasses();
                   @endif
                 </a>
                 @if (isset($menu->submenu))
-                  @include('panels/submenu', ['menu' => $menu->submenu])
+                  @include('panels.submenu', ['menu' => $menu->submenu])
                 @endif
               </li>
             @endif
