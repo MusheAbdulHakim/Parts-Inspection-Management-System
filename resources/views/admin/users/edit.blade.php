@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 
-@section('title', 'Create User')
+@section('title', 'Edit User')
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{asset('vendors/css/forms/select/select2.min.css')}}">
@@ -108,12 +108,4 @@
 
 @section('vendor-script')
   <script src="{{asset(mix('vendors/js/forms/select/select2.full.min.js'))}}"></script>
-@endsection
-
-@section('page-script')
-<script>
-  $(document).ready(function(){
-    $('.select2').select2();
-  });
-</script>
 @endsection

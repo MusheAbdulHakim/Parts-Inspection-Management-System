@@ -68,6 +68,37 @@
       feather.replace();
   });  
 
-  
+  if($('.phone-number-mask').length > 0){
+    $('.phone-number-mask').each(function(){
+        new Cleave($(this), {
+            phone: true,
+            phoneRegionCode: 'US'
+        });
+    });
+  }
+
+  if($('.select2').length > 0){
+    $(".select2").each((_i, e) => {
+        var $e = $(e);
+        $e.select2({
+          tags: true,
+          dropdownParent: $e.parent()
+        });
+    });
+  }
+
+  if($('.flatpickr_time').length > 0){
+    $('.flatpickr_time').flatpickr({
+        allowInput: true,
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+    });
+  }
+
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  });
 
 })(window);

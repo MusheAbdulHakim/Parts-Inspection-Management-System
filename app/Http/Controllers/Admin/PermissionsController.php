@@ -50,9 +50,7 @@ class PermissionsController extends Controller
                     ->make(true);
         }
         
-        return view('admin.roles.permissions',compact(
-            'breadcrumbs',
-        ));
+        return view('admin.roles.permissions');
     }
 
     /**

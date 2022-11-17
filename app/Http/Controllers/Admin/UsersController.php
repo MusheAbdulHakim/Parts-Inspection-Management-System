@@ -57,9 +57,7 @@ class UsersController extends Controller
                 ->rawColumns(['avatar','action'])
                 ->make(true);
         }
-        return view('admin.users.index',compact(
-            'breadcrumbs'
-        ));
+        return view('admin.users.index');
     }
 
     /**
@@ -70,7 +68,7 @@ class UsersController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            ['link' => "users/create", 'name' => "Create User"], ['name' => "Create Users"]
+            ['link' => "users", 'name' => "Users"], ['name' => "Create Users"]
         ];
         $roles = Role::get();
         return view('admin.users.create',compact(
@@ -123,7 +121,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         $breadcrumbs = [
-            ['link' => "users/$user->id/edit", 'name' => "Edit User"], ['name' => "Edit User"]
+            ['link' => "users", 'name' => "Users"], ['name' => "Edit User"]
         ];
         $roles = Role::get();
         return view('admin.users.edit',compact(

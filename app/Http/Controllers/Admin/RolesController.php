@@ -130,7 +130,13 @@ class RolesController extends Controller
     }
 
     public function updateUserPermissions(Request $request){
-        
+        $request->validate([
+            'user' => 'required',
+        ]);
+        $user = User::findOrFail($request->user);
+        $user->syncPermissions($request->permissions);
+        $notification = notify('User Permissions has been updated');
+        return back()->with($notification);
     }
 
     /**

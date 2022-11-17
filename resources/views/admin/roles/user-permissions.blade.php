@@ -4,11 +4,10 @@
 
 <x-assets.datatables />
 
-@section('page-style')
+@push('page-style')
   <!-- Page css files -->
-  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
   <link rel="stylesheet" href="{{asset('vendors/css/forms/select/select2.min.css')}}">
-@endsection
+@endpush
 
 
 @section('content')
@@ -33,7 +32,6 @@
 @endsection
 
 @push('modals')
-    
     <!-- Edit Permission Modal -->
     <div class="modal fade" id="editPermissionModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -84,8 +82,6 @@
 @endpush
 
 @section('page-script')
-<script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-
 <script>
     $(document).ready(function(){
         var table = $('#datatable').DataTable({
@@ -107,6 +103,7 @@
             $('#edit_user').val(user).trigger('change');
             $('#edit_permissions').val(permissions).trigger('change');
         });
+        $('.select2').select2();
     });
 </script>
 @endsection

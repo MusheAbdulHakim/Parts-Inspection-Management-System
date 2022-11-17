@@ -108,10 +108,3 @@
   <script src="{{asset(mix('vendors/js/forms/select/select2.full.min.js'))}}"></script>
 @endsection
 
-@section('page-script')
-<script>
-  $(document).ready(function(){
-    $('.select2').select2();
-  });
-</script>
-@endsection

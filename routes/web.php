@@ -27,7 +27,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::apiResource('roles',RolesController::class)->except(['show','update']);
     Route::put('roles',[RolesController::class,'update'])->name('roles.update');
     Route::get('user-permissions', [RolesController::class, 'userPermissions'])->name('user-permissions.index');
-    Route::put('user-permissions', [UserPermissionController::class, 'updateUserPermissions'])->name('user-permissions.update');
+    Route::put('user-permissions', [RolesController::class, 'updateUserPermissions'])->name('user-permissions.update');
     Route::apiResource('permissions',PermissionsController::class)->except(['show','updated']);
     Route::put('permissions',[PermissionsController::class,'update'])->name('permissions.update');
 
