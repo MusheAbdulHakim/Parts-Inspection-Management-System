@@ -42,6 +42,13 @@
           "slug": "roles.index"
         },
         {
+          "url": "user-permissions",
+          "name": "User Permissions",
+          "icon": "circle",
+          "permission": "create-role",
+          "slug": "user-permissions.index"
+        },
+        {
           "url": "permissions",
           "name": "Permission",
           "icon": "circle",

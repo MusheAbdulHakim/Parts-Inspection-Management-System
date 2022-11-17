@@ -9,7 +9,7 @@
           @if(isset($submenu->icon))
           <i data-feather="{{$submenu->icon}}"></i>
           @endif
-          <span class="menu-item text-truncate">{{ __('locale.'.$submenu->name) }}</span>
+          <span class="menu-item text-truncate">{{ __($submenu->name) }}</span>
         </a>
         @if (isset($submenu->submenu))
         @include('panels.submenu', ['menu' => $submenu->submenu])
@@ -22,7 +22,7 @@
         @if(isset($submenu->icon))
         <i data-feather="{{$submenu->icon}}"></i>
         @endif
-        <span class="menu-item text-truncate">{{ __('locale.'.$submenu->name) }}</span>
+        <span class="menu-item text-truncate">{{ __($submenu->name) }}</span>
       </a>
       @if (isset($submenu->submenu))
       @include('panels.submenu', ['menu' => $submenu->submenu])
