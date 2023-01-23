@@ -94,6 +94,7 @@ class UsersController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'active' => !empty($request->active),
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole($request->role);
@@ -133,7 +134,7 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -153,6 +154,7 @@ class UsersController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $password,
+            'active' => !empty($request->active),
         ]);
         foreach($user->getRoleNames() as $userRole){
             $user->removeRole($userRole);
