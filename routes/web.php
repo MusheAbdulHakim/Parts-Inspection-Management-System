@@ -24,6 +24,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::get('',[DashboardController::class,'index']);
 
     Route::resource('users',UsersController::class);
+    Route::post('user-active', [UsersController::class, 'updateStatus'])->name('user.status.update');
     Route::apiResource('roles',RolesController::class)->except(['show','update']);
     Route::put('roles',[RolesController::class,'update'])->name('roles.update');
     Route::get('user-permissions', [RolesController::class, 'userPermissions'])->name('user-permissions.index');
@@ -35,8 +36,8 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
     Route::post('settings/general',[SettingsController::class,'updateGeneralSettings']);
     
+    // locale Route
+    Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 });
 
-// locale Route
-Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 

@@ -25,6 +25,7 @@
                     <th>UserName</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Active</th>
                     <th>Avatar</th>
                     <th>Action</th>
                   </tr>
@@ -41,23 +42,48 @@
 
 @section('page-script')
 <script>
-    $(document).ready(function(){
+  $(document).ready(function(){
 
-        var table = $('#datatable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{route('users.index')}}",
-            columns: [
-                {data: 'name', name: 'name'},
-                {data: 'username', name: 'username'},
-                {data: 'email', name: 'email'},
-                {data: 'role', name: 'role'},
-                {data: 'avatar', name: 'avatar', orderable: false, searchable: false},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
-            ]
-        });
-        
+    var table = $('#datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('users.index')}}",
+        columns: [
+            {data: 'name', name: 'name'},
+            {data: 'username', name: 'username'},
+            {data: 'email', name: 'email'},
+            {data: 'role', name: 'role'},
+            {data: 'active', name: 'active'},
+            {data: 'avatar', name: 'avatar', orderable: false, searchable: false},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+
+    $('table').on('click','.update_status', function(){
+      var status = $(this).data('status');
+      var user = $(this).data('user');
+      $.ajax({
+        url: "{{route('user.status.update')}}",
+        type: "POST",
+        data: {
+          user: user,
+          status: status
+        },
+        success: function(e){
+          if(e.type == '1'){
+            toastr.success(e.message)
+          }
+          if(e.type == '0'){
+            toastr.error(e.message)
+          }
+        },
+        complete: function(){
+          $('#datatable').DataTable().ajax.reload();
+        }
+      })
     })
+      
+  })
 </script>
 @endsection
 
