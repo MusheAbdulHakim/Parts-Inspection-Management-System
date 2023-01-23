@@ -31,6 +31,12 @@ class UsersController extends Controller
             $users = User::latest()->get();
             return DataTables::of($users)
                 ->addIndexColumn()
+                ->addColumn('active', function($row){
+                    $active = ($row->active === 1) ? 'checked': '';
+                    return '<div data-user="'.$row->id.'" data-status="'.$row->active.'" class="form-check form-switch update_status">
+                    <input type="checkbox" class="form-check-input" name="active" id="activeSwitch" '.$active.' />
+                  </div>';
+                })
                 ->addColumn('avatar',function($user){
                     $src = asset('images/avatars/1.png');
                     if(!empty($user->profile_photo_path)){
@@ -54,10 +60,23 @@ class UsersController extends Controller
                     $btn = $editbtn.' '.$deletebtn;
                     return $btn;
                 })
-                ->rawColumns(['avatar','action'])
+                ->rawColumns(['avatar','active','action'])
                 ->make(true);
         }
         return view('admin.users.index');
+    }
+
+    public function updateStatus(Request $request){
+        if($request->ajax()){
+            $user = User::findOrFail($request->user)->update([
+                'active' => ($request->status == '1') ? 0: 1,
+            ]);
+            if($user){
+                return response()->json(['type' => 1,'message' => "User status updated successfully"]);
+            }else{
+                return response()->json(['type' => 0,'message' => "Something went wrong"]);
+            }
+        }
     }
 
     /**
@@ -94,6 +113,7 @@ class UsersController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'active' => !empty($request->active),
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole($request->role);
@@ -133,7 +153,7 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -153,6 +173,7 @@ class UsersController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $password,
+            'active' => !empty($request->active),
         ]);
         foreach($user->getRoleNames() as $userRole){
             $user->removeRole($userRole);

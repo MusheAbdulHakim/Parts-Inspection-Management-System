@@ -93,6 +93,12 @@
                       <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                     </div>
                   </div>
+                  <div class="mb-1">
+                    <div class="form-check form-switch">
+                      <input type="checkbox" class="form-check-input" name="active" id="activeSwitch" {{($user->active === 1) ? 'checked': ''}} />
+                      <label class="form-check-label" for="activeSwitch">Active</label>
+                    </div>
+                  </div>
                 <div class="col-12">
                   <button type="submit" class="btn btn-primary me-1">Submit</button>
                 </div>
