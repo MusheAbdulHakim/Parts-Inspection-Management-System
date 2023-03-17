@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
 @endsection
 
-@can('create-serialnumber')
+@can('create-inspectionTool')
 @push('breadcrumb-right')
 <x-buttons.primary text="create Inspection Tool" target="#addInspectionToolModal"  />
 @endpush
