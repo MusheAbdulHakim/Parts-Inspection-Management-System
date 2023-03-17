@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InspectionToolController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\SerialNumberController;
 
@@ -35,6 +36,8 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
 
     Route::apiResource('serialnumbers',SerialNumberController::class)->except(['show','updated']);
     Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
+    Route::apiResource('inspection-tools',InspectionToolController::class)->except(['show','updated']);
+    Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');

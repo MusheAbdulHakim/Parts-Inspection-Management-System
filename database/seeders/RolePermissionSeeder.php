@@ -18,6 +18,7 @@ class RolePermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $arrayOfPermissionNames = [
+            'view-inspectionTools','create-inspectionTool','edit-inspectionTool','destroy-inspectionTool',
             'view-serialnumbers','create-serialnumber','edit-serialnumber','destroy-serialnumber',
             'view-backups','create-backup','download-backup','destroy-backup',
             'view-settings',

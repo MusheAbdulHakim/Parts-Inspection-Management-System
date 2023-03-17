@@ -7,9 +7,21 @@
       "slug": "dashboard"
     },
     {
+      "url": "inspection-tools",
+      "name": "Inspection Tools",
+      "icon": "airplay",
+      "permissions": [
+        "view-inspectionTools"
+      ],
+      "slug": "inspection-tools"
+    },
+    {
       "url": "serialnumbers",
       "name": "Serial Numbers",
       "icon": "airplay",
+      "permissions": [
+        "view-serialnumbers"
+      ],
       "slug": "serialnumbers"
     },
     {

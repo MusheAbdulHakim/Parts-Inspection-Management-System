@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 
-@section('title', 'Permission')
+@section('title', 'Inspection Tools')
 
 <x-assets.datatables />
 
@@ -9,19 +9,19 @@
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
 @endsection
 
-{{-- @push('breadcrumb-right')
-@can('create-permission')
-<x-buttons.primary text="create permission" target="#addPermissionModal"  />
+@can('create-serialnumber')
+@push('breadcrumb-right')
+<x-buttons.primary text="create Inspection Tool" target="#addInspectionToolModal"  />
+@endpush
 @endcan
-@endpush --}}
 
 @section('content')
 
-    <!-- Permission Table -->
+    <!-- InspectionTool Table -->
     <div class="card">
         <div class="p-2">
             <div class="card-datatable table-responsive">
-                <table id="datatable" class="datatables-permissions table">
+                <table id="datatable" class="table table-bordered dt-responsive">
                     <thead class="table-light">
                     <tr>
                         <th>Name</th>
@@ -33,12 +33,12 @@
             </div>
         </div>
     </div>
-  <!--/ Permission Table -->
+  <!--/ InspectionTool Table -->
 @endsection
 
 @push('modals')
-    <!-- Add Permission Modal -->
-    <div class="modal fade" id="addPermissionModal" tabindex="-1" aria-hidden="true">
+    <!-- Add InspectionTool Modal -->
+    <div class="modal fade" id="addInspectionToolModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-transparent">
@@ -46,26 +46,23 @@
             </div>
             <div class="modal-body px-sm-5 pb-5">
             <div class="text-center mb-2">
-                <h1 class="mb-1">Add New Permission</h1>
-                <p>Permissions you may use and assign to your users.</p>
+                <h1 class="mb-1">Add New Inspection Tool</h1>
             </div>
-            <form id="jquery-val-form" class="row" method="post" action="{{route('permissions.store')}}">
+            <form class="row" method="post" action="{{route('inspection-tools.store')}}">
                 @csrf
                 <div class="col-12">
-                <label class="form-label" for="modalPermissionName">Permission Name</label>
+                <label class="form-label" for="name">Name</label>
                 <input
                     type="text"
-                    id="modalPermissionName"
-                    name="permission"
+                    id="name"
+                    name="name"
                     class="form-control"
-                    placeholder="Permission Name"
-                    autofocus
-                    data-msg="Please enter permission name"
+                    placeholder="Name"
                 />
                 </div>
                 
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary mt-2 me-1">Create Permission</button>
+                    <button type="submit" class="btn btn-primary mt-2 me-1">Create</button>
                     <button type="reset" class="btn btn-outline-secondary mt-2" data-bs-dismiss="modal" aria-label="Close">
                         Discard
                     </button>
@@ -75,10 +72,10 @@
         </div>
         </div>
     </div>
-    <!--/ Add Permission Modal -->
+    <!--/ Add InspectionTool Modal -->
     
-    <!-- Edit Permission Modal -->
-    <div class="modal fade" id="editPermissionModal" tabindex="-1" aria-hidden="true">
+    <!-- Edit InspectionTool Modal -->
+    <div class="modal fade" id="editInspectionToolModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-transparent">
@@ -86,32 +83,21 @@
             </div>
             <div class="modal-body p-3 pt-0">
             <div class="text-center mb-2">
-                <h1 class="mb-1">Edit Permission</h1>
-                <p>Edit permission as per your requirements.</p>
+                <h1 class="mb-1">Edit Inspection Tool</h1>
             </div>
-    
-            <div class="alert alert-warning" role="alert">
-                <h6 class="alert-heading">Warning!</h6>
-                <div class="alert-body">
-                By editing the permission name, you might break the system permissions functionality. Please ensure you're
-                absolutely certain before proceeding.
-                </div>
-            </div>
-    
-            <form method="post" action="{{route('permissions.update')}}" class="row">
+
+            <form method="post" action="{{route('inspection-tools.update')}}" class="row">
                 @csrf
                 @method("PUT")
                 <input type="hidden" name="id" id="edit_id">
                 <div class="col-sm-9">
-                    <label class="form-label" for="edit_permission">Permission Name</label>
+                    <label class="form-label" for="edit_name">Name</label>
                     <input
                         type="text"
-                        id="edit_permission"
-                        name="permission"
+                        id="edit_name"
+                        name="name"
                         class="form-control"
-                        placeholder="Enter a permission name"
-                        tabindex="-1"
-                        data-msg="Please enter permission name"
+                        placeholder="Name"
                         required
                     />
                 </div>
@@ -124,7 +110,7 @@
         </div>
         </div>
     </div>
-    <!--/ Edit Permission Modal -->
+    <!--/ Edit InspectionTool Modal -->
 @endpush
 
 @section('page-script')
@@ -134,7 +120,7 @@
         var table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('permissions.index')}}",
+            ajax: "{{route('inspection-tools.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
                 {data: 'created_at', name: 'created_at'},
@@ -145,8 +131,8 @@
         $('#datatable').on('click','.edit',function(){
             var id = $(this).data('id');
             var name = $(this).data('name');
-            $('#editPermissionModal').modal('show');
-            $('#edit_permission').val(name);
+            $('#editInspectionToolModal').modal('show');
+            $('#edit_name').val(name);
             $('#edit_id').val(id);
         });
     });
