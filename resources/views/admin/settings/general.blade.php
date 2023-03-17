@@ -46,12 +46,7 @@
                       </span>
                     @enderror
                 </div>
-                <div class="mb-1">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="site_active" {{$settings->site_active ? 'checked': ''}} name="site_active">
-                        <label class="form-check-label" for="site_active">Maintenance Mode</label>
-                    </div>
-                </div>
+                
                 <div class="col-12">
                   <button type="submit" class="btn btn-primary me-1">Submit</button>
                 </div>

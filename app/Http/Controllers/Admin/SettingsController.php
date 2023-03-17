@@ -41,7 +41,6 @@ class SettingsController extends Controller
         }
         $settings->logo = $logo;
         $settings->favicon = $favicon;
-        $settings->site_active = ($request->site_active == 'on' ? true: false);
         $settings->currency = $request->currency ?? '';
         $settings->save();
         $notification = notify('Settings has been updated');
