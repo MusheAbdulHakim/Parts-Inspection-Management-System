@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\SerialNumberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,9 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('user-permissions', [RolesController::class, 'updateUserPermissions'])->name('user-permissions.update');
     Route::apiResource('permissions',PermissionsController::class)->except(['show','updated']);
     Route::put('permissions',[PermissionsController::class,'update'])->name('permissions.update');
+
+    Route::apiResource('serialnumbers',SerialNumberController::class)->except(['show','updated']);
+    Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');

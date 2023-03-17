@@ -7,6 +7,12 @@
       "slug": "dashboard"
     },
     {
+      "url": "serialnumbers",
+      "name": "Serial Numbers",
+      "icon": "airplay",
+      "slug": "serialnumbers"
+    },
+    {
       "name": "Users",
       "icon": "users",
       "slug": "",
