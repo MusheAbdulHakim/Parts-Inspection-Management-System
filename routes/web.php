@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\RolesController;
@@ -38,6 +39,8 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
     Route::apiResource('inspection-tools',InspectionToolController::class)->except(['show','updated']);
     Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
+    Route::apiResource('customers',CustomerController::class)->except(['show','updated']);
+    Route::put('customers',[CustomerController::class,'update'])->name('customers.update');
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
