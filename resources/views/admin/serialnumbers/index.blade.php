@@ -92,7 +92,7 @@
                 @csrf
                 @method("PUT")
                 <input type="hidden" name="id" id="edit_id">
-                <div class="col-sm-9">
+                <div class="col-12">
                     <label class="form-label" for="edit_serialnumber">SerialNumber Name</label>
                     <input
                         type="text"
