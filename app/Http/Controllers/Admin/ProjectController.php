@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
-use App\Models\NumberFeature;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 
-class NumberFeatureController extends Controller
+class ProjectController extends Controller
 {
+
     public function __construct()
     {
-        $this->middleware(['role_or_permission:super-admin|view-numberFeatures|create-numberFeature|edit-numberFeature|destroy-numberFeature']);
+        $this->middleware(['role_or_permission:super-admin|view-projects|create-project|edit-project|destroy-project']);
     }
 
     /**
@@ -23,19 +24,19 @@ class NumberFeatureController extends Controller
     public function index(Request  $request)
     {
         if ($request->ajax()){
-            $features = NumberFeature::get();
-            return DataTables::of($features)
+            $projects = Project::get();
+            return DataTables::of($projects)
                     ->addIndexColumn()
                     ->addColumn('created_at',function($row){
                         return date_format(date_create($row->created_at),'d M Y');
                     })
                     ->addColumn('action',function ($row){
-                        $editbtn = '<a data-id="'.$row->id.'" href="javascript:void(0)" class="edit"><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button></a>';
-                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('number-features.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>';
-                        if(!can('edit-numberFeature')){
+                        $editbtn = '<a data-id="'.$row->id.'" data-customer="'.$row->customer.'" data-name="'.$row->name.'" href="javascript:void(0)" class="edit"><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button></a>';
+                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('projects.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>';
+                        if(!can('edit-project')){
                             $editbtn = '';
                         }
-                        if(!can('destroy-numberFeature')){
+                        if(!can('destroy-project')){
                             $deletebtn = '';
                         }
                         $btn = $editbtn.' '.$deletebtn;
@@ -45,7 +46,7 @@ class NumberFeatureController extends Controller
                     ->make(true);
         }
         
-        return view('admin.features.numerical');
+        return view('admin.projects.index');
     }
 
     /**
@@ -58,20 +59,13 @@ class NumberFeatureController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'target' => 'nullable|numeric',
-            'upper_limit' => 'nullable|numeric',
-            'lower_limit' => 'nullable|numeric',
-            'description' => 'nullable|max:255'
+            'customer' => 'required',
         ]);
-        
-        NumberFeature::create([
+        Project::create([
             'name' => $request->name,
-            'target' => $request->target,
-            'upper_limit' => $request->upper_limit,
-            'lower_limit' => $request->lower_limit,
-            'description' => $request->description
+            'customer' => $request->customer,
         ]);
-        $notification = notify('Number feature has been created');
+        $notification = notify("Project has been added");
         return back()->with($notification);
     }
 
@@ -83,7 +77,7 @@ class NumberFeatureController extends Controller
      */
     public function show($id)
     {
-        return response()->json(NumberFeature::findOrFail($id));
+        //
     }
 
     /**
@@ -96,20 +90,13 @@ class NumberFeatureController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'target' => 'nullable|numeric',
-            'upper_limit' => 'nullable|numeric',
-            'lower_limit' => 'nullable|numeric',
-            'description' => 'nullable|max:255'
+            'customer' => 'required',
         ]);
-        
-        NumberFeature::findOrFail($request->id)->update([
+        Project::findOrFail($request->id)->update([
             'name' => $request->name,
-            'target' => $request->target,
-            'upper_limit' => $request->upper_limit,
-            'lower_limit' => $request->lower_limit,
-            'description' => $request->description
+            'customer' => $request->customer,
         ]);
-        $notification = notify('Number feature has been updated');
+        $notification = notify("Project has been updated");
         return back()->with($notification);
     }
 
@@ -121,6 +108,6 @@ class NumberFeatureController extends Controller
      */
     public function destroy(Request $request)
     {
-        return NumberFeature::findOrFail($request->id)->delete();
+        return Project::findOrFail($request->id)->delete();
     }
 }

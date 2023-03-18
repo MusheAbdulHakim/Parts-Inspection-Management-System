@@ -21,6 +21,7 @@ class RolePermissionSeeder extends Seeder
             'view-projects','create-project','edit-project','destroy-project',
             'view-products','create-product','edit-product','destroy-product',
             'view-binaryFeatures','create-binaryFeature','edit-binaryFeature','destroy-binaryFeature',
+            'view-gaugeFeatures','create-gaugeFeature','edit-gaugeFeature','destroy-gaugeFeature',
             'view-numberFeatures','create-numberFeature','edit-numberFeature','destroy-numberFeature',
             'view-customers','create-customer','edit-customer','destroy-customer',
             'view-inspectionTools','create-inspectionTool','edit-inspectionTool','destroy-inspectionTool',

@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('number_features', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->double('target')->nullable();
-            $table->double('upper_limit')->nullable();
-            $table->double('lower_limit')->nullable();
-            $table->longText('description')->nullable();
+            $table->string('customer');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('number_features');
+        Schema::dropIfExists('projects');
     }
 };

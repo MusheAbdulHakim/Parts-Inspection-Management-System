@@ -3,49 +3,53 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Models\NumberFeature;
+use App\Models\BinaryFeature;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 
-class NumberFeatureController extends Controller
+class BinaryFeatureController extends Controller
 {
+
     public function __construct()
     {
-        $this->middleware(['role_or_permission:super-admin|view-numberFeatures|create-numberFeature|edit-numberFeature|destroy-numberFeature']);
+        $this->middleware(['role_or_permission:super-admin|view-binaryFeatures|create-binaryFeature|edit-binaryFeature|destroy-binaryFeature']);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request  $request)
+    public function index(Request $request)
     {
         if ($request->ajax()){
-            $features = NumberFeature::get();
+            $features = BinaryFeature::get();
             return DataTables::of($features)
                     ->addIndexColumn()
+                    ->addColumn('bool', function($row){
+                        return ($row->bool == 1) ? 'True': 'False';
+                    })
                     ->addColumn('created_at',function($row){
                         return date_format(date_create($row->created_at),'d M Y');
                     })
                     ->addColumn('action',function ($row){
                         $editbtn = '<a data-id="'.$row->id.'" href="javascript:void(0)" class="edit"><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button></a>';
-                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('number-features.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>';
-                        if(!can('edit-numberFeature')){
+                        $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('binary-features.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>';
+                        if(!can('edit-binaryFeature')){
                             $editbtn = '';
                         }
-                        if(!can('destroy-numberFeature')){
+                        if(!can('destroy-binaryFeature')){
                             $deletebtn = '';
                         }
                         $btn = $editbtn.' '.$deletebtn;
                         return $btn;
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','description'])
                     ->make(true);
         }
         
-        return view('admin.features.numerical');
+        return view('admin.features.binary');
     }
 
     /**
@@ -57,21 +61,16 @@ class NumberFeatureController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'target' => 'nullable|numeric',
-            'upper_limit' => 'nullable|numeric',
-            'lower_limit' => 'nullable|numeric',
-            'description' => 'nullable|max:255'
+            'name' => 'required|unique:binary_features,name',
+            'bool' => 'required|boolean',
+            'description' => 'nullable|string'
         ]);
-        
-        NumberFeature::create([
+        BinaryFeature::create([
             'name' => $request->name,
-            'target' => $request->target,
-            'upper_limit' => $request->upper_limit,
-            'lower_limit' => $request->lower_limit,
+            'bool' => $request->bool,
             'description' => $request->description
         ]);
-        $notification = notify('Number feature has been created');
+        $notification = notify("Binary feature has been created");
         return back()->with($notification);
     }
 
@@ -83,7 +82,7 @@ class NumberFeatureController extends Controller
      */
     public function show($id)
     {
-        return response()->json(NumberFeature::findOrFail($id));
+        return response()->json(BinaryFeature::findOrFail($id));
     }
 
     /**
@@ -96,20 +95,15 @@ class NumberFeatureController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'target' => 'nullable|numeric',
-            'upper_limit' => 'nullable|numeric',
-            'lower_limit' => 'nullable|numeric',
-            'description' => 'nullable|max:255'
+            'description' => 'nullable|string',
+            'bool' => 'required|boolean'
         ]);
-        
-        NumberFeature::findOrFail($request->id)->update([
+        BinaryFeature::findOrFail($request->id)->update([
             'name' => $request->name,
-            'target' => $request->target,
-            'upper_limit' => $request->upper_limit,
-            'lower_limit' => $request->lower_limit,
+            'bool' => $request->bool,
             'description' => $request->description
         ]);
-        $notification = notify('Number feature has been updated');
+        $notification = notify("Binary feature has been updated");
         return back()->with($notification);
     }
 
@@ -121,6 +115,6 @@ class NumberFeatureController extends Controller
      */
     public function destroy(Request $request)
     {
-        return NumberFeature::findOrFail($request->id)->delete();
+        return BinaryFeature::findOrFail($request->id)->delete();
     }
 }

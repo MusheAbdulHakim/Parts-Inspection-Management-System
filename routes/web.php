@@ -1,15 +1,19 @@
 <?php
 
-use App\Http\Controllers\Admin\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\InspectionToolController;
 use App\Http\Controllers\Admin\PermissionsController;
+use App\Http\Controllers\Admin\GaugeFeatureController;
 use App\Http\Controllers\Admin\SerialNumberController;
+use App\Http\Controllers\Admin\BinaryFeatureController;
+use App\Http\Controllers\Admin\NumberFeatureController;
+use App\Http\Controllers\Admin\InspectionToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +45,15 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
     Route::apiResource('customers',CustomerController::class)->except(['show','updated']);
     Route::put('customers',[CustomerController::class,'update'])->name('customers.update');
+    Route::apiResource('number-features',NumberFeatureController::class)->except(['updated']);
+    Route::put('number-features',[NumberFeatureController::class,'update'])->name('number-features.update');
+    Route::apiResource('binary-features',BinaryFeatureController::class)->except(['updated']);
+    Route::put('binary-features',[BinaryFeatureController::class,'update'])->name('binary-features.update');
+    Route::apiResource('gauge-features',GaugeFeatureController::class)->except(['updated']);
+    Route::put('gauge-features',[GaugeFeatureController::class,'update'])->name('gauge-features.update');
+    Route::apiResource('projects',ProjectController::class)->except(['show','updated']);
+    Route::put('projects',[ProjectController::class,'update'])->name('projects.update');
+
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
