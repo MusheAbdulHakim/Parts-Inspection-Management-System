@@ -17,7 +17,11 @@ class NumberFeatureFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->word(),
+            'target' => $this->faker->numberBetween(1,100),
+            'upper_limit' => $this->faker->numberBetween(1,100),
+            'lower_limit' => $this->faker->numberBetween(2,99),
+            'description' => $this->faker->paragraph()
         ];
     }
 }
