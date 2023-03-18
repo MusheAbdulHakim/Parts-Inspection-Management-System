@@ -23,7 +23,6 @@ class RolePermissionSeeder extends Seeder
             'view-binaryFeatures','create-binaryFeature','edit-binaryFeature','destroy-binaryFeature',
             'view-gaugeFeatures','create-gaugeFeature','edit-gaugeFeature','destroy-gaugeFeature',
             'view-numberFeatures','create-numberFeature','edit-numberFeature','destroy-numberFeature',
-            'view-customers','create-customer','edit-customer','destroy-customer',
             'view-inspectionTools','create-inspectionTool','edit-inspectionTool','destroy-inspectionTool',
             'view-serialnumbers','create-serialnumber','edit-serialnumber','destroy-serialnumber',
             'view-backups','create-backup','download-backup','destroy-backup',

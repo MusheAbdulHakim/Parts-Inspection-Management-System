@@ -7,15 +7,6 @@
       "slug": "dashboard"
     },
     {
-      "url": "customers",
-      "name": "Customers",
-      "icon": "user",
-      "permissions": [
-        "view-customers"
-      ],
-      "slug": "customers"
-    },
-    {
       "url": "inspection-tools",
       "name": "Inspection Tools",
       "icon": "airplay",
