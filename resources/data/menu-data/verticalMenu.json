@@ -34,6 +34,15 @@
       "slug": "projects.index"
     },
     {
+      "url": "control-plans",
+      "name": "Control Plans",
+      "icon": "aperture",
+      "permissions": [
+        "view-controlPlans"
+      ],
+      "slug": "control-plans.index"
+    },
+    {
       "url": "serialnumbers",
       "name": "Serial Numbers",
       "icon": "airplay",
