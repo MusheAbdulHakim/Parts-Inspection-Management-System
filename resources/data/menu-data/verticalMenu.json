@@ -25,6 +25,15 @@
       "slug": "work-instructions.index"
     },
     {
+      "url": "products",
+      "name": "Productcs",
+      "icon": "shopping-cart",
+      "permissions": [
+        "view-products"
+      ],
+      "slug": "products.index"
+    },
+    {
       "url": "projects",
       "name": "Projects",
       "icon": "aperture",

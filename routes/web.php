@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\BinaryFeatureController;
 use App\Http\Controllers\Admin\ControlPlanController;
 use App\Http\Controllers\Admin\NumberFeatureController;
 use App\Http\Controllers\Admin\InspectionToolController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\WorkInstructionController;
 
 /*
@@ -56,6 +57,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('control-plans',[ControlPlanController::class,'update'])->name('control-plans.update');
 
     Route::resource('work-instructions', WorkInstructionController::class);
+    Route::resource('products', ProductController::class);
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
