@@ -5,7 +5,6 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionsController;
@@ -14,6 +13,7 @@ use App\Http\Controllers\Admin\SerialNumberController;
 use App\Http\Controllers\Admin\BinaryFeatureController;
 use App\Http\Controllers\Admin\NumberFeatureController;
 use App\Http\Controllers\Admin\InspectionToolController;
+use App\Http\Controllers\Admin\WorkInstructionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +43,6 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
     Route::apiResource('inspection-tools',InspectionToolController::class)->except(['show','updated']);
     Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
-    Route::apiResource('customers',CustomerController::class)->except(['show','updated']);
-    Route::put('customers',[CustomerController::class,'update'])->name('customers.update');
     Route::apiResource('number-features',NumberFeatureController::class)->except(['updated']);
     Route::put('number-features',[NumberFeatureController::class,'update'])->name('number-features.update');
     Route::apiResource('binary-features',BinaryFeatureController::class)->except(['updated']);
@@ -54,6 +52,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::apiResource('projects',ProjectController::class)->except(['show','updated']);
     Route::put('projects',[ProjectController::class,'update'])->name('projects.update');
 
+    Route::resource('work-instructions', WorkInstructionController::class);
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
@@ -61,6 +60,9 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
 });
 
 

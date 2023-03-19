@@ -13,7 +13,16 @@
       "permissions": [
         "view-inspectionTools"
       ],
-      "slug": "inspection-tools"
+      "slug": "inspection-tools.index"
+    },
+    {
+      "url": "work-instructions",
+      "name": "Work Instructions",
+      "icon": "airplay",
+      "permissions": [
+        "view-workInstructions"
+      ],
+      "slug": "work-instructions.index"
     },
     {
       "url": "projects",
@@ -22,7 +31,7 @@
       "permissions": [
         "view-projects"
       ],
-      "slug": "projects"
+      "slug": "projects.index"
     },
     {
       "url": "serialnumbers",
@@ -31,7 +40,7 @@
       "permissions": [
         "view-serialnumbers"
       ],
-      "slug": "serialnumbers"
+      "slug": "serialnumbers.index"
     },
     {
       "name": "Features",
