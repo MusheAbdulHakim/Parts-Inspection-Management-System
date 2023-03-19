@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\GaugeFeatureController;
 use App\Http\Controllers\Admin\SerialNumberController;
 use App\Http\Controllers\Admin\BinaryFeatureController;
+use App\Http\Controllers\Admin\ControlPlanController;
 use App\Http\Controllers\Admin\NumberFeatureController;
 use App\Http\Controllers\Admin\InspectionToolController;
 use App\Http\Controllers\Admin\WorkInstructionController;
@@ -51,6 +52,8 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('gauge-features',[GaugeFeatureController::class,'update'])->name('gauge-features.update');
     Route::apiResource('projects',ProjectController::class)->except(['show','updated']);
     Route::put('projects',[ProjectController::class,'update'])->name('projects.update');
+    Route::apiResource('control-plans',ControlPlanController::class)->except(['updated']);
+    Route::put('control-plans',[ControlPlanController::class,'update'])->name('control-plans.update');
 
     Route::resource('work-instructions', WorkInstructionController::class);
 
