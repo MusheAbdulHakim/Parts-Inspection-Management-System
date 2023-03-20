@@ -87,7 +87,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'part_no' => 'required',
+            'part_no' => 'required|unique:products,part_no',
             'plan' => 'required',
         ]);
         Product::create([
