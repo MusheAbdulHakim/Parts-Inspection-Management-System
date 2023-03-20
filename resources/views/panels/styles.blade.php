@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
 <link rel="stylesheet" href="{{asset('fonts/font-awesome/css/font-awesome.min.css')}}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 @php $configData = Helper::applClasses(); @endphp
 
 <!-- BEGIN: Page CSS-->

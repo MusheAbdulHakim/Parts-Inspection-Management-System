@@ -34,6 +34,15 @@
       "slug": "products.index"
     },
     {
+      "url": "calibrations",
+      "name": "Calibrations",
+      "icon": "briefcase",
+      "permissions": [
+        "view-calibrations"
+      ],
+      "slug": "calibrations.index"
+    },
+    {
       "url": "projects",
       "name": "Projects",
       "icon": "aperture",

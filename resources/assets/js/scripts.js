@@ -96,6 +96,20 @@
     });
   }
 
+  $('.flatpickr').each(function(){
+    $(this).flatpickr({
+        altInput: false,
+        allowInput: true,
+        dateFormat: "Y-m-d",
+    });
+});
+
+  if ($('.flatpickr_range').length) {
+    $('.flatpickr_range').flatpickr({
+      mode: 'range'
+    });
+  }
+
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
