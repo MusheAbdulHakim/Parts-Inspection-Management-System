@@ -109,7 +109,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return response()->json($product);
     }
 
     /**
@@ -144,7 +144,7 @@ class ProductController extends Controller
             'part_no' => $request->part_no,
             'project_id' => $request->project,
             'control_plan_id' => $request->plan,
-            'docs' => $request->docs,
+            'docs' => $request->filepath,
             'description' => $request->description,
         ]);
         $notification = notify("product has been updated");
