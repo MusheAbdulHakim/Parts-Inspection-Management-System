@@ -9,5 +9,9 @@ class InspectionTool extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','description','calibration_id'];
+
+    public function calibration(){
+        return $this->belongsTo(Calibration::class);
+    }
 }

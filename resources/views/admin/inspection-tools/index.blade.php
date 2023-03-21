@@ -7,6 +7,8 @@
 @section('page-style')
   <!-- Page css files -->
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+  <link rel="stylesheet" href="{{asset('summernote/summernote.min.css')}}">
+  <link rel="stylesheet" href="{{asset('vendors/css/forms/select/select2.min.css')}}">
 @endsection
 
 @can('create-inspectionTool')
@@ -25,6 +27,7 @@
                     <thead class="table-light">
                     <tr>
                         <th>Name</th>
+                        <th>Calibration</th>
                         <th>Created Date</th>
                         <th>Actions</th>
                     </tr>
@@ -50,17 +53,36 @@
             </div>
             <form class="row" method="post" action="{{route('inspection-tools.store')}}">
                 @csrf
-                <div class="col-12">
-                <label class="form-label" for="name">Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    class="form-control"
-                    placeholder="Name"
-                />
+                <div class="mb-1">
+                    <div class="col-12">
+                        <label class="form-label" for="name">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-control"
+                            placeholder="Name"
+                        />
+                    </div>
                 </div>
-                
+                <div class="col-12">
+                    <div class="choose-position">
+                        <select data-placeholder="Select Calibration" name="calibration" id="calibration" class="form-control position-select">
+                            <option value=""></option>
+                            @foreach ($calibrations as $calibration)
+                                <option value="{{$calibration->id}}">{{$calibration->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+               
+               <div class="mb-1">
+                <div class="col-12">
+                    <label class="form-label" for="description">Control Method</label>
+                    <textarea name="description" class="form-control summernote"
+                    placeholder="Description" id="description" cols="3" rows="3"></textarea>
+                </div>
+               </div>
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary mt-2 me-1">Create</button>
                     <button type="reset" class="btn btn-outline-secondary mt-2" data-bs-dismiss="modal" aria-label="Close">
@@ -101,6 +123,23 @@
                         required
                     />
                 </div>
+                <div class="mb-1">
+                    <div class="col-12">
+                        <div class="choose-position">
+                            <select data-placeholder="Select Calibration" name="calibration" id="edit_calibration" class="form-control position-select">
+                                <option value=""></option>
+                                @foreach ($calibrations as $calibration)
+                                    <option value="{{$calibration->id}}">{{$calibration->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="edit_description">Control Method</label>
+                    <textarea name="description" class="form-control summernote"
+                    placeholder="Description" id="edit_description" cols="3" rows="3"></textarea>
+                </div>
                 <div class="col-sm-3 ps-sm-0">
                     <button type="submit" class="btn btn-primary mt-2">Update</button>
                 </div>
@@ -114,15 +153,28 @@
 @endpush
 
 @section('page-script')
-<script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+<script src="{{asset(mix('vendors/js/forms/select/select2.full.min.js'))}}"></script>
+<script src="{{asset('summernote/summernote.min.js')}}"></script>
 <script>
     $(document).ready(function(){
+        if($('.position-select').length > 0){
+            $(".position-select").each((_i, e) => {
+                var $e = $(e);
+                $e.select2({
+                    width: '100%',
+                    tags: true,
+                    dropdownParent: $e.parent()
+                });
+            });
+        }
+        $('.summernote').summernote();
         var table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{route('inspection-tools.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
+                {data: 'calibration', name: 'calibration'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
@@ -130,10 +182,20 @@
         });
         $('#datatable').on('click','.edit',function(){
             var id = $(this).data('id');
-            var name = $(this).data('name');
-            $('#editInspectionToolModal').modal('show');
-            $('#edit_name').val(name);
-            $('#edit_id').val(id);
+            var url = "{{route('inspection-tools.index')}}/"+id;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(e){
+                    if($.trim(e)){
+                        $('#editInspectionToolModal').modal('show');
+                        $('#edit_id').val(e.id);
+                        $('#edit_name').val(e.name);
+                        $('#edit_calibration').val(e.calibration_id).trigger('change');
+                        $('#edit_description').summernote('code',e.description);
+                    }
+                }
+            });
         });
     });
 </script>

@@ -44,7 +44,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
 
     Route::apiResource('serialnumbers',SerialNumberController::class)->except(['show','updated']);
     Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
-    Route::apiResource('inspection-tools',InspectionToolController::class)->except(['show','updated']);
+    Route::apiResource('inspection-tools',InspectionToolController::class)->except(['updated']);
     Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
     Route::apiResource('number-features',NumberFeatureController::class)->except(['updated']);
     Route::put('number-features',[NumberFeatureController::class,'update'])->name('number-features.update');

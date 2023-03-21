@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Models\Calibration;
 use App\Models\InspectionTool;
 
 class InspectionToolController extends Controller
@@ -27,6 +28,9 @@ class InspectionToolController extends Controller
             $tools = InspectionTool::get();
             return DataTables::of($tools)
                     ->addIndexColumn()
+                    ->addColumn('calibration', function($row){
+                        return $row->calibration->name ?? '';
+                    })
                     ->addColumn('created_at',function($row){
                         return date_format(date_create($row->created_at),'d M Y');
                     })
@@ -45,8 +49,10 @@ class InspectionToolController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        
-        return view('admin.inspection-tools.index');
+        $calibrations = Calibration::get();
+        return view('admin.inspection-tools.index',compact(
+            'calibrations'
+        ));
     }
 
     /**
@@ -60,9 +66,11 @@ class InspectionToolController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:255|unique:inspection_tools,name'
         ]);
-        foreach (explode(',',trim($request->name)) as $sn){
-            InspectionTool::create(['name' => $sn]);
-        }
+        InspectionTool::create([
+            'name' => $request->name,
+            'calibration_id' => $request->calibration,
+            'description' => $request->description
+        ]);
         $notification = notify("Inspection tool has been created");
         return back()->with($notification);
     }
@@ -75,7 +83,7 @@ class InspectionToolController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(InspectionTool::findOrFail($id));
     }
 
     /**
@@ -91,7 +99,9 @@ class InspectionToolController extends Controller
             'name' => 'required|min:3|max:255'
         ]);
         InspectionTool::findOrFail($request->id)->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'calibration_id' => $request->calibration,
+            'description' => $request->description
         ]);
         $notification = notify("Inspection tool has been updated");
         return back()->with($notification);
