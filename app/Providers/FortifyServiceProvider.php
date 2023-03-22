@@ -43,7 +43,7 @@ class FortifyServiceProvider extends ServiceProvider
                 ->orWhere('username', $request->email)
                 ->first();
     
-            if ($user && ($user->active === 1) &&
+            if ($user && ($user->active == '1') &&
                 Hash::check($request->password, $user->password)) {
                 return $user;
             }
