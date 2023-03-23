@@ -82,10 +82,6 @@ class ControlPlanController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'number' => 'required',
-            'gauge' => 'required',
-            'binary' => 'required',
-            'work' => 'required'
         ]);
         ControlPlan::create([
             'name' => $request->name,
@@ -117,6 +113,9 @@ class ControlPlanController extends Controller
      */
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
         ControlPlan::findOrFail($request->id)->update([
             'name' => $request->name,
             'number_feature_id' => $request->number,
