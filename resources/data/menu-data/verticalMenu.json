@@ -15,24 +15,7 @@
       ],
       "slug": "inspection-tools.index"
     },
-    {
-      "url": "work-instructions",
-      "name": "Work Instructions",
-      "icon": "airplay",
-      "permissions": [
-        "view-workInstructions"
-      ],
-      "slug": "work-instructions.index"
-    },
-    {
-      "url": "products",
-      "name": "Productcs",
-      "icon": "shopping-cart",
-      "permissions": [
-        "view-products"
-      ],
-      "slug": "products.index"
-    },
+    
     {
       "url": "calibrations",
       "name": "Calibrations",
@@ -41,33 +24,6 @@
         "view-calibrations"
       ],
       "slug": "calibrations.index"
-    },
-    {
-      "url": "projects",
-      "name": "Projects",
-      "icon": "aperture",
-      "permissions": [
-        "view-projects"
-      ],
-      "slug": "projects.index"
-    },
-    {
-      "url": "control-plans",
-      "name": "Control Plans",
-      "icon": "aperture",
-      "permissions": [
-        "view-controlPlans"
-      ],
-      "slug": "control-plans.index"
-    },
-    {
-      "url": "serialnumbers",
-      "name": "Serial Numbers",
-      "icon": "airplay",
-      "permissions": [
-        "view-serialnumbers"
-      ],
-      "slug": "serialnumbers.index"
     },
     {
       "name": "Features",
@@ -100,6 +56,52 @@
         }
       ]
     },
+    {
+      "url": "work-instructions",
+      "name": "Work Instructions",
+      "icon": "airplay",
+      "permissions": [
+        "view-workInstructions"
+      ],
+      "slug": "work-instructions.index"
+    },
+    {
+      "url": "products",
+      "name": "Productcs",
+      "icon": "shopping-cart",
+      "permissions": [
+        "view-products"
+      ],
+      "slug": "products.index"
+    },
+    {
+      "url": "serialnumbers",
+      "name": "Serial Numbers",
+      "icon": "airplay",
+      "permissions": [
+        "view-serialnumbers"
+      ],
+      "slug": "serialnumbers.index"
+    },
+    {
+      "url": "projects",
+      "name": "Projects",
+      "icon": "aperture",
+      "permissions": [
+        "view-projects"
+      ],
+      "slug": "projects.index"
+    },
+    {
+      "url": "control-plans",
+      "name": "Control Plans",
+      "icon": "aperture",
+      "permissions": [
+        "view-controlPlans"
+      ],
+      "slug": "control-plans.index"
+    },
+        
     {
       "name": "Users",
       "icon": "users",
