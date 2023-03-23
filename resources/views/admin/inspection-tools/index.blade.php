@@ -78,7 +78,7 @@
                
                <div class="mb-1">
                 <div class="col-12">
-                    <label class="form-label" for="description">Control Method</label>
+                    <label class="form-label" for="description">Description</label>
                     <textarea name="description" class="form-control summernote"
                     placeholder="Description" id="description" cols="3" rows="3"></textarea>
                 </div>
@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <label class="form-label" for="edit_description">Control Method</label>
+                    <label class="form-label" for="edit_description">Description</label>
                     <textarea name="description" class="form-control summernote"
                     placeholder="Description" id="edit_description" cols="3" rows="3"></textarea>
                 </div>

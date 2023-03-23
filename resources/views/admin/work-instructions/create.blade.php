@@ -22,7 +22,7 @@
                   <div class="mb-1">
                     <label for="register-username" class="form-label">Name</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                      name="name" placeholder="John Doe" aria-describedby="name" tabindex="1" autofocus
+                      name="name" placeholder="Name" aria-describedby="name" tabindex="1" autofocus
                       value="{{ old('name') }}" />
                     @error('name')
                       <span class="invalid-feedback" role="alert">
@@ -33,7 +33,7 @@
                   <div class="mb-1">
                     <label for="revision" class="form-label">Revision</label>
                     <input type="text" class="form-control @error('revision') is-invalid @enderror" id="username"
-                      name="revision" placeholder="johndoe" aria-describedby="revision"
+                      name="revision" placeholder="Revision" aria-describedby="revision"
                       value="{{ old('revision') }}" tabindex="2"/>
                     @error('revision')
                       <span class="invalid-feedback" role="alert">

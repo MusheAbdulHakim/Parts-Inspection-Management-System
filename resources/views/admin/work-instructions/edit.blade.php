@@ -23,7 +23,7 @@
                   <div class="mb-1">
                     <label for="register-username" class="form-label">Name</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                      name="name" placeholder="John Doe" aria-describedby="name" tabindex="1" autofocus
+                      name="name" placeholder="Name" aria-describedby="name" tabindex="1" autofocus
                       value="{{ $work_instruction->name ?? old('name') }}" />
                     @error('name')
                       <span class="invalid-feedback" role="alert">
