@@ -10,20 +10,11 @@ class ControlPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','number_feature_id','binary_feature_id',
-        'gauge_feature_id','work_instruction_id'
+        'name','feature_id','work_instruction_id'
     ];
 
-    public function numberFeature(){
-        return $this->belongsTo(NumberFeature::class);
-    }
-
-    public function binaryFeature(){
-        return $this->belongsTo(BinaryFeature::class);
-    }
-
-    public function gaugeFeature(){
-        return $this->belongsTo(GaugeFeature::class);
+    public function feature(){
+        return $this->belongsTo(Feature::class);
     }
 
     public function workInstruction(){

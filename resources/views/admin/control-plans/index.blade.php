@@ -28,9 +28,7 @@
                     <thead class="table-light">
                     <tr>
                         <th>Name</th>
-                        <th>Number Feature</th>
-                        <th>Binary Feature</th>
-                        <th>Gauge Feature</th>
+                        <th>Feature</th>
                         <th>Work Instruction</th>
                         <th>Created Date</th>
                         <th>Actions</th>
@@ -74,45 +72,18 @@
 
                 <div class="mb-1">
                     <div class="col-12">
-                        <label for="number" class="form-label">Numerical features</label>
+                        <label for="feature" class="form-label">Features</label>
                         <div class="choose-position">
-                            <select data-placeholder="Select Number Feature" name="number" id="number" class="form-control position-select">
+                            <select data-placeholder="Select Feature" name="feature" id="feature" class="form-control position-select">
                                 <option value=""></option>
-                                @foreach ($number_features as $number)
-                                    <option value="{{$number->id}}">{{$number->name}}</option>
+                                @foreach ($features as $feature)
+                                    <option value="{{$feature->id}}">{{$feature->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
 
-               <div class="mb-1">
-                <div class="col-12">
-                    <label for="binary" class="form-label">Boolean features</label>
-                    <div class="choose-position">
-                        <select data-placeholder="Select Boolean Feature" name="binary" id="binary" class="form-control position-select">
-                            <option value=""></option>
-                            @foreach ($binary_features as $number)
-                                <option value="{{$number->id}}">{{$number->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-               </div>
-                
-                <div class="mb-1">
-                    <div class="col-12">
-                        <label for="gauge" class="form-label">Gauge features</label>
-                        <div class="choose-position">
-                            <select data-placeholder="Select Gauge Feature" name="gauge" id="gauge" class="form-control position-select">
-                                <option value=""></option>
-                                @foreach ($gauge_features as $number)
-                                    <option value="{{$number->id}}">{{$number->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="mb-1">
                     <div class="col-12">
@@ -171,40 +142,12 @@
 
                 <div class="mb-1">
                     <div class="col-12">
-                        <label for="edit_number" class="form-label">Numerical features</label>
+                        <label for="edit_feature" class="form-label">Features</label>
                         <div class="choose-position">
-                            <select data-placeholder="Select Number Feature" name="number" id="edit_number" class="form-control position-select">
+                            <select data-placeholder="Select Feature" name="feature" id="edit_feature" class="form-control position-select">
                                 <option value=""></option>
-                                @foreach ($number_features as $number)
-                                    <option value="{{$number->id}}">{{$number->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-               <div class="mb-1">
-                <div class="col-12">
-                    <label for="edit_binary" class="form-label">Boolean features</label>
-                    <div class="choose-position">
-                        <select data-placeholder="Select Boolean Feature" name="binary" id="edit_binary" class="form-control position-select">
-                            <option value=""></option>
-                            @foreach ($binary_features as $number)
-                                <option value="{{$number->id}}">{{$number->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-               </div>
-                
-                <div class="mb-1">
-                    <div class="col-12">
-                        <label for="edit_gauge" class="form-label">Gauge features</label>
-                        <div class="choose-position">
-                            <select data-placeholder="Select Gauge Feature" name="gauge" id="edit_gauge" class="form-control position-select">
-                                <option value=""></option>
-                                @foreach ($gauge_features as $number)
-                                    <option value="{{$number->id}}">{{$number->name}}</option>
+                                @foreach ($features as $feature)
+                                    <option value="{{$feature->id}}">{{$feature->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -258,9 +201,7 @@
             ajax: "{{route('control-plans.index')}}",
             columns: [
                 {data: 'name', name: 'name'},
-                {data: 'number', name: 'number'},
-                {data: 'binary', name: 'binary'},
-                {data: 'gauge', name: 'gauge'},
+                {data: 'feature', name: 'feature'},
                 {data: 'work', name: 'work'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
@@ -278,9 +219,7 @@
                         $('#editControlPlanModal').modal('show');
                         $('#edit_id').val(e.id);
                         $('#edit_name').val(e.name);
-                        $('#edit_number').val(e.number_feature_id).trigger('change');
-                        $('#edit_binary').val(e.binary_feature_id).trigger('change');
-                        $('#edit_gauge').val(e.gauge_feature_id).trigger('change');
+                        $('#edit_feature').val(e.feature_id).trigger('change');
                         $('#edit_work').val(e.work_instruction_id).trigger('change');
                     }
                 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BinaryFeature;
 use App\Models\ControlPlan;
+use App\Models\Feature;
 use App\Models\GaugeFeature;
 use App\Models\NumberFeature;
 use App\Models\WorkInstruction;
@@ -32,14 +33,11 @@ class ControlPlanController extends Controller
             $plans = ControlPlan::get();
             return DataTables::of($plans)
                 ->addIndexColumn()
-                ->addColumn('number', function($row){
-                    return $row->numberFeature->name ?? '';
+                ->addColumn('feature', function($row){
+                    return $row->feature->name ?? '';
                 })
-                ->addColumn('binary', function($row){
-                    return $row->binaryFeature->name ?? '';
-                })
-                ->addColumn('gauge', function($row){
-                    return $row->gaugeFeature->name ?? '';
+                ->addColumn('feature_type', function($row){
+                    return $row->feature->type ?? '';
                 })
                 ->addColumn('work', function($row){
                     return $row->workInstruction->name ?? '';
@@ -62,13 +60,10 @@ class ControlPlanController extends Controller
                 ->rawColumns(['action','description'])
                 ->make(true);
         }
-        $number_features = NumberFeature::get();
-        $binary_features = BinaryFeature::get();
-        $gauge_features = GaugeFeature::get();
+        $features = Feature::get();
         $work_instructions = WorkInstruction::get();
         return view('admin.control-plans.index',compact(
-            'number_features','binary_features',
-            'gauge_features','work_instructions'
+            'features','work_instructions'
         ));
     }
 
@@ -85,9 +80,7 @@ class ControlPlanController extends Controller
         ]);
         ControlPlan::create([
             'name' => $request->name,
-            'number_feature_id' => $request->number,
-            'binary_feature_id' => $request->binary,
-            'gauge_feature_id' => $request->gauge,
+            'feature_id' => $request->feature,
             'work_instruction_id' => $request->work
         ]);
         $notification = notify("Control plan has been added");
@@ -118,9 +111,7 @@ class ControlPlanController extends Controller
         ]);
         ControlPlan::findOrFail($request->id)->update([
             'name' => $request->name,
-            'number_feature_id' => $request->number,
-            'binary_feature_id' => $request->binary,
-            'gauge_feature_id' => $request->gauge,
+            'feature_id' => $request->feature,
             'work_instruction_id' => $request->work
         ]);
         $notification = notify("Control plan has been added");
