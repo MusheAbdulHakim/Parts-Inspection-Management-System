@@ -4,19 +4,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\FeaturesController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CalibrationController;
+use App\Http\Controllers\Admin\ControlPlanController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\GaugeFeatureController;
 use App\Http\Controllers\Admin\SerialNumberController;
 use App\Http\Controllers\Admin\BinaryFeatureController;
-use App\Http\Controllers\Admin\ControlPlanController;
 use App\Http\Controllers\Admin\NumberFeatureController;
 use App\Http\Controllers\Admin\InspectionToolController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\WorkInstructionController;
-use App\Http\Controllers\CalibrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,12 +47,6 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
     Route::apiResource('inspection-tools',InspectionToolController::class)->except(['updated']);
     Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
-    Route::apiResource('number-features',NumberFeatureController::class)->except(['updated']);
-    Route::put('number-features',[NumberFeatureController::class,'update'])->name('number-features.update');
-    Route::apiResource('binary-features',BinaryFeatureController::class)->except(['updated']);
-    Route::put('binary-features',[BinaryFeatureController::class,'update'])->name('binary-features.update');
-    Route::apiResource('gauge-features',GaugeFeatureController::class)->except(['updated']);
-    Route::put('gauge-features',[GaugeFeatureController::class,'update'])->name('gauge-features.update');
     Route::apiResource('projects',ProjectController::class)->except(['show','updated']);
     Route::put('projects',[ProjectController::class,'update'])->name('projects.update');
     Route::apiResource('control-plans',ControlPlanController::class)->except(['updated']);
@@ -60,6 +55,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::resource('work-instructions', WorkInstructionController::class);
     Route::resource('products', ProductController::class);
     Route::resource('calibrations', CalibrationController::class);
+    Route::resource('features', FeaturesController::class);
 
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');

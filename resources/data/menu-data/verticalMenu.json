@@ -26,35 +26,13 @@
       "slug": "calibrations.index"
     },
     {
+      "url": "features",
       "name": "Features",
       "icon": "activity",
-      "slug": "",
       "permissions": [
-        "view-binaryFeatures","view-gaugeFeatures","view-numberFeatures"
+        "view-features"
       ],
-      "submenu": [
-        {
-          "url": "number-features",
-          "icon": "circle",
-          "permission": "view-numberFeatures",
-          "name": "Numerical",
-          "slug": "number-features.index"
-        },
-        {
-          "url": "binary-features",
-          "icon": "circle",
-          "permission": "view-binaryFeatures",
-          "name": "Binary",
-          "slug": "binary-features.create"
-        },
-        {
-          "url": "gauge-features",
-          "icon": "circle",
-          "permission": "view-gaugeFeatures",
-          "name": "Gauge",
-          "slug": "gauge-features.create"
-        }
-      ]
+      "slug": "features.index"
     },
     {
       "url": "work-instructions",
