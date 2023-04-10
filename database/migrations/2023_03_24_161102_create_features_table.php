@@ -20,10 +20,9 @@ return new class extends Migration
             $table->double('target')->nullable();
             $table->double('upper_limit')->nullable();
             $table->double('lower_limit')->nullable();
-            $table->boolean('bool')->nullable();
             $table->longText('control_method')->nullable();
             $table->foreignId('calibration_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('control_tool_id')->nullable();
+            $table->foreignId('control_plan_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

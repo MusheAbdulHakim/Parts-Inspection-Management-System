@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('inspection_tools', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('tool_id')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
