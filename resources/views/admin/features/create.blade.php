@@ -10,7 +10,7 @@
 @section('content')
   <section id="basic-vertical-layouts">
     <div class="row">
-      <div class="col-md-8 col-12">
+      <div class="col-md-11 col-12">
         <div class="card">
           <div class="card-body">
             <form class="form form-vertical" action="{{route('features.store')}}" method="post" enctype="multipart/form-data">
@@ -27,7 +27,7 @@
                       </span>
                     @enderror
                   </div>
-                  
+
                   <div class="mb-1">
                     <div class="col-12">
                         <label for="feature_type" class="form-label">Feature Type</label>
@@ -39,7 +39,7 @@
                           </select>
                     </div>
                   </div>
-                  
+
                   <div class="number_feature d-none">
                     <div class="mb-1">
                       <div class="col-12">
@@ -82,16 +82,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mb-1 bool_field">
-                    <div class="col-12">
-                      <label for="bool" class="form-label">Pass / Fail</label>
-                      <select name="bool" data-placeholder="Select Option" id="bool" class="form-control select2">
-                        <option value=""></option>
-                          <option value="1">True</option>
-                          <option value="0">False</option>
-                      </select>
-                    </div>
-                  </div>
+
                   <div class="mb-1">
                     <div class="col-12">
                       <label class="form-label" for="control_method">Control Method</label>
@@ -107,7 +98,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </section>
 @endsection

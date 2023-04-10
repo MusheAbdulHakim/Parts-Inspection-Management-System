@@ -28,7 +28,7 @@
                       </span>
                     @enderror
                   </div>
-                  
+
                   <div class="mb-1">
                     <div class="col-12">
                         <label for="feature_type" class="form-label">Feature Type</label>
@@ -40,7 +40,7 @@
                           </select>
                     </div>
                   </div>
-                  
+
                   <div class="number_feature {{($feature->type != 'number') ? 'd-none': ''}}">
                     <div class="col-12">
                       <label class="form-label" for="target">Target</label>
@@ -76,16 +76,7 @@
                         />
                     </div>
                   </div>
-                  <div class="mb-1 bool_field {{($feature->type == 'number') ? 'd-none': ''}}">
-                    <div class="col-12">
-                      <label for="bool" class="form-label">Pass / Fail</label>
-                      <select name="bool" data-placeholder="Select Option" id="bool" class="form-control select2">
-                        <option value=""></option>
-                          <option value="1">True</option>
-                          <option value="0">False</option>
-                      </select>
-                    </div>
-                  </div>
+
                   <div class="mb-1">
                     <div class="col-12">
                       <label class="form-label" for="control_method">Control Method</label>
@@ -101,7 +92,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </section>
 @endsection

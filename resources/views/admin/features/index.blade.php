@@ -23,7 +23,6 @@
                   <tr>
                     <th>Name</th>
                     <th>Type</th>
-                    <th>Pass/Fail</th>
                     <th>Target</th>
                     <th>Lower Limit</th>
                     <th>Upper Limit</th>
@@ -51,7 +50,6 @@
         columns: [
             {data: 'name', name: 'name'},
             {data: 'type', name: 'type'},
-            {data: 'binary', name: 'binary', orderable: false, searchable: false},
             {data: 'target', name: 'target'},
             {data: 'lower_limit', name: 'lower_limit'},
             {data: 'upper_limit', name: 'upper_limit'},
@@ -83,7 +81,7 @@
     });
 
   };
-    
+
   lfm('filemanager', 'file','file');
 </script>
 @endsection

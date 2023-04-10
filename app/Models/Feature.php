@@ -10,7 +10,7 @@ class Feature extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','type','target','upper_limit','lower_limit','control_method','bool',
+        'name','type','target','upper_limit','lower_limit','control_method',
         'calibration_id','control_tool_id'
     ];
 
