@@ -2,7 +2,8 @@
 namespace Deployer;
 
 require 'recipe/laravel.php';
-require 'recipe/rsync.php';
+require 'contrib/rsync.php';
+
 
 
 // Config
@@ -29,16 +30,11 @@ add('rsync', [
     ],
 ]);
 
-add('shared_files', []);
-add('shared_dirs', []);
-add('writable_dirs', []);
-
-// Hosts
 
 host(' altalus.online') // Name of the server
-    ->hostname('104.243.34.13') // Hostname or IP address
+    ->real_hostname('104.243.34.13') // Hostname or IP address
     ->stage('production') // Deployment stage (production, staging, etc)
-    ->user('deploy') // SSH user
+    ->remote_user('altalus1') // SSH user
     ->set('deploy_path', '/home/altalus1/pims.altalus.online/public'); // Deploy path
 
 // Set up a deployer task to copy secrets to the server.
@@ -67,7 +63,8 @@ task('deploy', [
     'artisan:view:cache',   // |
     'artisan:config:cache', // | Laravel specific steps
     'artisan:optimize',     // |
-    'artisan:migrate --seed',      // |
+    'artisan:migrate',      // |
+    'artisan:db:seed',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',
