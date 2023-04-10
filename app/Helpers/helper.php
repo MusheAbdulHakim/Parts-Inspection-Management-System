@@ -46,15 +46,39 @@ if(!function_exists('alert')){
 }
 
 /**
- * Generate a random string, using a cryptographically secure 
+ * Calculate the number of full months between two dates.
+ *
+ * @param string $startDate The start date in YYYY-MM-DD format.
+ * @param string $endDate The end date in YYYY-MM-DD format.
+ * @return int The number of full months between the two dates.
+ */
+function getFullMonthsBetweenDates(string $startDate, string $endDate): int
+{
+    $start = new DateTime($startDate);
+    $end = new DateTime($endDate);
+
+    $interval = $end->diff($start);
+
+    $totalMonths = ($interval->y * 12) + $interval->m;
+
+    if ($interval->d > 0 && $start->format('d') > $end->format('d')) {
+        $totalMonths--;
+    }
+
+    return $totalMonths;
+}
+
+
+/**
+ * Generate a random string, using a cryptographically secure
  * pseudorandom number generator (random_int)
  *
  * This function uses type hints now (PHP 7+ only), but it was originally
  * written for PHP 5 as well.
- * 
+ *
  * For PHP 7, random_int is a PHP core function
  * For PHP 5.x, depends on https://github.com/paragonie/random_compat
- * 
+ *
  * @param int $length      How many characters do we want?
  * @param string $keyspace A string of all possible characters
  *                         to select from
@@ -79,7 +103,7 @@ function random_str(
 
 /**
  * return if auth user has a permission
- * 
+ *
  * @param string $permission
  * @return bool
  */
