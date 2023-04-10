@@ -1,90 +1,139 @@
-<?php
+<?php // Code within app\Helpers\Helper.php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Request;
+namespace App\Helpers;
 
-if(!function_exists('route_is')){
-    function route_is($route=null){
-        if(Request::routeIs($route) || Route::currentRouteName() == $route){
-            return true;
-        }else{
-            return false;
-        }
-    }
-}
+use Config;
+use Illuminate\Support\Str;
 
-if(!function_exists('route_is')){
-    function route_is($routes=[]){
-        foreach($routes as $route){
-            if(Request::routeIs($route) || Route::currentRouteName() == $route){
-                return true;
-            }else{
-                return false;
+class Helpers
+{
+    public static function applClasses()
+    {
+        // default data array
+        $DefaultData = [
+            'mainLayoutType' => 'vertical',
+            'theme' => 'light',
+            'sidebarCollapsed' => false,
+            'navbarColor' => '',
+            'horizontalMenuType' => 'floating',
+            'verticalMenuNavbarType' => 'floating',
+            'footerType' => 'static', //footer
+            'layoutWidth' => 'boxed',
+            'showMenu' => true,
+            'bodyClass' => '',
+            'pageClass' => '',
+            'pageHeader' => true,
+            'contentLayout' => 'default',
+            'blankPage' => false,
+            'defaultLanguage' => 'en',
+            'direction' => env('MIX_CONTENT_DIRECTION', 'ltr'),
+        ];
+
+        // if any key missing of array from custom.php file it will be merge and set a default value from dataDefault array and store in data variable
+        $data = array_merge($DefaultData, config('custom.custom'));
+
+        // All options available in the template
+        $allOptions = [
+            'mainLayoutType' => array('vertical', 'horizontal'),
+            'theme' => array('light' => 'light', 'dark' => 'dark-layout', 'bordered' => 'bordered-layout', 'semi-dark' => 'semi-dark-layout'),
+            'sidebarCollapsed' => array(true, false),
+            'showMenu' => array(true, false),
+            'layoutWidth' => array('full', 'boxed'),
+            'navbarColor' => array('bg-primary', 'bg-info', 'bg-warning', 'bg-success', 'bg-danger', 'bg-dark'),
+            'horizontalMenuType' => array('floating' => 'navbar-floating', 'static' => 'navbar-static', 'sticky' => 'navbar-sticky'),
+            'horizontalMenuClass' => array('static' => '', 'sticky' => 'fixed-top', 'floating' => 'floating-nav'),
+            'verticalMenuNavbarType' => array('floating' => 'navbar-floating', 'static' => 'navbar-static', 'sticky' => 'navbar-sticky', 'hidden' => 'navbar-hidden'),
+            'navbarClass' => array('floating' => 'floating-nav', 'static' => 'navbar-static-top', 'sticky' => 'fixed-top', 'hidden' => 'd-none'),
+            'footerType' => array('static' => 'footer-static', 'sticky' => 'footer-fixed', 'hidden' => 'footer-hidden'),
+            'pageHeader' => array(true, false),
+            'contentLayout' => array('default', 'content-left-sidebar', 'content-right-sidebar', 'content-detached-left-sidebar', 'content-detached-right-sidebar'),
+            'blankPage' => array(false, true),
+            'sidebarPositionClass' => array('content-left-sidebar' => 'sidebar-left', 'content-right-sidebar' => 'sidebar-right', 'content-detached-left-sidebar' => 'sidebar-detached sidebar-left', 'content-detached-right-sidebar' => 'sidebar-detached sidebar-right', 'default' => 'default-sidebar-position'),
+            'contentsidebarClass' => array('content-left-sidebar' => 'content-right', 'content-right-sidebar' => 'content-left', 'content-detached-left-sidebar' => 'content-detached content-right', 'content-detached-right-sidebar' => 'content-detached content-left', 'default' => 'default-sidebar'),
+            'defaultLanguage' => array('en' => 'en', 'fr' => 'fr', 'de' => 'de', 'pt' => 'pt'),
+            'direction' => array('ltr', 'rtl'),
+        ];
+
+        //if mainLayoutType value empty or not match with default options in custom.php config file then set a default value
+        foreach ($allOptions as $key => $value) {
+            if (array_key_exists($key, $DefaultData)) {
+                if (gettype($DefaultData[$key]) === gettype($data[$key])) {
+                    // data key should be string
+                    if (is_string($data[$key])) {
+                        // data key should not be empty
+                        if (isset($data[$key]) && $data[$key] !== null) {
+                            // data key should not be exist inside allOptions array's sub array
+                            if (!array_key_exists($data[$key], $value)) {
+                                // ensure that passed value should be match with any of allOptions array value
+                                $result = array_search($data[$key], $value, 'strict');
+                                if (empty($result) && $result !== 0) {
+                                    $data[$key] = $DefaultData[$key];
+                                }
+                            }
+                        } else {
+                            // if data key not set or
+                            $data[$key] = $DefaultData[$key];
+                        }
+                    }
+                } else {
+                    $data[$key] = $DefaultData[$key];
+                }
             }
         }
+
+        //layout classes
+        $layoutClasses = [
+            'theme' => $data['theme'],
+            'layoutTheme' => $allOptions['theme'][$data['theme']],
+            'sidebarCollapsed' => $data['sidebarCollapsed'],
+            'showMenu' => $data['showMenu'],
+            'layoutWidth' => $data['layoutWidth'],
+            'verticalMenuNavbarType' => $allOptions['verticalMenuNavbarType'][$data['verticalMenuNavbarType']],
+            'navbarClass' => $allOptions['navbarClass'][$data['verticalMenuNavbarType']],
+            'navbarColor' => $data['navbarColor'],
+            'horizontalMenuType' => $allOptions['horizontalMenuType'][$data['horizontalMenuType']],
+            'horizontalMenuClass' => $allOptions['horizontalMenuClass'][$data['horizontalMenuType']],
+            'footerType' => $allOptions['footerType'][$data['footerType']],
+            'sidebarClass' => '',
+            'bodyClass' => $data['bodyClass'],
+            'pageClass' => $data['pageClass'],
+            'pageHeader' => $data['pageHeader'],
+            'blankPage' => $data['blankPage'],
+            'blankPageClass' => '',
+            'contentLayout' => $data['contentLayout'],
+            'sidebarPositionClass' => $allOptions['sidebarPositionClass'][$data['contentLayout']],
+            'contentsidebarClass' => $allOptions['contentsidebarClass'][$data['contentLayout']],
+            'mainLayoutType' => $data['mainLayoutType'],
+            'defaultLanguage' => $allOptions['defaultLanguage'][$data['defaultLanguage']],
+            'direction' => $data['direction'],
+        ];
+        // set default language if session hasn't locale value the set default language
+        if (!session()->has('locale')) {
+            app()->setLocale($layoutClasses['defaultLanguage']);
+        }
+
+        // sidebar Collapsed
+        if ($layoutClasses['sidebarCollapsed'] == 'true') {
+            $layoutClasses['sidebarClass'] = "menu-collapsed";
+        }
+
+        // blank page class
+        if ($layoutClasses['blankPage'] == 'true') {
+            $layoutClasses['blankPageClass'] = "blank-page";
+        }
+
+        return $layoutClasses;
     }
-}
 
-
-if(!function_exists('notify')){
-    function notify($message , $type='success'){
-        return array(
-            'message'=> $message,
-            'alert-type' => $type,
-        );
-    }
-}
-
-
-if(!function_exists('alert')){
-    function alert($message , $type='success'){
-        return array(
-            'alert'=> $message,
-            'alert-type' => $type,
-        );
-    }
-}
-
-/**
- * Generate a random string, using a cryptographically secure 
- * pseudorandom number generator (random_int)
- *
- * This function uses type hints now (PHP 7+ only), but it was originally
- * written for PHP 5 as well.
- * 
- * For PHP 7, random_int is a PHP core function
- * For PHP 5.x, depends on https://github.com/paragonie/random_compat
- * 
- * @param int $length      How many characters do we want?
- * @param string $keyspace A string of all possible characters
- *                         to select from
- * @return string
- */
-function random_str(
-    int $length = 64,
-    string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    ): string {
-    $keyspace = str_shuffle($keyspace );
-    if ($length < 1) {
-        throw new \RangeException("Length must be a positive integer");
-    }
-    $pieces = [];
-    $max = mb_strlen($keyspace, '8bit') - 1;
-    for ($i = 0; $i < $length; ++$i) {
-        $pieces []= $keyspace[random_int(0, $max)];
-    }
-    return implode('', $pieces);
-}
-
-
-/**
- * return if auth user has a permission
- * 
- * @param string $permission
- * @return bool
- */
-if(!function_exists('can')){
-    function can($permission){
-        return (ucfirst(auth('web')->user()->roles->first()->name) == 'Super-admin') || auth('web')->user()->hasPermissionTo($permission);
+    public static function updatePageConfig($pageConfigs)
+    {
+        $demo = 'custom';
+        if (isset($pageConfigs)) {
+            if (count($pageConfigs) > 0) {
+                foreach ($pageConfigs as $config => $val) {
+                    Config::set('custom.' . $demo . '.' . $config, $val);
+                }
+            }
+        }
     }
 }
