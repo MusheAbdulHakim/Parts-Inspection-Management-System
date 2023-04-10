@@ -7,7 +7,7 @@
 
 @push('breadcrumb-right')
 @can('create-calibration')
-<x-buttons.primary :link="route('calibrations.create')" text="Create" />
+<x-buttons.primary :link="route('calibrations.create')" text="New Calibration" />
 @endcan
 @endpush
 
@@ -21,10 +21,12 @@
             <table id="datatable" class="table table-bordered dt-responsive">
                 <thead>
                   <tr>
-                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Tool</th>
                     <th>Certificate</th>
                     <th>Date</th>
                     <th>Interval</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -47,10 +49,12 @@
         serverSide: true,
         ajax: "{{route('calibrations.index')}}",
         columns: [
-            {data: 'name', name: 'name'},
+            {data: 'calib_id', name: 'calib_id'},
+            {data: 'tool', name: 'tool'},
             {data: 'cert', name: 'cert', orderable: false, searchable: false},
             {data: 'date_', name: 'date_'},
             {data: 'interval', name: 'interval'},
+            {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -79,7 +83,7 @@
     });
 
   };
-    
+
   lfm('filemanager', 'file','file');
 </script>
 @endsection

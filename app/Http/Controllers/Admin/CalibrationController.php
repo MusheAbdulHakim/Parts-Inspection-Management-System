@@ -6,7 +6,7 @@ use App\Models\Calibration;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-
+use App\Models\InspectionTool;
 
 class CalibrationController extends Controller
 {
@@ -22,16 +22,23 @@ class CalibrationController extends Controller
             $calibrations = Calibration::get();
             return DataTables::of($calibrations)
                 ->addIndexColumn()
+                ->addColumn('tool', function($row){
+                    return $row->inspectionTool->name ?? '';
+                })
                 ->addColumn('interval', function($row){
                     return ($row->from_.' to '.$row->to_);
                 })
                 ->addColumn('cert', function($row){
-                    return '<a target="_blank" href="'.$row->certificate.'" class="edit">Preview</a>';
+                    if(!empty($row->certificate)){
+                        return '<a target="_blank" href="'.$row->certificate.'" class="edit">Preview</a>';
+                    }
                 })
                 ->addColumn('preview', function($row){
-                    return '<a data-input="thumbnail" data-preview="holder" class="btn btn-primary filemanager">
-                    <i data-feather="eye"></i> Preview
-                    </a>';
+                    if(!empty($row->certificate)){
+                        return '<a data-input="thumbnail" data-preview="holder" class="btn btn-primary filemanager">
+                        <i data-feather="eye"></i> Preview
+                        </a>';
+                    }
                 })
                 ->addColumn('docs', function($row){
                     return $row->files;
@@ -64,7 +71,10 @@ class CalibrationController extends Controller
      */
     public function create()
     {
-        return view('admin.calibration.create');
+        $tools = InspectionTool::get();
+        return view('admin.calibration.create',compact(
+            'tools'
+        ));
     }
 
     /**
@@ -76,19 +86,24 @@ class CalibrationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'calib_id' => 'required|string',
             'calibrationfile' => 'nullable',
             'date_' => 'required|date',
             'interval' => 'required',
             'description' => 'nullable'
         ]);
+
         $interval = explode('to', $request->interval);
+        $calib_interval = getFullMonthsBetweenDates(Date('Y-m-d'),$request->date_);
+        $interval_months = getFullMonthsBetweenDates($interval[0],$interval[1]);
         Calibration::create([
-            'name' => $request->name,
+            'inspection_tool_id' => $request->tool,
+            'calib_id' => $request->calib_id,
             'certificate' => $request->calibrationfile,
             'date_' => $request->date_,
             'from_' => $interval[0],
-            'to_' => $interval[1]
+            'to_' => $interval[1],
+            'status' => ($calib_interval < $interval_months) ? 'VALID': 'INVALID',
         ]);
         $notification = notify("Calibration has been added");
         return redirect()->route('calibrations.index')->with($notification);
@@ -103,7 +118,7 @@ class CalibrationController extends Controller
      */
     public function show(Calibration $calibration)
     {
-       return response()->json($calibration); 
+       return response()->json($calibration);
     }
 
     /**
@@ -114,8 +129,9 @@ class CalibrationController extends Controller
      */
     public function edit(Calibration $calibration)
     {
+        $tools = InspectionTool::get();
         return view('admin.calibration.edit',compact(
-            'calibration'
+            'calibration','tools'
         ));
     }
 
@@ -129,18 +145,22 @@ class CalibrationController extends Controller
     public function update(Request $request, Calibration $calibration)
     {
         $request->validate([
-            'name' => 'required',
+            'calib_id' => 'required|string',
             'calibrationfile' => 'nullable',
             'date_' => 'required|date',
             'interval' => 'required',
         ]);
         $interval = explode('to', $request->interval);
+        $calib_interval = getFullMonthsBetweenDates(Date('Y-m-d'),$request->date_);
+        $interval_months = getFullMonthsBetweenDates($interval[0],$interval[1]);
         $calibration->update([
-            'name' => $request->name ?? $calibration->name,
+            'inspection_tool_id' => $request->tool ?? $calibration->inspection_tool_id,
+            'calib_id' => $request->calib_id ?? $calibration->calib_id,
             'certificate' => $request->calibrationfile ?? $calibration->certificate,
             'date_' => $request->date_ ?? $calibration->date_,
             'from_' => $interval[0] ?? $calibration->from_,
             'to_' => $interval[1] ?? $calibration->to_,
+            'status' => ($calib_interval < $interval_months) ? 'VALID': 'INVALID',
         ]);
         $notification = notify("Calibration has been updated");
         return redirect()->route('calibrations.index')->with($notification);

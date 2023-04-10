@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('calibrations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('calib_id')->nullable();
             $table->foreignId('inspection_tool_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('certificate')->nullable();

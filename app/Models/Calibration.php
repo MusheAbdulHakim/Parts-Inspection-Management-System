@@ -11,8 +11,11 @@ class Calibration extends Model
 
 
     protected $fillable = [
-        'name','certificate','date_','from_','to_'
+        'certificate','date_','from_','to_','inspection_tool_id','calib_id','description','status'
     ];
 
-    
+    public function inspectionTool(){
+        return $this->belongsTo(InspectionTool::class);
+    }
+
 }
