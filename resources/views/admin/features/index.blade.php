@@ -7,7 +7,7 @@
 
 @push('breadcrumb-right')
 @can('create-feature')
-<x-buttons.primary :link="route('features.create')" text="Create" />
+<x-buttons.primary :link="route('features.create')" text="New FEature" />
 @endcan
 @endpush
 

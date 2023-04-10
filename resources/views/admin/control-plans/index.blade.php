@@ -18,8 +18,6 @@
 
 @section('content')
 
-    
-
     <!-- ControlPlan Table -->
     <div class="card">
         <div class="p-2">
@@ -111,7 +109,7 @@
         </div>
     </div>
     <!--/ Add ControlPlan Modal -->
-    
+
     <!-- Edit ControlPlan Modal -->
     <div class="modal fade" id="editControlPlanModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -171,7 +169,7 @@
                 <div class="col-sm-3 ps-sm-0">
                     <button type="submit" class="btn btn-primary mt-2">Update</button>
                 </div>
-                
+
             </form>
             </div>
         </div>
@@ -194,7 +192,7 @@
                 });
             });
         }
-       
+
         var table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
@@ -206,7 +204,7 @@
                 {data: 'created_at', name: 'created_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
-            
+
         });
         $('#datatable').on('click','.edit',function(){
             var id = $(this).data('id');

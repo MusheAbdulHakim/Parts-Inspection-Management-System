@@ -8,7 +8,7 @@
     });
 
   $('.alert').delay(3000).fadeOut();
-  
+
   setTimeout(function(){
     feather.replace();
    }, 1000);
@@ -17,7 +17,7 @@
   $('body').on('click','#deletebtn',function(){
       var id = $(this).data('id');
       var route = $(this).data('route');
-      
+
       swal.queue([
           {
               title: "Are you sure?",
@@ -66,7 +66,7 @@
           }
       ]).catch(swal.noop);
       feather.replace();
-  });  
+  });
 
   if($('.phone-number-mask').length > 0){
     $('.phone-number-mask').each(function(){

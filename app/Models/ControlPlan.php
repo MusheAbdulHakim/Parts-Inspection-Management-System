@@ -10,7 +10,11 @@ class ControlPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','feature_id','work_instruction_id'
+        'name','work_instruction_id'
+    ];
+
+    protected $casts = [
+        'features' => 'array'
     ];
 
     public function feature(){
