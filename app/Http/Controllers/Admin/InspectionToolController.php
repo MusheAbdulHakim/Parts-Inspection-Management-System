@@ -28,8 +28,8 @@ class InspectionToolController extends Controller
             $tools = InspectionTool::get();
             return DataTables::of($tools)
                     ->addIndexColumn()
-                    ->addColumn('calibration', function($row){
-                        return $row->calibration->name ?? '';
+                    ->addColumn('tool', function($row){
+                        return $row->tool_id ?? '';
                     })
                     ->addColumn('created_at',function($row){
                         return date_format(date_create($row->created_at),'d M Y');
@@ -67,6 +67,7 @@ class InspectionToolController extends Controller
             'name' => 'required|min:3|max:255|unique:inspection_tools,name'
         ]);
         InspectionTool::create([
+            'tool_id' => $request->tool_id,
             'name' => $request->name,
             'calibration_id' => $request->calibration,
             'description' => $request->description
@@ -99,6 +100,7 @@ class InspectionToolController extends Controller
             'name' => 'required|min:3|max:255'
         ]);
         InspectionTool::findOrFail($request->id)->update([
+            'tool_id' => $request->tool_id,
             'name' => $request->name,
             'calibration_id' => $request->calibration,
             'description' => $request->description

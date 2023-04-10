@@ -13,7 +13,7 @@
 
 @can('create-inspectionTool')
 @push('breadcrumb-right')
-<x-buttons.primary text="create Inspection Tool" target="#addInspectionToolModal"  />
+<x-buttons.primary text="New Inspection Tool" target="#addInspectionToolModal"  />
 @endpush
 @endcan
 
@@ -26,8 +26,8 @@
                 <table id="datatable" class="table table-bordered dt-responsive">
                     <thead class="table-light">
                     <tr>
+                        <th>ID</th>
                         <th>Name</th>
-                        <th>Calibration</th>
                         <th>Created Date</th>
                         <th>Actions</th>
                     </tr>
@@ -55,6 +55,19 @@
                 @csrf
                 <div class="mb-1">
                     <div class="col-12">
+                        <label class="form-label" for="tool_id">ID</label>
+                        <input
+                            type="text"
+                            id="tool_id"
+                            name="tool_id"
+                            class="form-control"
+                            placeholder="ID"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="mb-1">
+                    <div class="col-12">
                         <label class="form-label" for="name">Name</label>
                         <input
                             type="text"
@@ -65,17 +78,7 @@
                         />
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="choose-position">
-                        <select data-placeholder="Select Calibration" name="calibration" id="calibration" class="form-control position-select">
-                            <option value=""></option>
-                            @foreach ($calibrations as $calibration)
-                                <option value="{{$calibration->id}}">{{$calibration->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-               
+
                <div class="mb-1">
                 <div class="col-12">
                     <label class="form-label" for="description">Description</label>
@@ -95,7 +98,7 @@
         </div>
     </div>
     <!--/ Add InspectionTool Modal -->
-    
+
     <!-- Edit InspectionTool Modal -->
     <div class="modal fade" id="editInspectionToolModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -113,6 +116,17 @@
                 @method("PUT")
                 <input type="hidden" name="id" id="edit_id">
                 <div class="col-12">
+                    <label class="form-label" for="edit_tool_id">ID</label>
+                    <input
+                        type="text"
+                        id="edit_tool_id"
+                        name="tool_id"
+                        class="form-control"
+                        placeholder="ID"
+                        required
+                    />
+                </div>
+                <div class="col-12">
                     <label class="form-label" for="edit_name">Name</label>
                     <input
                         type="text"
@@ -123,18 +137,7 @@
                         required
                     />
                 </div>
-                <div class="mb-1">
-                    <div class="col-12">
-                        <div class="choose-position">
-                            <select data-placeholder="Select Calibration" name="calibration" id="edit_calibration" class="form-control position-select">
-                                <option value=""></option>
-                                @foreach ($calibrations as $calibration)
-                                    <option value="{{$calibration->id}}">{{$calibration->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-12">
                     <label class="form-label" for="edit_description">Description</label>
                     <textarea name="description" class="form-control summernote"
@@ -143,7 +146,7 @@
                 <div class="col-sm-3 ps-sm-0">
                     <button type="submit" class="btn btn-primary mt-2">Update</button>
                 </div>
-                
+
             </form>
             </div>
         </div>
@@ -173,12 +176,12 @@
             serverSide: true,
             ajax: "{{route('inspection-tools.index')}}",
             columns: [
+                {data: 'tool', name: 'tool'},
                 {data: 'name', name: 'name'},
-                {data: 'calibration', name: 'calibration'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
-            
+
         });
         $('#datatable').on('click','.edit',function(){
             var id = $(this).data('id');
@@ -189,9 +192,9 @@
                 success: function(e){
                     if($.trim(e)){
                         $('#editInspectionToolModal').modal('show');
+                        $('#edit_tool_id').val(e.tool_id);
                         $('#edit_id').val(e.id);
                         $('#edit_name').val(e.name);
-                        $('#edit_calibration').val(e.calibration_id).trigger('change');
                         $('#edit_description').summernote('code',e.description);
                     }
                 }
