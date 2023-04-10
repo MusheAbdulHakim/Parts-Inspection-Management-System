@@ -21,9 +21,6 @@ class FeaturesController extends Controller
             $features = Feature::get();
             return DataTables::of($features)
                 ->addIndexColumn()
-                ->addColumn('binary', function($row){
-                    return ($row->bool == '1') ? 'True': 'False';
-                })
                 ->addColumn('created_at',function($row){
                     return date_format(date_create($row->created_at),'d M Y');
                 })
@@ -74,7 +71,6 @@ class FeaturesController extends Controller
             'upper_limit' => $request->upper_limit,
             'lower_limit' => $request->lower_limit,
             'control_method' => $request->control_method,
-            'bool' => $request->bool,
             'calibration_id' => $request->calibration,
             'control_tool_id' => $request->tool,
         ]);
@@ -126,7 +122,6 @@ class FeaturesController extends Controller
             'upper_limit' => $request->upper_limit,
             'lower_limit' => $request->lower_limit,
             'control_method' => $request->control_method,
-            'bool' => $request->bool,
             'calibration_id' => $request->calibration,
             'control_tool_id' => $request->tool,
         ]);

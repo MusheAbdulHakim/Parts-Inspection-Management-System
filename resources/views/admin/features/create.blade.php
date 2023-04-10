@@ -34,7 +34,7 @@
                           <select data-placeholder="Select Type" name="feature_type" id="feature_type" class="form-control select2">
                               <option value=""></option>
                               <option value="binary">Binary Feature</option>
-                              <option value="number">Number Feature</option>
+                              <option value="number">Numerical Feature</option>
                               <option value="gauge">Gauge Feature</option>
                           </select>
                     </div>
