@@ -1,50 +1,40 @@
-name: CI-CD
+name: Deploy
+
 
 on:
   push:
-    branches: master
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
+# Authenticate to the the server via ssh
+# and run our deployment script
 jobs:
-  build-js:
-    name: Build Js/Css
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Yarn Build
-        run: |
-          yarn
-          yarn prod
-          cat public/mix-manifest.json # See asset versions in log
-      - name: Upload build files
-        uses: actions/upload-artifact@v1
-        with:
-          name: assets
-          path: public
   deploy:
-    name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: [build-js]
-    if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v1
-      - name: Download build assets
-        uses: actions/download-artifact@v1
+      - uses: actions/checkout@v2
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
         with:
-          name: assets
-          path: public
-      - name: Setup PHP
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: 8.0.2
-          extension-csv: mbstring, bcmath
-      - name: Composer install
-        run: composer install
-      - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: Deploy to Prod
-        env:
-          DOT_ENV: ${{ secrets.DOT_ENV }}
-        run: dep deploy production --tag=${{ env.GITHUB_REF }} -vvv
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Starting Deployment,
+          (php artisan down) || true,
+          git pull origin master,
+          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader,
+          php artisan clear-compiled,
+          php artisan optimize,
+          yarn,
+          yarn prod,
+          php artisan migrate,
+          php artisan up,
+          echo "Deployment finished!"
+
