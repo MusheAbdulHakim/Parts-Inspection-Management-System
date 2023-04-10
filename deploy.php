@@ -175,5 +175,5 @@ task('deploy', [
     'artisan:db:seed',
     'deploy:symlink',
     'deploy:unlock',
-    'cleanup',
+    'deploy:publish',
 ]);
