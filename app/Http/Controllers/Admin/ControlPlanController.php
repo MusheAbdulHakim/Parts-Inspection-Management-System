@@ -34,7 +34,10 @@ class ControlPlanController extends Controller
             return DataTables::of($plans)
                 ->addIndexColumn()
                 ->addColumn('feature', function($row){
-                    return $row->feature->name ?? '';
+                    $names = array_map(function($feature){
+                        return Feature::find($feature)->name ?? null;
+                    }, $row->features);
+                    return implode(',', $names);
                 })
                 ->addColumn('feature_type', function($row){
                     return $row->feature->type ?? '';
@@ -77,10 +80,11 @@ class ControlPlanController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'feature' => 'required'
         ]);
         ControlPlan::create([
             'name' => $request->name,
-            'feature_id' => $request->feature,
+            'features' => $request->feature,
             'work_instruction_id' => $request->work
         ]);
         $notification = notify("Control plan has been added");
@@ -111,7 +115,7 @@ class ControlPlanController extends Controller
         ]);
         ControlPlan::findOrFail($request->id)->update([
             'name' => $request->name,
-            'feature_id' => $request->feature,
+            'features' => $request->feature,
             'work_instruction_id' => $request->work
         ]);
         $notification = notify("Control plan has been added");

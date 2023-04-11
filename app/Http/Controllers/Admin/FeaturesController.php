@@ -72,7 +72,7 @@ class FeaturesController extends Controller
             'lower_limit' => $request->lower_limit,
             'control_method' => $request->control_method,
             'calibration_id' => $request->calibration,
-            'control_tool_id' => $request->tool,
+            'inspection_tool_id' => $request->tool,
         ]);
         $notification = notify("Feature has been added");
         return redirect()->route('features.index')->with($notification);
@@ -123,7 +123,7 @@ class FeaturesController extends Controller
             'lower_limit' => $request->lower_limit,
             'control_method' => $request->control_method,
             'calibration_id' => $request->calibration,
-            'control_tool_id' => $request->tool,
+            'inspection_tool_id' => $request->tool,
         ]);
         $notification = notify("Feature has been updated");
         return redirect()->route('features.index')->with($notification);

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->longText('control_method')->nullable();
             $table->foreignId('calibration_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('control_plan_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('inspection_tool_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

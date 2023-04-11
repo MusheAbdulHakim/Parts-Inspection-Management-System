@@ -11,11 +11,15 @@ class Feature extends Model
 
     protected $fillable = [
         'name','type','target','upper_limit','lower_limit','control_method',
-        'calibration_id','control_tool_id'
+        'calibration_id','inspection_tool_id','control_plan_id'
     ];
 
+    public function controlPlan(){
+        return $this->belongsTo(ControlPlan::class);
+    }
+
     public function controlTool(){
-        return $this->belongsTo(InspectionTool::class,'control_tool_id');
+        return $this->belongsTo(InspectionTool::class);
     }
 
     public function calibration(){

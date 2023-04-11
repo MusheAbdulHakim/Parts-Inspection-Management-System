@@ -10,7 +10,7 @@ class ControlPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','work_instruction_id'
+        'name','work_instruction_id','features'
     ];
 
     protected $casts = [

@@ -72,7 +72,7 @@
                     <div class="col-12">
                         <label for="feature" class="form-label">Features</label>
                         <div class="choose-position">
-                            <select data-placeholder="Select Feature" name="feature" id="feature" class="form-control position-select">
+                            <select data-placeholder="Select Feature" multiple name="feature[]" id="feature" class="form-control position-select">
                                 <option value=""></option>
                                 @foreach ($features as $feature)
                                     <option value="{{$feature->id}}">{{$feature->name}}</option>
@@ -142,7 +142,7 @@
                     <div class="col-12">
                         <label for="edit_feature" class="form-label">Features</label>
                         <div class="choose-position">
-                            <select data-placeholder="Select Feature" name="feature" id="edit_feature" class="form-control position-select">
+                            <select data-placeholder="Select Feature" multiple name="feature[]" id="edit_feature" class="form-control position-select">
                                 <option value=""></option>
                                 @foreach ($features as $feature)
                                     <option value="{{$feature->id}}">{{$feature->name}}</option>
@@ -217,7 +217,7 @@
                         $('#editControlPlanModal').modal('show');
                         $('#edit_id').val(e.id);
                         $('#edit_name').val(e.name);
-                        $('#edit_feature').val(e.feature_id).trigger('change');
+                        $('#edit_feature').val(e.features).trigger('change');
                         $('#edit_work').val(e.work_instruction_id).trigger('change');
                     }
                 }
