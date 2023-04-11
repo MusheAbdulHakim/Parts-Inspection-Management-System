@@ -27,15 +27,5 @@ jobs:
       - name: Run a multi-line script
         run: |
           echo Starting Deployment,
-          cd /home/altalus1/pims.altalus.online,
-          (php artisan down) || true,
-          git pull origin master,
-          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader,
-          php artisan clear-compiled,
-          php artisan optimize,
-          yarn,
-          yarn prod,
-          php artisan migrate,
-          php artisan up,
-          echo "Deployment finished!"
+          echo pwd
 
