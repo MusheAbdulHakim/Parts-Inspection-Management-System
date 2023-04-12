@@ -28,6 +28,9 @@ class InspectionToolController extends Controller
             $tools = InspectionTool::get();
             return DataTables::of($tools)
                     ->addIndexColumn()
+                    ->addColumn('calibration', function($row){
+                        return $row->calibration->first()->status ?? 'INVALID';
+                    })
                     ->addColumn('tool', function($row){
                         return $row->tool_id ?? '';
                     })
