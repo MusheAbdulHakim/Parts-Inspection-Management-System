@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 
-@section('title', 'SerialNumbers')
+@section('title', 'Part Number')
 
 <x-assets.datatables />
 
@@ -11,7 +11,7 @@
 
 @can('create-serialnumber')
 @push('breadcrumb-right')
-<x-buttons.primary text="create serialnumber" target="#addSerialNumberModal"  />
+<x-buttons.primary text="add part number" target="#addSerialNumberModal"  />
 @endpush
 @endcan
 
@@ -46,7 +46,7 @@
             </div>
             <div class="modal-body px-sm-5 pb-5">
             <div class="text-center mb-2">
-                <h1 class="mb-1">Add New SerialNumber</h1>
+                <h1 class="mb-1">Add New Part Number</h1>
             </div>
             <form id="jquery-val-form" class="row" method="post" action="{{route('serialnumbers.store')}}">
                 @csrf
@@ -61,7 +61,7 @@
                     autofocus
                 />
                 </div>
-                
+
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary mt-2 me-1">Create</button>
                     <button type="reset" class="btn btn-outline-secondary mt-2" data-bs-dismiss="modal" aria-label="Close">
@@ -74,7 +74,7 @@
         </div>
     </div>
     <!--/ Add SerialNumber Modal -->
-    
+
     <!-- Edit SerialNumber Modal -->
     <div class="modal fade" id="editSerialNumberModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -84,10 +84,10 @@
             </div>
             <div class="modal-body p-3 pt-0">
             <div class="text-center mb-2">
-                <h1 class="mb-1">Edit SerialNumber</h1>
+                <h1 class="mb-1">Edit Part Number</h1>
             </div>
 
-    
+
             <form method="post" action="{{route('serialnumbers.update')}}" class="row">
                 @csrf
                 @method("PUT")
@@ -106,7 +106,7 @@
                 <div class="col-sm-3 ps-sm-0">
                     <button type="submit" class="btn btn-primary mt-2">Update</button>
                 </div>
-                
+
             </form>
             </div>
         </div>
@@ -128,7 +128,7 @@
                 {data: 'created_at', name: 'created_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
-            
+
         });
         $('#datatable').on('click','.edit',function(){
             var id = $(this).data('id');
