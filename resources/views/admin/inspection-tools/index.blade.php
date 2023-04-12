@@ -28,6 +28,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Calibration</th>
                         <th>Created Date</th>
                         <th>Actions</th>
                     </tr>
@@ -178,6 +179,7 @@
             columns: [
                 {data: 'tool', name: 'tool'},
                 {data: 'name', name: 'name'},
+                {data: 'calibration', name: 'calibration'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
