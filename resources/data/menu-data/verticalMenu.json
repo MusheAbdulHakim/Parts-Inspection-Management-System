@@ -15,7 +15,7 @@
       ],
       "slug": "inspection-tools.index"
     },
-    
+
     {
       "url": "calibrations",
       "name": "Calibrations",
@@ -54,7 +54,7 @@
     },
     {
       "url": "serialnumbers",
-      "name": "Serial Numbers",
+      "name": "Part Numbers",
       "icon": "airplay",
       "permissions": [
         "view-serialnumbers"
@@ -79,7 +79,7 @@
       ],
       "slug": "control-plans.index"
     },
-        
+
     {
       "name": "Users",
       "icon": "users",
@@ -152,11 +152,11 @@
           "icon": "circle",
           "slug": "settings.general"
         }
-        
+
       ]
     }
-   
-    
-    
+
+
+
   ]
 }
