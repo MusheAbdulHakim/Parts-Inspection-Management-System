@@ -12,4 +12,9 @@ class InspectionTool extends Model
     protected $fillable = ['name','description','tool_id'];
 
 
+    public function calibration(){
+        return $this->hasMany(Calibration::class);
+    }
+
+
 }
