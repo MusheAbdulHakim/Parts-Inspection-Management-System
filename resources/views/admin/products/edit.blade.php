@@ -18,7 +18,7 @@
                 @method("PUT")
               <div class="row">
                   <div class="mb-1">
-                    <label for="part_no" class="form-label">Name</label>
+                    <label for="part_no" class="form-label">Part Number</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="part_no"
                       name="part_no" placeholder="Part Number" aria-describedby="part number" tabindex="1" autofocus
                       value="{{ $product->part_no ?? old('part_no') }}" />

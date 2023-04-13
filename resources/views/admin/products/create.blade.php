@@ -17,7 +17,7 @@
                 @csrf
               <div class="row">
                   <div class="mb-1">
-                    <label for="part_no" class="form-label">Name</label>
+                    <label for="part_no" class="form-label">Part Number</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="part_no"
                       name="part_no" placeholder="Part Number" aria-describedby="part number" tabindex="1" autofocus
                       value="{{ old('part_no') }}" />
@@ -27,7 +27,7 @@
                       </span>
                     @enderror
                   </div>
-                  
+
                     <div class="mb-1">
                       <div class="col-12">
                           <label for="plan" class="form-label">Control Plan</label>
@@ -81,7 +81,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </section>
 @endsection
