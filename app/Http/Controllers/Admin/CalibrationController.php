@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use App\Models\InspectionTool;
+use Illuminate\Support\Carbon;
 
 class CalibrationController extends Controller
 {
@@ -25,9 +26,7 @@ class CalibrationController extends Controller
                 ->addColumn('tool', function($row){
                     return $row->inspectionTool->name ?? '';
                 })
-                ->addColumn('interval', function($row){
-                    return ($row->from_.' to '.$row->to_);
-                })
+               
                 ->addColumn('cert', function($row){
                     if(!empty($row->certificate)){
                         return '<a target="_blank" href="'.$row->certificate.'" class="edit">Preview</a>';
@@ -89,21 +88,20 @@ class CalibrationController extends Controller
             'calib_id' => 'required|string',
             'calibrationfile' => 'nullable',
             'date_' => 'required|date',
-            'interval' => 'required',
+            'interval' => 'required|integer',
             'description' => 'nullable'
         ]);
 
-        $interval = explode('to', $request->interval);
-        $calib_interval = getFullMonthsBetweenDates(Date('Y-m-d'),$request->date_);
-        $interval_months = getFullMonthsBetweenDates($interval[0],$interval[1]);
+        $current_date = Carbon::now()->format('m');
+        $calibration_date = Carbon::parse($request->date_);
+        $interval_months = ($calibration_date->addMonths($request->interval));
         Calibration::create([
             'inspection_tool_id' => $request->tool,
             'calib_id' => $request->calib_id,
             'certificate' => $request->calibrationfile,
             'date_' => $request->date_,
-            'from_' => $interval[0],
-            'to_' => $interval[1],
-            'status' => ($calib_interval < $interval_months) ? 'VALID': 'INVALID',
+            'interval' => $request->interval,
+            'status' => ($current_date > $interval_months) ? 'VALID': 'INVALID',
         ]);
         $notification = notify("Calibration has been added");
         return redirect()->route('calibrations.index')->with($notification);
@@ -148,19 +146,18 @@ class CalibrationController extends Controller
             'calib_id' => 'required|string',
             'calibrationfile' => 'nullable',
             'date_' => 'required|date',
-            'interval' => 'required',
+            'interval' => 'required|integer',
         ]);
-        $interval = explode('to', $request->interval);
-        $calib_interval = getFullMonthsBetweenDates(Date('Y-m-d'),$request->date_);
-        $interval_months = getFullMonthsBetweenDates($interval[0],$interval[1]);
+        $current_date = Carbon::now('m');
+        $calibration_date = Carbon::parse($request->date_);
+        $interval_months = ($calibration_date->addMonths($request->interval));
         $calibration->update([
             'inspection_tool_id' => $request->tool ?? $calibration->inspection_tool_id,
             'calib_id' => $request->calib_id ?? $calibration->calib_id,
             'certificate' => $request->calibrationfile ?? $calibration->certificate,
             'date_' => $request->date_ ?? $calibration->date_,
-            'from_' => $interval[0] ?? $calibration->from_,
-            'to_' => $interval[1] ?? $calibration->to_,
-            'status' => ($calib_interval < $interval_months) ? 'VALID': 'INVALID',
+            'interval' => $request->interval,
+            'status' => ($current_date > $interval_months) ? 'VALID': 'INVALID',
         ]);
         $notification = notify("Calibration has been updated");
         return redirect()->route('calibrations.index')->with($notification);
