@@ -23,7 +23,6 @@ class RolePermissionSeeder extends Seeder
             'view-projects','create-project','edit-project','destroy-project',
             'view-products','create-product','edit-product','destroy-product',
             'view-inspectionTools','create-inspectionTool','edit-inspectionTool','destroy-inspectionTool',
-            'view-serialnumbers','create-serialnumber','edit-serialnumber','destroy-serialnumber',
             'view-backups','create-backup','download-backup','destroy-backup',
             'view-settings',
             'view-users','create-user','edit-user','show-user','destroy-user',
@@ -33,9 +32,9 @@ class RolePermissionSeeder extends Seeder
         $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
             return ['name' => $permission, 'guard_name' => 'web'];
         });
-    
+
         Permission::insert($permissions->toArray());
-        
+
         $admin = Role::create(['name' => 'super-admin']);
         $admin->givePermissionTo(Permission::all());
     }
