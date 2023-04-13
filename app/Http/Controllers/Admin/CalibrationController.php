@@ -26,7 +26,7 @@ class CalibrationController extends Controller
                 ->addColumn('tool', function($row){
                     return $row->inspectionTool->name ?? '';
                 })
-               
+
                 ->addColumn('cert', function($row){
                     if(!empty($row->certificate)){
                         return '<a target="_blank" href="'.$row->certificate.'" class="edit">Preview</a>';
@@ -92,7 +92,7 @@ class CalibrationController extends Controller
             'description' => 'nullable'
         ]);
 
-        $current_date = Carbon::now()->format('m');
+        $current_date = Carbon::now();
         $calibration_date = Carbon::parse($request->date_);
         $interval_months = ($calibration_date->addMonths($request->interval));
         Calibration::create([
@@ -148,14 +148,15 @@ class CalibrationController extends Controller
             'date_' => 'required|date',
             'interval' => 'required|integer',
         ]);
-        $current_date = Carbon::now('m');
+        $current_date = Carbon::now();
         $calibration_date = Carbon::parse($request->date_);
         $interval_months = ($calibration_date->addMonths($request->interval));
+        dd($current_date , $interval_months);
         $calibration->update([
-            'inspection_tool_id' => $request->tool ?? $calibration->inspection_tool_id,
-            'calib_id' => $request->calib_id ?? $calibration->calib_id,
+            'inspection_tool_id' => $request->tool,
+            'calib_id' => $request->calib_id,
             'certificate' => $request->calibrationfile ?? $calibration->certificate,
-            'date_' => $request->date_ ?? $calibration->date_,
+            'date_' => $request->date_,
             'interval' => $request->interval,
             'status' => ($current_date > $interval_months) ? 'VALID': 'INVALID',
         ]);
