@@ -43,8 +43,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::apiResource('permissions',PermissionsController::class)->except(['show','updated']);
     Route::put('permissions',[PermissionsController::class,'update'])->name('permissions.update');
 
-    Route::apiResource('serialnumbers',SerialNumberController::class)->except(['show','updated']);
-    Route::put('serialnumbers',[SerialNumberController::class,'update'])->name('serialnumbers.update');
+
     Route::apiResource('inspection-tools',InspectionToolController::class)->except(['updated']);
     Route::put('inspection-tools',[InspectionToolController::class,'update'])->name('inspection-tools.update');
     Route::apiResource('projects',ProjectController::class)->except(['show','updated']);
@@ -60,7 +59,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
     Route::post('settings/general',[SettingsController::class,'updateGeneralSettings']);
-    
+
     // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
