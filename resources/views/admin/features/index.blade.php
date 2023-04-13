@@ -7,7 +7,7 @@
 
 @push('breadcrumb-right')
 @can('create-feature')
-<x-buttons.primary :link="route('features.create')" text="New FEature" />
+<x-buttons.primary :link="route('features.create')" text="New Feature" />
 @endcan
 @endpush
 
@@ -22,6 +22,7 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Tool</th>
                     <th>Type</th>
                     <th>Target</th>
                     <th>Lower Limit</th>
@@ -49,6 +50,7 @@
         ajax: "{{route('features.index')}}",
         columns: [
             {data: 'name', name: 'name'},
+            {data: 'tool', name: 'tool'},
             {data: 'type', name: 'type'},
             {data: 'target', name: 'target'},
             {data: 'lower_limit', name: 'lower_limit'},

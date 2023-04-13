@@ -41,7 +41,36 @@
                     </div>
                   </div>
 
+                  <div class="gauge_feature {{($feature->type != 'gauge') ? 'd-none': ''}}">
+                    <div class="mb-1">
+                        <div class="col-12">
+                            <label for="gauge_tool" class="form-label">Inspection Tool</label>
+                            <div class="choose-position">
+                                <select {{($feature->type != 'gauge') ? 'disabled': ''}} data-placeholder="Select Inspection Tool" name="tool" id="gauge_tool" class="form-control position-select">
+                                    <option value=""></option>
+                                    @foreach ($tools as $tool)
+                                        <option {{($feature->inspection_tool_id == $tool->id)? 'selected': ''}} value="{{$tool->id}}">{{$tool->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
                   <div class="number_feature {{($feature->type != 'number') ? 'd-none': ''}}">
+                    <div class="mb-1">
+                        <div class="col-12">
+                            <label for="tool" class="form-label">Inspection Tool</label>
+                            <div class="choose-position">
+                                <select {{($feature->type != 'number') ? 'disabled': ''}} data-placeholder="Select Inspection Tool" name="tool" id="tool" class="form-control position-select">
+                                    <option value=""></option>
+                                    @foreach ($tools as $tool)
+                                        <option {{($feature->inspection_tool_id == $tool->id)? 'selected': ''}} value="{{$tool->id}}">{{$tool->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                      </div>
                     <div class="col-12">
                       <label class="form-label" for="target">Target</label>
                       <input
@@ -107,12 +136,15 @@
       $('#feature_type').val('{{$feature->type ?? old("type")}}').trigger('change');
       $('#bool').val('{{$feature->bool ?? old("bool")}}').trigger('change');
       $('#feature_type').change(function(){
+        if($(this).val() === 'gauge'){
+            $('.gauge_feature').removeClass('d-none');
+        }else{
+            $('.gauge_feature').addClass('d-none');
+        }
         if($(this).val() === 'number'){
           $('.number_feature').removeClass('d-none');
-          $('.bool_field').addClass('d-none');
         }else{
           $('.number_feature').addClass('d-none');
-          $('.bool_field').removeClass('d-none');
         }
       })
       $('.summernote').summernote();

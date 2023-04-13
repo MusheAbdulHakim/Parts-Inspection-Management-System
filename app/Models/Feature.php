@@ -18,7 +18,7 @@ class Feature extends Model
         return $this->belongsTo(ControlPlan::class);
     }
 
-    public function controlTool(){
+    public function inspectionTool(){
         return $this->belongsTo(InspectionTool::class);
     }
 

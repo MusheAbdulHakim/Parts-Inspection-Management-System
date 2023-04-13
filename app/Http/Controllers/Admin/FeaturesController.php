@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
+use App\Models\InspectionTool;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -21,6 +22,9 @@ class FeaturesController extends Controller
             $features = Feature::get();
             return DataTables::of($features)
                 ->addIndexColumn()
+                ->addColumn('tool', function($row){
+                    return $row->inspectionTool->name ?? '';
+                })
                 ->addColumn('created_at',function($row){
                     return date_format(date_create($row->created_at),'d M Y');
                 })
@@ -49,7 +53,10 @@ class FeaturesController extends Controller
      */
     public function create()
     {
-        return view('admin.features.create');
+        $tools = InspectionTool::get();
+        return view('admin.features.create',compact(
+            'tools'
+        ));
     }
 
     /**
@@ -97,8 +104,9 @@ class FeaturesController extends Controller
      */
     public function edit(Feature $feature)
     {
+        $tools = InspectionTool::get();
         return view('admin.features.edit',compact(
-            'feature'
+            'feature','tools'
         ));
     }
 
