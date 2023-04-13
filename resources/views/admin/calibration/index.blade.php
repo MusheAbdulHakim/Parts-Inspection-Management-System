@@ -27,6 +27,7 @@
                     <th>Date</th>
                     <th>Interval</th>
                     <th>Status</th>
+                    <th>Created At</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -55,6 +56,7 @@
             {data: 'date_', name: 'date_'},
             {data: 'interval', name: 'interval'},
             {data: 'status', name: 'status'},
+            {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
