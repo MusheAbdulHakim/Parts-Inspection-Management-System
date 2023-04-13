@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use App\Models\InspectionTool;
+use DateInterval;
+use DateTime;
 use Illuminate\Support\Carbon;
 
 class CalibrationController extends Controller
@@ -101,7 +103,7 @@ class CalibrationController extends Controller
             'certificate' => $request->calibrationfile,
             'date_' => $request->date_,
             'interval' => $request->interval,
-            'status' => ($current_date > $interval_months) ? 'VALID': 'INVALID',
+            'status' => ($current_date < $interval_months) ? 'VALID': 'INVALID',
         ]);
         $notification = notify("Calibration has been added");
         return redirect()->route('calibrations.index')->with($notification);
@@ -151,14 +153,13 @@ class CalibrationController extends Controller
         $current_date = Carbon::now();
         $calibration_date = Carbon::parse($request->date_);
         $interval_months = ($calibration_date->addMonths($request->interval));
-        dd($current_date , $interval_months);
         $calibration->update([
             'inspection_tool_id' => $request->tool,
             'calib_id' => $request->calib_id,
             'certificate' => $request->calibrationfile ?? $calibration->certificate,
             'date_' => $request->date_,
             'interval' => $request->interval,
-            'status' => ($current_date > $interval_months) ? 'VALID': 'INVALID',
+            'status' => ($current_date < $interval_months) ? 'VALID': 'INVALID',
         ]);
         $notification = notify("Calibration has been updated");
         return redirect()->route('calibrations.index')->with($notification);
