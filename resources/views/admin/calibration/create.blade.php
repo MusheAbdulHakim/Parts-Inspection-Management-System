@@ -53,9 +53,9 @@
                   </div>
 
                   <div class="mb-1">
-                    <label for="interval" class="form-label">Calibration Interval</label>
-                    <input type="text" class="form-control flatpickr_range_month @error('interval') is-invalid @enderror" id="interval"
-                      name="interval" placeholder="Calibration Interval Date" aria-describedby="calibration-date" tabindex="1"
+                    <label for="interval" class="form-label">Calibration Interval (months)</label>
+                    <input type="number" class="form-control @error('interval') is-invalid @enderror" id="interval"
+                      name="interval" placeholder="Calibration Interval" aria-describedby="calibration-date" tabindex="1"
                       value="{{ old('interval') }}" />
                     @error('interval')
                       <span class="invalid-feedback" role="alert">
