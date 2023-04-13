@@ -53,15 +53,6 @@
       "slug": "products.index"
     },
     {
-      "url": "serialnumbers",
-      "name": "Part Numbers",
-      "icon": "airplay",
-      "permissions": [
-        "view-serialnumbers"
-      ],
-      "slug": "serialnumbers.index"
-    },
-    {
       "url": "projects",
       "name": "Projects",
       "icon": "aperture",
