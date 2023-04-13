@@ -11,7 +11,7 @@ class Calibration extends Model
 
 
     protected $fillable = [
-        'certificate','date_','from_','to_','inspection_tool_id','calib_id','description','status'
+        'certificate','interval','to_','inspection_tool_id','calib_id','description','status'
     ];
 
     public function inspectionTool(){
