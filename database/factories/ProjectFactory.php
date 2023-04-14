@@ -17,7 +17,7 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->title(),
+            'name' => $this->faker->word(),
             'customer' => $this->faker->name(),
         ];
     }

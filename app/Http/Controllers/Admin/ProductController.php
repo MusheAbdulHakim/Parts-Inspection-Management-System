@@ -16,7 +16,7 @@ class ProductController extends Controller
         $this->middleware(['role_or_permission:super-admin|view-products|create-product|edit-product|destroy-product']);
     }
 
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -110,6 +110,19 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return response()->json($product);
+    }
+
+    /**
+     * Fetch Product By part_no
+     * @param \Illuminate\Http\Request $request
+     */
+    public function getProduct(Request $request){
+        if($request->ajax()){
+            $product = Product::where('part_no', $request->part_no)->first();
+            return response()->json($product);
+        }else{
+            return abort(404);
+        }
     }
 
     /**
