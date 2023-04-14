@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\BinaryFeatureController;
 use App\Http\Controllers\Admin\NumberFeatureController;
 use App\Http\Controllers\Admin\InspectionToolController;
 use App\Http\Controllers\Admin\WorkInstructionController;
+use App\Http\Controllers\InspectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::resource('products', ProductController::class);
     Route::resource('calibrations', CalibrationController::class);
     Route::resource('features', FeaturesController::class);
-
+    Route::resource('inspections', InspectionController::class);
     // Settings routes
     Route::get('settings/general',[SettingsController::class,'index'])->name('settings.general');
     Route::post('settings/general',[SettingsController::class,'updateGeneralSettings']);

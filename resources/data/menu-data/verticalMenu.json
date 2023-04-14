@@ -70,7 +70,15 @@
       ],
       "slug": "control-plans.index"
     },
-
+    {
+        "url": "inspections",
+        "name": "Inspections",
+        "icon": "eye",
+        "permissions": [
+          "view-inspections"
+        ],
+        "slug": "inspections.index"
+    },
     {
       "name": "Users",
       "icon": "users",
