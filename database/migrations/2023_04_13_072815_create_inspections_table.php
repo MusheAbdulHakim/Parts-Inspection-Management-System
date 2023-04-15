@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('batch_no')->nullable();
             $table->integer('quantity')->nullable()->default(1);
-            $table->foreignId('control_plan_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

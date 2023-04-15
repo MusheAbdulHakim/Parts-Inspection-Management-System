@@ -46,7 +46,7 @@
             <span class="bs-stepper-box">4</span>
           </button>
         </div>
-
+        <div class="d-flex justify-content-right align-items-right ms-5 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
       </div>
       <div class="bs-stepper-content">
         <div id="partnumber" class="content" role="tabpanel" aria-labelledby="partnumber-trigger">
@@ -56,9 +56,13 @@
                         <label for="user_name">UserName</label>
                         <input type="text" disabled value="{{auth()->user()->name}}" class="form-control">
                     </div>
-                    <div class="mb-1">
-                        <label class="form-label" for="part_number">Please Scan Part Number</label>
-                        <input type="text" name="partnumber" id="part_number" class="form-control" placeholder="Enter Part Number" />
+                </div>
+                <div class="row">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="mb-1">
+                            <label class="form-label" for="part_number">Please Scan Part Number</label>
+                            <input type="text" name="partnumber" id="part_number" class="form-control" placeholder="Enter Part Number" />
+                        </div>
                     </div>
                 </div>
             </form>
@@ -67,7 +71,7 @@
                 <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
                 <span class="align-middle d-sm-inline-block d-none">Previous</span>
               </button>
-              <button class="btn btn-primary btn-next" id="query_partnumber">
+              <button class="btn btn-primary" id="query_partnumber">
                 <span class="align-middle d-sm-inline-block d-none">Next</span>
                 <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
               </button>
@@ -81,6 +85,12 @@
               </div>
               <div class="col-md-4">
                 <div class="row">
+                    <div class="mb-1">
+                        <label>Project: <b class="project_name"></b></label>
+                    </div>
+                    <div class="mb-1">
+                        <label>Product: <b class="product_name"></b></label>
+                    </div>
                     <div class="mb-1">
                         <label for="batch_no">Batch Number</label>
                         <input type="text" placeholder="Enter Batch Number" class="form-control">
@@ -105,28 +115,34 @@
           </div>
         </div>
         <div id="controlplan-revision1" class="content" role="tabpanel" aria-labelledby="controlplan-revision1-trigger">
-          <form>
-            <div class="row">
-                <div class="col-md-6">
+            <form>
+                <div class="row">
+                  <div class="col-md-8">
                     <embed src="" width="100%" height="375" />
-                </div>
-                <div class="col-md-6">
-                  <div class="row">
-                    <div class="mb-1">
-                        <div class="col-12">
-                          <label class="form-label" for="control_method">Control Method</label>
-                          <textarea name="control_method" class="form-control summernote"
-                          placeholder="Control Method" id="control_method" cols="3" rows="3">{{old('control_method')}}</textarea>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row">
+                        <div class="mb-1">
+                            <label>Project: <b class="project_name"></b></label>
                         </div>
-                      </div>
-                      <div class="mb-1">
-                          <label class="form-label" for="quantity">Quantity</label>
-                          <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enter Quantity" />
-                      </div>
+                        <div class="mb-1">
+                            <label>Product: <b class="product_name"></b></label>
+                        </div>
+                        <div class="mb-1">
+                            <label>Feature: <b class="feature_names"></b></label>
+                        </div>
+                        <div class="mb-1">
+                            <label for="batch_no">Batch Number</label>
+                            <input type="text" placeholder="Enter Batch Number" class="form-control">
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label" for="quantity">Quantity</label>
+                            <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enter Quantity" />
+                        </div>
+                    </div>
                   </div>
                 </div>
-            </div>
-          </form>
+            </form>
           <div class="d-flex justify-content-between">
             <button class="btn btn-primary btn-prev">
               <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
@@ -232,6 +248,7 @@
 <script src="{{asset('summernote/summernote.min.js')}}"></script>
 <script src="{{asset('vendor/laravel-filemanager/js/stand-alone-button.js')}}"></script>
 <script>
+    let queryData;
     var horizontalWizard = document.querySelector('.inspection-wizard');
     if (typeof horizontalWizard !== undefined && horizontalWizard !== null) {
         var numberedStepper = new Stepper(horizontalWizard),
@@ -247,53 +264,63 @@
                 });
             });
 
-        $(horizontalWizard)
-        .find('.btn-next')
-        .each(function () {
-            $(this).on('click', function (e) {
-            var isValid = $(this).parent().siblings('form').valid();
-            if (isValid) {
+        $('#query_partnumber').on('click', function(e){
+            var isValid = $('#partnumber form').valid();
+            var product = queryProduct($('#part_number').val());
+            if(isValid && (product == true)){
                 numberedStepper.next();
-            } else {
+                $('#control_plan').parent().removeClass('d-none');
+                $('#control_plan').append(queryData.control_plan)
+                projectProductLabels(queryData.project_name, queryData.product.part_no)
+            }else{
                 e.preventDefault();
             }
-            });
-        });
+        })
 
-        $(horizontalWizard)
-        .find('.btn-prev')
-        .on('click', function () {
+        $(horizontalWizard).find('.btn-prev').on('click', function () {
             numberedStepper.previous();
         });
 
-        $(horizontalWizard)
-        .find('.btn-submit')
-        .on('click', function () {
+        $(horizontalWizard).find('.btn-submit').on('click', function () {
             var isValid = $(this).parent().siblings('form').valid();
             if (isValid) {
-            alert('inspection-wizard Submitted..!!');
+                alert('inspection-wizard Submitted..!!');
             }
         });
     }
-</script>
-<script>
-    $(document).ready(function(){
-        $('#query_partnumber').click(function(){
-            if($(this).parent().siblings('form').valid()){
-                var partnumber = $('#part_number').val();
-                $.ajax({
-                    url: "{{route('product.partnumber')}}",
-                    type: "POST",
-                    data: {
-                        part_no: partnumber
-                    },
-                    success: function(e){
-                        console.log((e.docs))
-                        $('#controlplan-revision embed').attr('src', (e.docs))
-                    }
-                })
-            }
+
+    function projectProductLabels(project, product){
+        $('.project_name').each(function(){
+            $(this).append(project)
+        });
+        $('.product_name').each(function(){
+            $(this).append(product)
         })
-    })
+    }
+    function queryProduct (partnumber_value){
+        let isNotEmpty;
+        $.ajax({
+            url: "{{route('product.partnumber')}}",
+            type: "POST",
+            async: false,
+            data: {
+                part_no: partnumber_value
+            },
+            success: function(e){
+                queryData = e;
+                if((jQuery.isEmptyObject( e ) != true)){
+                    isNotEmpty = true;
+                    $('#controlplan-revision embed').attr('src', (e.work_instruction.files))
+                }else{
+                    $('#part_number').addClass('error');
+                    $('#partnumber form').validate().showErrors({
+                        partnumber: 'Product not found. Please create product before you start.'
+                    });
+                    isNotEmpty = false;
+                }
+            }
+        });
+        return isNotEmpty;
+    }
 </script>
 @endsection

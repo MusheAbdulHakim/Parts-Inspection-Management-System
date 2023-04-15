@@ -119,7 +119,17 @@ class ProductController extends Controller
     public function getProduct(Request $request){
         if($request->ajax()){
             $product = Product::where('part_no', $request->part_no)->first();
-            return response()->json($product);
+            if(!empty($product)){
+                $project = $product->project->name ?? null;
+                $control_plan = $product->controlPlan->name ?? null;
+                $work_instruction = $product->controlPlan->workInstruction;
+                return response()->json([
+                    'product' => $product,
+                    'project_name' => $project,
+                    'control_plan' => $control_plan,
+                    'work_instruction' => $work_instruction
+                ]);
+            }
         }else{
             return abort(404);
         }
