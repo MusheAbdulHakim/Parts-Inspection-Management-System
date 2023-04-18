@@ -9,7 +9,7 @@ return [
         'horizontalMenuType' => 'floating', // options[String]: floating(default) / static /sticky (Warning:this option only applies to the Horizontal theme.)
         'verticalMenuNavbarType' => 'floating', // options[String]: floating(default) / static / sticky / hidden (Warning:this option only applies to the vertical theme)
         'footerType' => 'static', // options[String]: static(default) / sticky / hidden
-        'layoutWidth' => 'boxed', // options[String]: boxed(default) / full,
+        'layoutWidth' => 'full', // options[String]: boxed(default) / full,
         'showMenu' => true, // options[Boolean]: true(default), false //show / hide main menu (Warning: if set to false it will hide the main menu)
         'bodyClass' => '', // add custom class
         'pageHeader' => true, // options[Boolean]: true(default), false (Page Header for Breadcrumbs)
