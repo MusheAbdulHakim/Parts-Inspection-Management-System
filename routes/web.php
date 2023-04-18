@@ -55,6 +55,7 @@ Route::middleware(['auth:web',config('jetstream.auth_session'),'verified'])->gro
     Route::resource('work-instructions', WorkInstructionController::class);
     Route::resource('products', ProductController::class);
     Route::post('get-product',[ProductController::class, 'getProduct'])->name('product.partnumber');
+    Route::post('get-feature', [ProductController::class, 'getFeature'])->name('product.feature');
     Route::resource('calibrations', CalibrationController::class);
     Route::resource('features', FeaturesController::class);
     Route::resource('inspections', InspectionController::class);

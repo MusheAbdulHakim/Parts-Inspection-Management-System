@@ -30,22 +30,6 @@
             <span class="bs-stepper-box">2</span>
           </button>
         </div>
-        <div class="line">
-          <i data-feather="chevron-right" class="font-medium-2"></i>
-        </div>
-        <div class="step" data-target="#controlplan-revision1" role="tab" id="controlplan-revision1-trigger">
-          <button type="button" class="step-trigger">
-            <span class="bs-stepper-box">3</span>
-          </button>
-        </div>
-        <div class="line">
-            <i data-feather="chevron-right" class="font-medium-2"></i>
-          </div>
-        <div class="step" data-target="#controlplan-revision2" role="tab" id="controlplan-revision2-trigger">
-          <button type="button" class="step-trigger">
-            <span class="bs-stepper-box">4</span>
-          </button>
-        </div>
         <div class="d-flex justify-content-right align-items-right ms-5 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
       </div>
       <div class="bs-stepper-content">
@@ -108,117 +92,16 @@
               <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
               <span class="align-middle d-sm-inline-block d-none">Previous</span>
             </button>
-            <button class="btn btn-primary btn-next">
+            <button class="btn btn-primary btn-next" id="query_feature">
               <span class="align-middle d-sm-inline-block d-none">Next</span>
               <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
             </button>
           </div>
         </div>
-        <div id="controlplan-revision1" class="content" role="tabpanel" aria-labelledby="controlplan-revision1-trigger">
-            <form>
-                <div class="row">
-                  <div class="col-md-8">
-                    <embed src="" width="100%" height="375" />
-                  </div>
-                  <div class="col-md-4">
-                    <div class="row">
-                        <div class="mb-1">
-                            <label>Project: <b class="project_name"></b></label>
-                        </div>
-                        <div class="mb-1">
-                            <label>Product: <b class="product_name"></b></label>
-                        </div>
-                        <div class="mb-1">
-                            <label>Feature: <b class="feature_names"></b></label>
-                        </div>
-                        <div class="mb-1">
-                            <label for="batch_no">Batch Number</label>
-                            <input type="text" placeholder="Enter Batch Number" class="form-control">
-                        </div>
-                        <div class="mb-1">
-                            <label class="form-label" for="quantity">Quantity</label>
-                            <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enter Quantity" />
-                        </div>
-                    </div>
-                  </div>
-                </div>
-            </form>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-primary btn-prev">
-              <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-              <span class="align-middle d-sm-inline-block d-none">Previous</span>
-            </button>
-            <button class="btn btn-primary btn-next">
-              <span class="align-middle d-sm-inline-block d-none">Next</span>
-              <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
-            </button>
-          </div>
-        </div>
-        <div id="controlplan-revision2" class="content" role="tabpanel" aria-labelledby="controlplan-revision2-trigger">
-            <form>
-              <div class="row">
-                  <div class="col-md-6">
-                    <embed src="" width="100%" height="375" />
-                  </div>
-                  <div class="col-md-6">
-                    <div class="row">
-                      <div class="mb-1">
-                          <div class="col-12">
-                            <label class="form-label" for="control_method2">Control Method</label>
-                            <textarea name="control_method2" class="form-control summernote"
-                            placeholder="Control Method" i2d="control_method2" cols="3" rows="3">{{old('control_method')}}</textarea>
-                          </div>
-                        </div>
-                        <div class="mb-1">
-                            <div class="row custom-options-checkable g-1">
-                                <div class="col-md-6">
-                                  <input
-                                    class="custom-option-item-check"
-                                    type="radio"
-                                    name="customOptionsCheckableRadios"
-                                    id="customOptionsCheckableRadios1"
-                                    value
-                                    checked
-                                  />
-                                  <label class="custom-option-item p-1" for="customOptionsCheckableRadios1">
-                                    <span class="d-flex justify-content-between flex-wrap mb-50">
-                                      <span class="fw-bolder">Pass</span>
-                                    </span>
-                                  </label>
-                                </div>
+        <div id="dynamic_features"></div>
 
-                                <div class="col-md-6">
-                                  <input
-                                    class="custom-option-item-check"
-                                    type="radio"
-                                    name="customOptionsCheckableRadios"
-                                    id="customOptionsCheckableRadios2"
-                                    value
-                                  />
-                                  <label class="custom-option-item p-1" for="customOptionsCheckableRadios2">
-                                    <span class="d-flex justify-content-between flex-wrap mb-50">
-                                      <span class="fw-bolder">Fail</span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                        </div>
-                    </div>
-                  </div>
-              </div>
-            </form>
-            <div class="d-flex justify-content-between">
-                <button class="btn btn-primary btn-prev">
-                    <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                </button>
-                <button class="btn btn-success btn-submit">Submit</button>
-            </div>
-          </div>
-      </div>
     </div>
-  </section>
-  <!-- /Horizontal Wizard -->
+</section>
 @endsection
 
 
@@ -229,6 +112,7 @@
   <script>
     $(document).ready(function(){
       $('.summernote').summernote();
+      $('#control_method1').summernote('disable');
       if($('.position-select').length > 0){
         $(".position-select").each((_i, e) => {
             var $e = $(e);
@@ -268,15 +152,89 @@
             var isValid = $('#partnumber form').valid();
             var product = queryProduct($('#part_number').val());
             if(isValid && (product == true)){
-                numberedStepper.next();
                 $('#control_plan').parent().removeClass('d-none');
                 $('#control_plan').append(queryData.control_plan)
                 projectProductLabels(queryData.project_name, queryData.product.part_no)
+                var headCount = 3;
+                $.each((queryData.features),function(index, feature){
+                    var featureHeader = `
+                        <div class="line">
+                        <i data-feather="chevron-right" class="font-medium-2"></i>
+                        </div>
+                        <div class="step" data-target="#controlplan-revision${index}" role="tab" id="controlplan-revision${index}-trigger">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">${headCount}</span>
+                        </button>
+                        </div>`;
+                    $('#controlplan-revision-trigger').after(featureHeader);
+                    headCount++;
+                });
+                numberedStepper.next();
             }else{
                 e.preventDefault();
             }
-        })
+        });
 
+        $('#query_feature').on('click', function(e){
+            var isValid = $('#controlplan-revision form').valid();
+            if(isValid){
+                var featuresArr = queryFeatures(queryData.features);
+                $.each(featuresArr, function(index, feature) {
+                    var featureStep = `<div id="controlplan-revision${index}" class="content" role="tabpanel" aria-labelledby="controlplan-revision${index}-trigger">
+                        <form>
+                            <div class="row">
+                            <div class="col-md-6">
+                                <embed src="${queryData.work_instruction.files}" width="100%" height="375" />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="mb-1">
+                                        <label>Project: <b>${queryData.project_name}</b></label>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label>Product: <b>${queryData.product.part_no}</b></label>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label>Feature: <b>${feature.name}</b></label>
+                                    </div>
+                                    <div class="mb-1">
+                                        <div class="col-12">
+                                        <label class="form-label">Control Method</label>
+                                        <textarea class="form-control summernote"
+                                        placeholder="Control Method" id="control_method${index}" cols="3" rows="3">${feature.control_method}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="batch_no">Contro Tool</label>
+                                        <input type="text" readonly value="${feature.tool}" class="form-control">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label">Measure Value</label>
+                                        <input type="text" name="measure_value[]" class="form-control" placeholder="Enter Measure value" />
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </form>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-prev">
+                                <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+                            <button class="btn btn-primary btn-next next_feature">
+                                <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                            </button>
+                        </div>
+                    </div>`;
+                    $('#controlplan-revision').after(featureStep);
+                });
+                numberedStepper.next();
+                console.log('next')
+            }else{
+                e.preventDefault();
+            }
+        });
         $(horizontalWizard).find('.btn-prev').on('click', function () {
             numberedStepper.previous();
         });
@@ -295,6 +253,23 @@
         });
         $('.product_name').each(function(){
             $(this).append(product)
+        })
+    }
+    function queryFeatures(ids, pdf){
+        $.ajax({
+            url: "{{route('product.feature')}}",
+            type: 'POST',
+            data: {
+                features: ids,
+            },
+            success: function(response){
+                if(response){
+                    return response;
+                    // $('.feature_names').each(function(){
+                    //     $(this).append(response.join(','))
+                    // })
+                }
+            }
         })
     }
     function queryProduct (partnumber_value){

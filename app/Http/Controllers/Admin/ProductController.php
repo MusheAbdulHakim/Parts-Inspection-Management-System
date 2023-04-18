@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use App\Models\ControlPlan;
+use App\Models\Feature;
 use App\Models\Project;
 
 class ProductController extends Controller
@@ -122,16 +123,40 @@ class ProductController extends Controller
             if(!empty($product)){
                 $project = $product->project->name ?? null;
                 $control_plan = $product->controlPlan->name ?? null;
+                $features = $product->controlPlan->features ?? null;
                 $work_instruction = $product->controlPlan->workInstruction;
                 return response()->json([
                     'product' => $product,
                     'project_name' => $project,
                     'control_plan' => $control_plan,
-                    'work_instruction' => $work_instruction
+                    'work_instruction' => $work_instruction,
+                    'features' => $features,
                 ]);
             }
         }else{
             return abort(404);
+        }
+    }
+
+    /**
+     * Fet feature by id
+     *
+     * @param \Illuminate\Http\Request $request
+     */
+    public function getFeature(Request $request){
+        if($request->ajax()){
+            $names = array_map(function($feature){
+                $result = Feature::find($feature);
+                return [
+                    'name' => $result->name." ({$result->type}) ",
+                    'type' => $result->type,
+                    'control_method' => $result->control_method,
+                    'tool' => $result->inspectionTool->name ?? null,
+                ];
+            }, $request->features);
+            return response()->json($names);
+        }else{
+            abort(404);
         }
     }
 
