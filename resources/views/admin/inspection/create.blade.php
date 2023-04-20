@@ -16,6 +16,7 @@
 <div class="container">
     <div class="panel">
         <div class="panel-body wizard-content">
+            <div class="d-flex justify-content-end align-items-end d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
             <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
                 <h6>1</h6>
                 <section>
@@ -116,7 +117,8 @@
                     });
                     return false;
                 }else{
-
+                    $('#control_plan').parent().removeClass('d-none');
+                    $('#control_plan').html(productData.control_plan)
                     var $form2 = `
                     <form id="form-2" class="needs-validation" novalidate>
                         <div class="row">
@@ -165,7 +167,7 @@
             if((currentIndex === 1) && productData){
                 getFeatures(productData.features).then(function(response) {
                     if(response){
-                        var counter = 3;
+                        var insertion_point = 2;
                         $.each(response, function(index, feature) {
                             var $form3 = `
                                 <form id="form-3">
@@ -206,7 +208,7 @@
                                 $('#wizard-form').steps("add",{
                                     content: $form3,
                                 });
-                            counter++;
+                            insertion_point++;
                         });
                     }
                 }).catch(function(error) {
@@ -218,8 +220,9 @@
             return true;
         }
 
-        $('.summernote').summernote('disable');
-
+        $('.summernote').each(function(){
+            $(this).summernote('disable');
+        });
 
         function queryProduct (partnumber_value){
             return new Promise(function(resolve, reject) {
