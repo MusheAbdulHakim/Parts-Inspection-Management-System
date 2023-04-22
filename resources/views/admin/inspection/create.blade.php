@@ -170,7 +170,7 @@
                         var insertion_point = 2;
                         $.each(response, function(index, feature) {
                             var $form3 = `
-                                <form id="form-3">
+                                <form id="form-${insertion_point}">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <embed src="${productData.work_instruction.files}" width="100%" height="375" />
@@ -205,24 +205,28 @@
                                         </div>
                                     </div>
                                 </form>`;
-                                $('#wizard-form').steps("add",{
+                                // $('#wizard-form').steps("add",{
+                                //     content: $form3,
+                                // });
+                                $('#wizard-form').steps("insert",insertion_point, {
                                     content: $form3,
                                 });
                             insertion_point++;
                         });
+
+                        $('.summernote').each(function(){
+                            $(this).summernote('disable');
+                        });
+
                     }
                 }).catch(function(error) {
                     console.error(error);
                 });
-                return true
             }
 
             return true;
         }
 
-        $('.summernote').each(function(){
-            $(this).summernote('disable');
-        });
 
         function queryProduct (partnumber_value){
             return new Promise(function(resolve, reject) {
