@@ -15,15 +15,15 @@ class Feature extends Model
     ];
 
     public function controlPlan(){
-        return $this->belongsTo(ControlPlan::class);
+        return $this->belongsTo(ControlPlan::class,'control_plan_id');
     }
 
     public function inspectionTool(){
-        return $this->belongsTo(InspectionTool::class);
+        return $this->belongsTo(InspectionTool::class,'inspection_tool_id');
     }
 
     public function calibration(){
-        return $this->belongsTo(Calibration::class);
+        return $this->belongsTo(Calibration::class,'calibration_id');
     }
 
 

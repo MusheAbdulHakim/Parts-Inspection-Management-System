@@ -150,8 +150,11 @@ class ProductController extends Controller
                 return [
                     'name' => $result->name." ({$result->type}) ",
                     'type' => $result->type,
+                    'target' => $result->target,
+                    'upper_limit' => $result->upper_limit,
+                    'lower_limit' => $result->lower_limit,
                     'control_method' => $result->control_method,
-                    'tool' => $result->inspectionTool->name ?? null,
+                    'tool' => $result->inspectionTool->tool_id ?? null,
                 ];
             }, $request->features);
             return response()->json($names);

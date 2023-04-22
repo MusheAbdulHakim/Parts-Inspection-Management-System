@@ -185,6 +185,60 @@
                                                 <div class="mb-1">
                                                     <label>Feature: <b>${feature.name}</b></label>
                                                 </div>
+                                                <div class="number_feature ${(feature.type != 'number') ? 'd-none': ''}">
+                                                    <div class="mb-1">
+                                                        <div class="col-12">
+                                                            <label for="tool" class="form-label">Inspection Tool</label>
+                                                            <div class="choose-position">
+                                                                <select readonly data-placeholder="Select Inspection Tool" name="tool" id="tool-${index}" class="form-control position-select">
+                                                                    <option value="">${feature.tool}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <div class="col-12">
+                                                            <label class="form-label" for="target">Target</label>
+                                                            <input
+                                                                readonly
+                                                                type="text"
+                                                                id="target-${index}"
+                                                                name="target"
+                                                                value="${feature.target}"
+                                                                class="form-control"
+                                                                placeholder="Target"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <div class="col-12">
+                                                            <label class="form-label" for="upper">Upper Limit</label>
+                                                            <input
+                                                                readonly
+                                                                type="text"
+                                                                id="upper-${index}"
+                                                                name="upper_limit"
+                                                                value="${feature.upper_limit}"
+                                                                class="form-control"
+                                                                placeholder="Upper Limit"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <div class="col-12">
+                                                            <label class="form-label" for="lower">Lower Limit</label>
+                                                            <input
+                                                                readonly
+                                                                type="text"
+                                                                id="lower-${index}"
+                                                                name="lower_limit"
+                                                                value="${feature.lower_limit}"
+                                                                class="form-control"
+                                                                placeholder="Lower Limit"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="mb-1">
                                                     <div class="col-12">
                                                     <label class="form-label">Control Method</label>
@@ -207,12 +261,8 @@
                                 $('#wizard-form').steps("add",{
                                     content: $form3,
                                 });
-                                // $('#wizard-form').steps("insert",insertion_point, {
-                                //     content: $form3,
-                                // });
                             insertion_point++;
                         });
-
                         $('.summernote').each(function(){
                             $(this).summernote('disable');
                         });
