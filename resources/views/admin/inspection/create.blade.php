@@ -39,9 +39,6 @@
                     </form>
                 </section>
 
-                <h6>2</h6>
-                <section></section>
-
             </div>
         </div>
     </div>
@@ -84,7 +81,8 @@
                 bodyTag: "section",
                 transitionEffect: "fade",
                 titleTemplate: '<span class="step">#index#</span>',
-                onStepChanging: beforeStepChange
+                onStepChanging: beforeStepChange,
+                onFinishing: beforeFinishing
             });
 
             $('#wizard-form').find('form').each(function(){
@@ -106,9 +104,11 @@
             {
                 return true;
             }
+            return true;
+        }
 
-
-            if((currentIndex === 0) && (newIndex === 1)){
+        function beforeFinishing(event, currentIndex){
+            if(currentIndex == 0){
                 var partnumber = $('#part_number').val();
                 var isEmptyResponse = getProductData(partnumber);
                 if ((isEmptyResponse === true) || !productData) {
@@ -162,7 +162,6 @@
                     });
                     return true;
                 }
-
             }
             if((currentIndex === 1) && productData){
                 getFeatures(productData.features).then(function(response) {
@@ -205,12 +204,12 @@
                                         </div>
                                     </div>
                                 </form>`;
-                                // $('#wizard-form').steps("add",{
-                                //     content: $form3,
-                                // });
-                                $('#wizard-form').steps("insert",insertion_point, {
+                                $('#wizard-form').steps("add",{
                                     content: $form3,
                                 });
+                                // $('#wizard-form').steps("insert",insertion_point, {
+                                //     content: $form3,
+                                // });
                             insertion_point++;
                         });
 
@@ -223,7 +222,6 @@
                     console.error(error);
                 });
             }
-
             return true;
         }
 
