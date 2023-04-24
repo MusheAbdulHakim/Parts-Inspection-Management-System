@@ -53,7 +53,7 @@ class WorkInstructionController extends Controller
                     ->rawColumns(['action','preview'])
                     ->make(true);
         }
-        
+
         return view('admin.work-instructions.index');
     }
 
@@ -77,9 +77,10 @@ class WorkInstructionController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'revision' => 'required'
+            'revision' => 'required',
+            'filepath' => 'required'
         ]);
-        
+
         WorkInstruction::create([
             'name' => $request->name,
             'revision' => $request->revision,
@@ -124,7 +125,8 @@ class WorkInstructionController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'revision' => 'required'
+            'revision' => 'required',
+            'filepath' => 'required'
         ]);
         $work_instruction->update([
             'name' => $request->name,

@@ -41,19 +41,24 @@
                       </span>
                     @enderror
                   </div>
-                  <div class="mb-1">
+                <div class="mb-1">
                     <label for="lfm" class="form-label">Files</label>
                     <div class="input-group">
-                        <input id="thumbnail" class="form-control" type="text" name="filepath">
+                        <input id="thumbnail" class="form-control @error('filepath') is-invalid @enderror" type="text" name="filepath">
                         <span class="input-group-btn">
-                          <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                        <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
                             <i data-feather="upload-cloud"></i> Choose
-                          </a>
+                        </a>
                         </span>
-                      </div>
-                      <img id="holder" style="margin-top:15px;max-height:100px;">
-                  </div>
-                  
+                        @error('filepath')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <img id="holder" style="margin-top:15px;max-height:100px;">
+                </div>
+
                 <div class="col-12">
                   <button type="submit" id="submit-all" class="btn btn-primary me-1">Submit</button>
                 </div>
@@ -62,7 +67,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </section>
 @endsection

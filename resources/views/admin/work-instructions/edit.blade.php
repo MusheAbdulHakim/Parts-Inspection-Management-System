@@ -43,20 +43,25 @@
                     @enderror
                   </div>
                   <div class="mb-1">
-                    <label for="lfm" class="form-label">Files</label>
-                    <div class="input-group">
-                        <input id="thumbnail" class="form-control" type="text" name="filepath" value="{{$work_instruction->files ?? old('filepath')}}">
-                        <span class="input-group-btn">
-                          <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                            <i data-feather="upload-cloud"></i> Choose
-                          </a>
-                        </span>
-                      </div>
-                      <a target="_blank" href="{{$work_instruction->files ?? old('filepath')}}">
-                        <img id="holder" src="{{$work_instruction->files ?? old('filepath')}}" alt="Preview" style="margin-top:15px;max-height:100px;">
-                      </a>
-                  </div>
-                  
+                        <label for="lfm" class="form-label">Files</label>
+                        <div class="input-group">
+                            <input id="thumbnail" class="form-control @error('filepath') is-invalid @enderror" type="text" name="filepath" value="{{$work_instruction->files ?? old('filepath')}}">
+                            <span class="input-group-btn">
+                                <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                    <i data-feather="upload-cloud"></i> Choose
+                                </a>
+                            </span>
+                            @error('filepath')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <a target="_blank" href="{{$work_instruction->files ?? old('filepath')}}">
+                            <img id="holder" src="{{$work_instruction->files ?? old('filepath')}}" alt="Preview" style="margin-top:15px;max-height:100px;">
+                        </a>
+                    </div>
+
                 <div class="col-12">
                   <button type="submit" id="submit-all" class="btn btn-primary me-1">Submit</button>
                 </div>
@@ -65,7 +70,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </section>
 @endsection
