@@ -16,7 +16,7 @@
 <div class="container">
     <div class="panel">
         <div class="panel-body wizard-content">
-            <div class="d-flex justify-content-end align-items-end d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
+            <div class="d-flex justify-content-end align-items-end m-1 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
             <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
                 <h6>1</h6>
                 <section>
@@ -54,7 +54,6 @@
     <script>
         $(document).ready(function() {
             $('.summernote').summernote();
-            $('#control_method1').summernote('disable');
             if ($('.position-select').length > 0) {
                 $(".position-select").each((_i, e) => {
                     var $e = $(e);
@@ -264,6 +263,9 @@
                             insertion_point++;
                         });
                         $('.summernote').each(function(){
+                            $(this).summernote({
+                                height: 200,
+                            });
                             $(this).summernote('disable');
                         });
 
