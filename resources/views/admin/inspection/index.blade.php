@@ -22,7 +22,6 @@
                 <thead>
                   <tr>
                     <th>PartNumber</th>
-                    <th>Document</th>
                     <th>Project</th>
                     <th>Control Plan</th>
                     <th>Action</th>
@@ -45,10 +44,9 @@
     var table = $('#datatable').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{route('products.index')}}",
+        ajax: "{{route('inspections.index')}}",
         columns: [
-            {data: 'part_no', name: 'part_no'},
-            {data: 'preview', name: 'preview', orderable: false, searchable: false},
+            {data: 'partnumber', name: 'partnumber'},
             {data: 'project', name: 'project'},
             {data: 'plan', name: 'plan'},
             {data: 'action', name: 'action', orderable: false, searchable: false},

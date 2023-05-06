@@ -17,29 +17,34 @@
     <div class="panel">
         <div class="panel-body wizard-content">
             <div class="d-flex justify-content-end align-items-end m-1 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
-            <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
-                <h6>1</h6>
-                <section>
-                    <form id="form-1">
-                        <div class="row">
-                            <div class="mb-1">
-                                <label for="user_name">UserName</label>
-                                <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="d-flex justify-content-center align-items-center">
+            <form action="{{route('inspections.store')}}" method="post" id="main-form">
+                @csrf
+                <input type="hidden" name="quantity" id="m-quantity">
+                <input type="hidden" name="batch_no" id="m-batch_no">
+                <input type="hidden" name="measure_value" id="m-measure_value">
+                <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
+                    <h6>1</h6>
+                    <section>
+                        <form id="form-1" novalidate>
+                            <div class="row">
                                 <div class="mb-1">
-                                    <label class="form-label" for="part_number">Please Scan Part Number</label>
-                                    <input type="text" name="partnumber" autofocus id="part_number" class="form-control"
-                                        placeholder="Enter Part Number" required />
+                                    <label for="user_name">UserName</label>
+                                    <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </section>
-
-            </div>
+                            <div class="row">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="part_number">Please Scan Part Number</label>
+                                        <input type="text" name="partnumber" autofocus id="part_number" class="form-control"
+                                            placeholder="Enter Part Number" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -47,12 +52,16 @@
 
 
 @section('vendor-script')
-  <script src="{{asset('vendors/js/forms/validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('vendors/js/jquery-steps/jquery.steps.min.js')}}"></script>
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
     <script src="{{ asset('vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+@endsection
+
+@section('page-script')
+    <script src="{{ asset('summernote/summernote.min.js') }}"></script>
+    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function(){
             $('.summernote').summernote();
             if ($('.position-select').length > 0) {
                 $(".position-select").each((_i, e) => {
@@ -64,41 +73,68 @@
                 });
             }
             $('#lfm').filemanager('file');
-        });
-    </script>
-@endsection
-
-@section('page-script')
-    <script src="{{ asset('summernote/summernote.min.js') }}"></script>
-    <script src="{{ asset('vendor/laravel-filemanager/js/stand-alone-button.js') }}"></script>
-    <script>
-        $(document).ready(function(){
             let wizard = $("#wizard-form");
             let productData;
+            var isComplete;
             wizard.steps({
                 headerTag: "h6",
                 bodyTag: "section",
                 transitionEffect: "fade",
                 titleTemplate: '<span class="step">#index#</span>',
                 onStepChanging: beforeStepChange,
-                onFinishing: beforeFinishing
+                onFinishing: beforeFinishing,
+                onFinished: function (event, currentIndex) {
+                    if (currentIndex == 3){
+                        var measure_values = []
+                        $('#main-form').find('form').each(function(){
+                            var measure_val = $(this).find("input[name='measure_value[]']").val()
+                            if (measure_val){
+                                measure_values.push(measure_val)
+                            }
+                        })
+                        $('#m-quantity').val($('#quantity').val())
+                        $('#m-batch_no').val($('#batch_no').val())
+                        $('#m-measure_value').val(measure_values)
+                        // console.log($('#quantity').val())
+                        $("#main-form").submit();
+                    }
+                }
             });
 
+        });
+
+        $('#wizard-form').find('form').each(function(){
+            $(this).validate({
+                rules: {
+                    partnumber: {
+                        required: true
+                    },
+                    batch_no: {
+                        required: true
+                    },
+                    quantity: {
+                        required: true
+                    }
+                }
+            });
+        })
+
+        function beforeStepChange(event, currentIndex, newIndex){
             $('#wizard-form').find('form').each(function(){
                 $(this).validate({
                     rules: {
                         partnumber: {
                             required: true
+                        },
+                        batch_no: {
+                            required: true
+                        },
+                        quantity: {
+                            required: true
                         }
                     }
                 });
             })
-
-        });
-
-
-
-        function beforeStepChange(event, currentIndex, newIndex){
             if (currentIndex > newIndex)
             {
                 return true;
@@ -134,23 +170,11 @@
                                     </div>
                                     <div class="mb-1">
                                         <label for="batch_no">Batch Number</label>
-                                        <input type="text" placeholder="Enter Batch Number" class="form-control" required>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please provide Batch Number.
-                                        </div>
+                                        <input type="text" placeholder="Enter Batch Number" class="form-control"  name="batch_no" id="batch_no" required>
                                     </div>
                                     <div class="mb-1">
                                         <label class="form-label" for="quantity">Quantity</label>
-                                        <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Enter Quantity" required/>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please provide Quantity.
-                                        </div>
+                                        <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter Quantity" required/>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +189,7 @@
             if((currentIndex === 1) && productData){
                 getFeatures(productData.features).then(function(response) {
                     if(response){
-                        var insertion_point = 2;
+                        var insertion_point = 3;
                         $.each(response, function(index, feature) {
                             var $form3 = `
                                 <form id="form-${insertion_point}">
@@ -268,7 +292,6 @@
                             });
                             $(this).summernote('disable');
                         });
-
                     }
                 }).catch(function(error) {
                     console.error(error);
@@ -276,7 +299,6 @@
             }
             return true;
         }
-
 
         function queryProduct (partnumber_value){
             return new Promise(function(resolve, reject) {
