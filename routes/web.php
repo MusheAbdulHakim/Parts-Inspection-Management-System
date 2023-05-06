@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\FeaturesController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controller\Admin\InspectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CalibrationController;
 use App\Http\Controllers\Admin\ControlPlanController;
@@ -18,7 +19,6 @@ use App\Http\Controllers\Admin\BinaryFeatureController;
 use App\Http\Controllers\Admin\NumberFeatureController;
 use App\Http\Controllers\Admin\InspectionToolController;
 use App\Http\Controllers\Admin\WorkInstructionController;
-use App\Http\Controllers\InspectionController;
 
 /*
 |--------------------------------------------------------------------------

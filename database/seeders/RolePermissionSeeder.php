@@ -23,7 +23,7 @@ class RolePermissionSeeder extends Seeder
             'view-projects','create-project','edit-project','destroy-project',
             'view-products','create-product','edit-product','destroy-product',
             'view-inspectionTools','create-inspectionTool','edit-inspectionTool','destroy-inspectionTool',
-            'view-inspections','create-inspection','edit-inspection','destroy-inspection',
+            'view-inspections','create-inspection','edit-inspection','show-inspection','destroy-inspection',
             'view-backups','create-backup','download-backup','destroy-backup',
             'view-settings',
             'view-users','create-user','edit-user','show-user','destroy-user',
