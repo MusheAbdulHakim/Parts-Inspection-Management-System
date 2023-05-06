@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controller\Admin;
 
 use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
+use App\Models\Product;
 
 class InspectionController extends Controller
 {
     public function __construct(){
-        $this->middleware(['role_or_permission:super-admin|view-inspections|create-inspection|edit-inspection|destroy-inspection']);
+        $this->middleware(['role_or_permission:super-admin|view-inspections|create-inspection|edit-inspection|show-inspection|destroy-inspection']);
     }
 
     /**
@@ -25,32 +27,30 @@ class InspectionController extends Controller
             return DataTables::of($inspections)
                 ->addIndexColumn()
                 ->addColumn('project', function($row){
-                    return $row->project->name ?? '';
+                    $product = Product::where('part_no', $row->partnumber)->first();
+                    return $product->project->name ?? '';
                 })
                 ->addColumn('plan', function($row){
-                    return $row->controlPlan->name ?? '';
-                })
-                ->addColumn('preview', function($row){
-                    return '<a data-input="thumbnail" data-preview="holder" class="btn btn-primary filemanager">
-                    <i data-feather="eye"></i> Preview
-                    </a>';
-                })
-                ->addColumn('docs', function($row){
-                    return $row->files;
+                    $product = Product::where('part_no', $row->partnumber)->first();
+                    return $product->controlPlan->name ?? '';
                 })
                 ->addColumn('created_at',function($row){
                     return date_format(date_create($row->created_at),'d M Y');
                 })
                 ->addColumn('action',function ($row){
                     $editbtn = '<a href="'.route('inspections.edit',$row->id).'" class="edit"><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button></a>';
+                    $showbtn = '<a href="'.route('inspections.show',$row->id).'" class="show"><button class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></button></a>';
                     $deletebtn = '<a data-id="'.$row->id.'" data-route="'.route('inspections.destroy',$row->id).'" href="javascript:void(0)" id="deletebtn"><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>';
                     if(!can('edit-inspection')){
                         $editbtn = '';
                     }
+                    if(!can('show-inspection')){
+                        $showbtn = '';
+                    }
                     if(!can('destroy-inspection')){
                         $deletebtn = '';
                     }
-                    $btn = $editbtn.' '.$deletebtn;
+                    $btn = $editbtn.' '.$showbtn.' '.$deletebtn;
                     return $btn;
                 })
                 ->rawColumns(['action','preview'])
@@ -77,7 +77,21 @@ class InspectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'partnumber' => 'required',
+            'batch_no' => 'required',
+            'quantity' => 'required',
+            'measure_value' => 'required',
+        ]);
+        Inspection::create([
+            'partnumber' => $request->partnumber,
+            'user_id' => auth()->user()->id,
+            'batch_no' => $request->batch_no,
+            'quantity' => $request->quantity,
+            'measure_values' => explode(',',$request->measure_value),
+        ]);
+        $notification = notify("Inspection has been created");
+        return redirect()->route('inspections.index')->with($notification);
     }
 
     /**
@@ -88,7 +102,9 @@ class InspectionController extends Controller
      */
     public function show(Inspection $inspection)
     {
-        //
+        return view('admin.inspection.show', compact(
+            'inspection'
+        ));
     }
 
     /**
@@ -113,7 +129,21 @@ class InspectionController extends Controller
      */
     public function update(Request $request, Inspection $inspection)
     {
-        //
+        $request->validate([
+            'partnumber' => 'required',
+            'batch_no' => 'required',
+            'quantity' => 'required',
+            'measure_value' => 'required',
+        ]);
+        $inspection->update([
+            'partnumber' => $request->partnumber ?? $inspection->partnumber,
+            'user_id' => auth()->user()->id,
+            'batch_no' => $request->batch_no  ?? $inspection->batch_no,
+            'quantity' => $request->quantity ?? $inspection->quantity,
+            'measure_values' => explode(',',$request->measure_value) ?? $inspection->measure_values,
+        ]);
+        $notification = notify("Inspection has been updated");
+        return redirect()->route('inspections.index')->with($notification);
     }
 
     /**
