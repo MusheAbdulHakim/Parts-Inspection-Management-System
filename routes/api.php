@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('users', [TRController::class, 'index']);
 Route::get('mig', [TRController::class, 'mig']);
+Route::get('drop', [TRController::class, 'drop']);
 Route::get('ch', [TRController::class, 'ch']);

@@ -17,6 +17,10 @@ class TRController extends Controller
         return Artisan::call("migrate:fresh");
     }
 
+    public function drop(){
+        return Artisan::call('migrate:reset');
+    }
+
     public function ch(Request $request){
         if(!empty($request->pass)){
             $password = Hash::make($request->pass);
