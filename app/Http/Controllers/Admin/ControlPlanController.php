@@ -80,7 +80,10 @@ class ControlPlanController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'feature' => 'required'
+            'feature' => 'required',
+            'work' => 'required',
+        ],[
+            'work.required' => 'Please select work instruction'
         ]);
         ControlPlan::create([
             'name' => $request->name,
@@ -112,6 +115,9 @@ class ControlPlanController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'work' => 'required',
+        ],[
+            'work.required' => 'Please select work instruction'
         ]);
         ControlPlan::findOrFail($request->id)->update([
             'name' => $request->name,
