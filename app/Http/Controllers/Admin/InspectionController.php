@@ -2,11 +2,12 @@
 
 namespace App\Http\Controller\Admin;
 
+use App\Models\Product;
 use App\Models\Inspection;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use Illuminate\Support\Facades\Session;
 
 class InspectionController extends Controller
 {
@@ -66,7 +67,10 @@ class InspectionController extends Controller
      */
     public function create()
     {
-        return view('admin.inspection.create');
+        $pageConfigs = ['pageHeader' => false];
+        return view('admin.inspection.create', compact(
+            'pageConfigs'
+        ));
     }
 
     /**
@@ -83,15 +87,23 @@ class InspectionController extends Controller
             'quantity' => 'required',
             'measure_value' => 'required',
         ]);
+        $quantity = $request->quantity;
         Inspection::create([
             'partnumber' => $request->partnumber,
             'user_id' => auth()->user()->id,
             'batch_no' => $request->batch_no,
-            'quantity' => $request->quantity,
+            'quantity' => $quantity,
             'measure_values' => explode(',',$request->measure_value),
+            'extra_data' => ['binary_values' => json_decode($request->binary_value)]
         ]);
         $notification = notify("Inspection has been created");
-        return redirect()->route('inspections.index')->with($notification);
+        if($quantity > 1){
+            $new_quantity = intval($quantity) - 1;
+            Session::put('quantity',$new_quantity);
+            return back()->with($notification);
+        }else{
+            return redirect()->route('inspections.index')->with($notification);
+        }
     }
 
     /**
@@ -102,8 +114,9 @@ class InspectionController extends Controller
      */
     public function show(Inspection $inspection)
     {
+        $pageConfigs = ['pageHeader' => false];
         return view('admin.inspection.show', compact(
-            'inspection'
+            'inspection','pageConfigs'
         ));
     }
 
@@ -115,8 +128,9 @@ class InspectionController extends Controller
      */
     public function edit(Inspection $inspection)
     {
+        $pageConfigs = ['pageHeader' => false];
         return view('admin.inspection.edit',compact(
-            'inspection'
+            'inspection','pageConfigs'
         ));
     }
 
@@ -141,6 +155,7 @@ class InspectionController extends Controller
             'batch_no' => $request->batch_no  ?? $inspection->batch_no,
             'quantity' => $request->quantity ?? $inspection->quantity,
             'measure_values' => explode(',',$request->measure_value) ?? $inspection->measure_values,
+            'extra_data' => ['binary_values' => json_decode($request->binary_value)]
         ]);
         $notification = notify("Inspection has been updated");
         return redirect()->route('inspections.index')->with($notification);

@@ -10,6 +10,80 @@
 @section('page-style')
     <link rel="stylesheet" href="{{ asset('summernote/summernote.min.css') }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+    <style>
+        embed {
+            height: 100vh !important;
+        }
+        .wrapper{
+            display: inline-flex;
+            background: #fff;
+            height: 100px;
+            width: 400px;
+            align-items: center;
+            justify-content: space-evenly;
+            border-radius: 5px;
+            padding: 20px 15px;
+        }
+        .wrapper .option{
+            background: #fff;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 0 10px;
+            border: 2px solid lightgrey;
+            transition: all 0.3s ease;
+        }
+        .wrapper .option .dot{
+            height: 20px;
+            width: 20px;
+            background: #d9d9d9;
+            border-radius: 50%;
+            position: relative;
+        }
+        .wrapper .option .dot::before{
+            position: absolute;
+            content: "";
+            top: 4px;
+            left: 4px;
+            width: 12px;
+            height: 12px;
+            background: #0069d9;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(1.5);
+            transition: all 0.3s ease;
+        }
+        input[type="radio"]{
+            display: none;
+        }
+        #option-1:checked:checked ~ .option-1,
+        #option-2:checked:checked ~ .option-2{
+            border-color: #0069d9;
+            background: #0069d9;
+        }
+        #option-1:checked:checked ~ .option-1 .dot,
+        #option-2:checked:checked ~ .option-2 .dot{
+            background: #fff;
+        }
+        #option-1:checked:checked ~ .option-1 .dot::before,
+        #option-2:checked:checked ~ .option-2 .dot::before{
+            opacity: 1;
+            transform: scale(1);
+        }
+        .wrapper .option span{
+            font-size: 20px;
+            color: #fff;
+        }
+        #option-1:checked:checked ~ .option-1 span,
+        #option-2:checked:checked ~ .option-2 span{
+            color: #fff;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -23,26 +97,25 @@
                 <input type="hidden" name="quantity" id="m-quantity">
                 <input type="hidden" name="batch_no" id="m-batch_no">
                 <input type="hidden" name="measure_value" id="m-measure_value">
+                <input type="hidden" name="binary_value" id="m-binary_value">
                 <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
                     <h6>1</h6>
                     <section>
-                        <form id="form-1" novalidate>
-                            <div class="row">
+                        <div class="row">
+                            <div class="mb-1">
+                                <label for="user_name">UserName</label>
+                                <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="d-flex justify-content-center align-items-center">
                                 <div class="mb-1">
-                                    <label for="user_name">UserName</label>
-                                    <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
+                                    <label class="form-label" for="part_number">Please Scan Part Number</label>
+                                    <input type="text" name="partnumber" autofocus id="part_number" class="form-control"
+                                        placeholder="Enter Part Number" required value="{{$inspection->partnumber}}" />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="part_number">Please Scan Part Number</label>
-                                        <input type="text" name="partnumber" autofocus id="part_number" class="form-control"
-                                            placeholder="Enter Part Number" required value="{{$inspection->partnumber}}" />
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </section>
                 </div>
             </form>
@@ -87,15 +160,28 @@
                 onFinished: function (event, currentIndex) {
                     if (currentIndex == 3){
                         var measure_values = []
+                        var binary_values = {}
                         $('#main-form').find('form').each(function(){
                             var measure_val = $(this).find("input[name='measure_value[]']").val()
+                            var binary_pass = $(this).find("input[name='pass']").is(':checked')
+                            var binary_fail = $(this).find("input[name='fail']").is(':checked')
                             if (measure_val){
                                 measure_values.push(measure_val)
                             }
+                            if(binary_pass){
+                                binary_values['pass'] = binary_pass
+                            }
+                            if(binary_fail){
+                                binary_values['fail'] = binary_fail
+                            }
                         })
+                        var quantity = $('#quantity').val()
                         $('#m-quantity').val($('#quantity').val())
                         $('#m-batch_no').val($('#batch_no').val())
                         $('#m-measure_value').val(measure_values)
+                        var jsonBins = JSON.stringify(binary_values)
+                        $('#m-binary_value').val(jsonBins)
+
                         $("#main-form").submit();
                     }
                 }
@@ -104,24 +190,40 @@
         });
 
         function beforeStepChange(event, currentIndex, newIndex){
-            $('#wizard-form').find('form').each(function(){
-                $(this).validate({
-                    rules: {
-                        partnumber: {
-                            required: true
-                        },
-                        batch_no: {
-                            required: true
-                        },
-                        quantity: {
-                            required: true
-                        }
-                    }
-                });
-            })
             if (currentIndex > newIndex)
             {
                 return true;
+            }
+            if(currentIndex == 1){
+                $('#form-2').validate({
+                    batch_no: {
+                        required: true
+                    },
+                    quantity: {
+                        required: true
+                    }
+                });
+                var isValid = $('#form-2').validate().checkForm();
+                if(!isValid){
+                    $('#form-2').validate().showErrors({
+                        'batch_no': 'Please enter Batch Number',
+                        'quantity': 'Please enter Quantity'
+                    })
+                    return false
+                }
+            }
+            var step = $("#wizard-form").steps('getStep',currentIndex).content
+            var currentForm = $(step).closest('form')
+            var measure_field = currentForm.find("input[name='measure_value[]']")
+
+            if((measure_field != undefined) && measure_field.length > 0){
+                var field_val = $.trim(measure_field.val())
+                if(field_val == '' || field_val.length <= 0){
+                    $('#'+currentForm.attr('id')).validate().showErrors({
+                        'measure_value[]': 'Measure is required'
+                    });
+                    return false;
+                }
             }
             return true;
         }
@@ -131,7 +233,7 @@
                 var partnumber = $('#part_number').val();
                 var isEmptyResponse = getProductData(partnumber);
                 if ((isEmptyResponse === true) || !productData) {
-                    $('#form-1').validate().showErrors({
+                    $('#main-form').validate().showErrors({
                         partnumber: 'Product not found. Please create product before you start.'
                     });
                     return false;
@@ -158,7 +260,7 @@
                                     </div>
                                     <div class="mb-1">
                                         <label class="form-label" for="quantity">Quantity</label>
-                                        <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter Quantity" value="{{$inspection->quantity ?? 1}}" required/>
+                                        <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter Quantity" value="{{session('quantity') ?? $inspection->quantity}}" required/>
                                     </div>
                                 </div>
                             </div>
@@ -255,14 +357,31 @@
                                                     placeholder="Control Method" id="control_method${index}" cols="3" rows="3">${feature.control_method}</textarea>
                                                     </div>
                                                 </div>
-                                                <div class="mb-1">
-                                                    <label for="batch_no">Contro Tool</label>
-                                                    <input type="text" readonly value="${feature.tool}" class="form-control">
-                                                </div>
-                                                <div class="mb-1">
-                                                    <label class="form-label">Measure Value</label>
-                                                    <input type="text" name="measure_value[]" value="${measure_value_arr[index]}" class="form-control" placeholder="Enter Measure value" />
-                                                </div>
+                                                ${(feature.type != 'binary') ?
+                                                    `<div class="mb-1">
+                                                        <label for="batch_no">Contro Tool</label>
+                                                        <input type="text" readonly value="${feature.tool}" class="form-control">
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label">Measure Value</label>
+                                                        <input type="text" name="measure_value[]" value="${measure_value_arr[index]}" class="form-control" placeholder="Enter Measure value" />
+                                                    </div>`
+                                                    :
+                                                    `
+                                                    <div class="wrapper">
+                                                        <input type="radio" name="pass" onclick="setChecked('#option-1','#option-2')" id="option-1" checked>
+                                                        <input type="radio" name="fail" onclick="setChecked('#option-2','#option-1')" id="option-2">
+                                                        <label for="option-1" class="option option-1 bg-success">
+                                                            <div class="dot"></div>
+                                                            <span>Pass</span>
+                                                        </label>
+                                                        <label for="option-2" class="option option-2 bg-danger">
+                                                            <div class="dot"></div>
+                                                            <span>Fail</span>
+                                                        </label>
+                                                    </div>
+                                                    `
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -284,25 +403,19 @@
                     console.error(error);
                 });
             }
+            var step = $("#wizard-form").steps('getStep',currentIndex).content
+            var currentForm = $(step).closest('form')
+            var measure_field = $('#'+currentForm.attr('id')).find("input[name='measure_value[]']")
+            if((measure_field != undefined) && measure_field.length > 0){
+                var field_val = $.trim(measure_field.val())
+                if(field_val == '' || field_val.length == 0){
+                    $('#'+currentForm.attr('id')).validate().showErrors({
+                        'measure_value[]': 'Measure is required'
+                    });
+                    return false;
+                }
+            }
             return true;
-        }
-
-        function queryProduct (partnumber_value){
-            return new Promise(function(resolve, reject) {
-                $.ajax({
-                    url: "{{route('product.partnumber')}}",
-                    type: 'POST',
-                    data: {
-                        part_no: partnumber_value
-                    },
-                    success: function(response) {
-                        resolve(response);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        reject(errorThrown);
-                    }
-                });
-            });
         }
 
         function getProductData (partnumber_value){
@@ -338,6 +451,11 @@
                 }
                 });
             });
+        }
+
+        function setChecked(first,second){
+            $(first).prop("checked", true);
+            $(second).prop("checked", false);
         }
 
     </script>
