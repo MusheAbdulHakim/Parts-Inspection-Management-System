@@ -247,7 +247,8 @@
                         var insertion_point = 3;
                         var default_measure_values = "{{implode(',',$inspection->measure_values)}}";
                         var measure_value_arr = default_measure_values.split(',')
-                        // var default_binary = "{{ json_encode($inspection->extra_data['binary_values']) }}"
+                        var default_binary = "{{!empty($inspection->extra_data['binary_values']) ? implode(',',$inspection->extra_data['binary_values']): ''}}"
+                        var binary_arr = default_binary.split(',')
                         $.each(response, function(index, feature) {
                             var $form3 = `
                                 <form id="form-${insertion_point}">
@@ -334,13 +335,13 @@
                                                     </div>
                                                     <div class="mb-1">
                                                         <label class="form-label">Measure Value</label>
-                                                        <input type="text" name="measure_value[]" value="${measure_value_arr[index]}" class="form-control" placeholder="Enter Measure value" />
+                                                        <input type="text" name="measure_value[]" value="${measure_value_arr}" class="form-control" placeholder="Enter Measure value" />
                                                     </div>`
                                                     :
                                                     `
                                                     <div class="wrapper">
-                                                        <input type="radio" name="pass" onclick="setChecked('#option-1','#option-2')" id="option-1" checked>
-                                                        <input type="radio" name="fail" onclick="setChecked('#option-2','#option-1')" id="option-2">
+                                                        <input type="radio" name="pass" onclick="setChecked('#option-1','#option-2')" id="option-1" ${binary_arr == 'pass' ? 'checked':''}>
+                                                        <input type="radio" name="fail" onclick="setChecked('#option-2','#option-1')" id="option-2" ${binary_arr == 'fail' ? 'checked':''}>
                                                         <label for="option-1" class="option option-1 bg-success">
                                                             <div class="dot"></div>
                                                             <span>Pass</span>

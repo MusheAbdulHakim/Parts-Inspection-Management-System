@@ -159,7 +159,7 @@
                 onFinished: function (event, currentIndex) {
                     if (currentIndex == 3){
                         var measure_values = []
-                        var binary_values = {}
+                        var binary_values = []
                         $('#main-form').find('form').each(function(){
                             var measure_val = $(this).find("input[name='measure_value[]']").val()
                             var binary_pass = $(this).find("input[name='pass']").is(':checked')
@@ -168,18 +168,17 @@
                                 measure_values.push(measure_val)
                             }
                             if(binary_pass){
-                                binary_values['pass'] = binary_pass
+                                binary_values.push("pass")
                             }
                             if(binary_fail){
-                                binary_values['fail'] = binary_fail
+                                binary_values.push("fail")
                             }
                         })
                         var quantity = $('#quantity').val()
                         $('#m-quantity').val($('#quantity').val())
                         $('#m-batch_no').val($('#batch_no').val())
                         $('#m-measure_value').val(measure_values)
-                        var jsonBins = JSON.stringify(binary_values)
-                        $('#m-binary_value').val(jsonBins)
+                        $('#m-binary_value').val(binary_values)
 
                         $("#main-form").submit();
                     }

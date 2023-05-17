@@ -160,7 +160,7 @@
                 onFinished: function (event, currentIndex) {
                     if (currentIndex == 3){
                         var measure_values = []
-                        var binary_values = {}
+                        var binary_values = []
                         $('#main-form').find('form').each(function(){
                             var measure_val = $(this).find("input[name='measure_value[]']").val()
                             var binary_pass = $(this).find("input[name='pass']").is(':checked')
@@ -169,18 +169,17 @@
                                 measure_values.push(measure_val)
                             }
                             if(binary_pass){
-                                binary_values['pass'] = binary_pass
+                                binary_values.push("pass")
                             }
                             if(binary_fail){
-                                binary_values['fail'] = binary_fail
+                                binary_values.push("fail")
                             }
                         })
                         var quantity = $('#quantity').val()
                         $('#m-quantity').val($('#quantity').val())
                         $('#m-batch_no').val($('#batch_no').val())
                         $('#m-measure_value').val(measure_values)
-                        var jsonBins = JSON.stringify(binary_values)
-                        $('#m-binary_value').val(jsonBins)
+                        $('#m-binary_value').val(binary_values)
 
                         $("#main-form").submit();
                     }
@@ -278,6 +277,8 @@
                         var insertion_point = 3;
                         var default_measure_values = "{{implode(',',$inspection->measure_values)}}";
                         var measure_value_arr = default_measure_values.split(',')
+                        var default_binary = "{{!empty($inspection->extra_data['binary_values']) ? implode(',',$inspection->extra_data['binary_values']): ''}}"
+                        var binary_arr = default_binary.split(',')
                         $.each(response, function(index, feature) {
                             var $form3 = `
                                 <form id="form-${insertion_point}">
@@ -364,13 +365,13 @@
                                                     </div>
                                                     <div class="mb-1">
                                                         <label class="form-label">Measure Value</label>
-                                                        <input type="text" name="measure_value[]" value="${measure_value_arr[index]}" class="form-control" placeholder="Enter Measure value" />
+                                                        <input type="text" name="measure_value[]" value="${measure_value_arr}" class="form-control" placeholder="Enter Measure value" />
                                                     </div>`
                                                     :
                                                     `
                                                     <div class="wrapper">
-                                                        <input type="radio" name="pass" onclick="setChecked('#option-1','#option-2')" id="option-1" checked>
-                                                        <input type="radio" name="fail" onclick="setChecked('#option-2','#option-1')" id="option-2">
+                                                        <input type="radio" name="pass" onclick="setChecked('#option-1','#option-2')" id="option-1" ${binary_arr[index] == 'pass' ? 'checked':''}>
+                                                        <input type="radio" name="fail" onclick="setChecked('#option-2','#option-1')" id="option-2" ${binary_arr[index] == 'fail' ? 'checked':''}>
                                                         <label for="option-1" class="option option-1 bg-success">
                                                             <div class="dot"></div>
                                                             <span>Pass</span>
