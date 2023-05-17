@@ -94,7 +94,7 @@ class InspectionController extends Controller
             'batch_no' => $request->batch_no,
             'quantity' => $quantity,
             'measure_values' => explode(',',$request->measure_value),
-            'extra_data' => ['binary_values' => json_decode($request->binary_value)]
+            'extra_data' => ['binary_values' => explode(',',$request->binary_value)]
         ]);
         $notification = notify("Inspection has been created");
         if($quantity > 1){
@@ -155,7 +155,7 @@ class InspectionController extends Controller
             'batch_no' => $request->batch_no  ?? $inspection->batch_no,
             'quantity' => $request->quantity ?? $inspection->quantity,
             'measure_values' => explode(',',$request->measure_value) ?? $inspection->measure_values,
-            'extra_data' => ['binary_values' => json_decode($request->binary_value)]
+            'extra_data' => ['binary_values' => explode(',',$request->binary_value) ?? $inspection->extra_data['binary_values']]
         ]);
         $notification = notify("Inspection has been updated");
         return redirect()->route('inspections.index')->with($notification);
