@@ -87,37 +87,35 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="panel">
-        <div class="panel-body wizard-content">
-            <div class="d-flex justify-content-end align-items-end m-1 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
-            <form action="{{route('inspections.index')}}" method="get" id="main-form">
-                @csrf
-                <input type="hidden" name="quantity" id="m-quantity">
-                <input type="hidden" name="batch_no" id="m-batch_no">
-                <input type="hidden" name="measure_value" id="m-measure_value">
-                <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
-                    <h6>1</h6>
-                    <section>
-                        <div class="row">
+<div class="panel">
+    <div class="panel-body wizard-content">
+        <div class="d-flex justify-content-end align-items-end m-1 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
+        <form action="{{route('inspections.index')}}" method="get" id="main-form">
+            @csrf
+            <input type="hidden" name="quantity" id="m-quantity">
+            <input type="hidden" name="batch_no" id="m-batch_no">
+            <input type="hidden" name="measure_value" id="m-measure_value">
+            <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
+                <h6>1</h6>
+                <section>
+                    <div class="row">
+                        <div class="mb-1">
+                            <label for="user_name">UserName</label>
+                            <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-center align-items-center">
                             <div class="mb-1">
-                                <label for="user_name">UserName</label>
-                                <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
+                                <label class="form-label" for="part_number">Please Scan Part Number</label>
+                                <input type="text" readonly name="partnumber" autofocus id="part_number" class="form-control"
+                                    placeholder="Enter Part Number" required value="{{$inspection->partnumber}}" />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="mb-1">
-                                    <label class="form-label" for="part_number">Please Scan Part Number</label>
-                                    <input type="text" readonly name="partnumber" autofocus id="part_number" class="form-control"
-                                        placeholder="Enter Part Number" required value="{{$inspection->partnumber}}" />
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </form>
-        </div>
+                    </div>
+                </section>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
@@ -268,7 +266,7 @@
                                                     <label>Feature: <b>${feature.name}</b></label>
                                                 </div>
                                                 <div class="number_feature ${(feature.type != 'number') ? 'd-none': ''}">
-                                                    ${((feature.tool != 'null') && (feature.tool != '')) ?
+                                                    ${((feature.tool != null) && (feature.tool != '')) ?
                                                     `
                                                     <div class="mb-1">
                                                         <div class="col-12">
@@ -331,9 +329,9 @@
                                                     placeholder="Control Method" id="control_method${index}" cols="3" rows="3">${feature.control_method}</textarea>
                                                     </div>
                                                 </div>
-                                                ${(feature.type != 'binary') ?
+                                                ${((feature.type != 'binary') && (feature.tool != null)) ?
                                                     `<div class="mb-1">
-                                                        <label for="batch_no">Contro Tool</label>
+                                                        <label for="batch_no">Control Tool</label>
                                                         <input type="text" readonly value="${feature.tool}" class="form-control">
                                                     </div>
                                                     <div class="mb-1">

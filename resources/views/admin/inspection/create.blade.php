@@ -87,38 +87,36 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="panel">
-        <div class="panel-body wizard-content">
-            <div class="d-flex justify-content-end align-items-end m-1 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
-            <form action="{{route('inspections.store')}}" method="post" id="main-form">
-                @csrf
-                <input type="hidden" name="quantity" id="m-quantity">
-                <input type="hidden" name="batch_no" id="m-batch_no">
-                <input type="hidden" name="measure_value" id="m-measure_value">
-                <input type="hidden" name="binary_value" id="m-binary_value">
-                <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
-                    <h6>1</h6>
-                    <section>
-                        <div class="row">
+<div class="panel">
+    <div class="panel-body wizard-content">
+        <div class="d-flex justify-content-end align-items-end m-1 d-none">Control Plan: <b id="control_plan" class="ms-1"> </b></div>
+        <form action="{{route('inspections.store')}}" method="post" id="main-form">
+            @csrf
+            <input type="hidden" name="quantity" id="m-quantity">
+            <input type="hidden" name="batch_no" id="m-batch_no">
+            <input type="hidden" name="measure_value" id="m-measure_value">
+            <input type="hidden" name="binary_value" id="m-binary_value">
+            <div id="wizard-form" action="#" class="tab-wizard wizard-circle wizard clearfix">
+                <h6>1</h6>
+                <section>
+                    <div class="row">
+                        <div class="mb-1">
+                            <label for="user_name">UserName</label>
+                            <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-center align-items-center">
                             <div class="mb-1">
-                                <label for="user_name">UserName</label>
-                                <input type="text" disabled value="{{ auth()->user()->name }}" class="form-control">
+                                <label class="form-label" for="part_number">Please Scan Part Number</label>
+                                <input type="text" name="partnumber" autofocus id="part_number" class="form-control"
+                                    placeholder="Enter Part Number" required />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="mb-1">
-                                    <label class="form-label" for="part_number">Please Scan Part Number</label>
-                                    <input type="text" name="partnumber" autofocus id="part_number" class="form-control"
-                                        placeholder="Enter Part Number" required />
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </form>
-        </div>
+                    </div>
+                </section>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
