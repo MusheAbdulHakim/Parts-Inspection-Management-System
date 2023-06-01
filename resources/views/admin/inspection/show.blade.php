@@ -268,6 +268,8 @@
                                                     <label>Feature: <b>${feature.name}</b></label>
                                                 </div>
                                                 <div class="number_feature ${(feature.type != 'number') ? 'd-none': ''}">
+                                                    ${((feature.tool != 'null') && (feature.tool != '')) ?
+                                                    `
                                                     <div class="mb-1">
                                                         <div class="col-12">
                                                             <label for="tool" class="form-label">Inspection Tool</label>
@@ -277,7 +279,8 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>`:
+                                                    ``}
                                                     <div class="mb-1">
                                                         <div class="col-12">
                                                             <label class="form-label" for="target">Target</label>
