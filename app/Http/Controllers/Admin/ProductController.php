@@ -34,7 +34,7 @@ class ProductController extends Controller
                     return $row->project->name ?? '';
                 })
                 ->addColumn('plan', function($row){
-                    return $row->controlPlan->name ?? '';
+                    return '<a href="'.route('control-plans.index').'"> '.$row->controlPlan->name ?? "".'</a>';
                 })
                 ->addColumn('preview', function($row){
                     return '<a data-input="thumbnail" data-preview="holder" class="btn btn-primary filemanager">
@@ -59,7 +59,7 @@ class ProductController extends Controller
                     $btn = $editbtn.' '.$deletebtn;
                     return $btn;
                 })
-                ->rawColumns(['action','preview'])
+                ->rawColumns(['action','plan','preview'])
                 ->make(true);
         }
         return view('admin.products.index');
