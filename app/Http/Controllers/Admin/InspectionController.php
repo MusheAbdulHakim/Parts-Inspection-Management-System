@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller\Admin;
 
+use App\Models\Feature;
 use App\Models\Product;
 use App\Models\Inspection;
 use Illuminate\Http\Request;
@@ -27,6 +28,18 @@ class InspectionController extends Controller
             $inspections = Inspection::get();
             return DataTables::of($inspections)
                 ->addIndexColumn()
+                ->addColumn('features', function($row){
+                    $product = Product::where('part_no', $row->partnumber)->first();
+                    if(!empty($product)){
+                        $names = array_map(function($feature){
+                            return Feature::find($feature)->name;
+                        }, $product->controlPlan->features);
+                        $features = implode(',', $names);
+                        return $features;
+                    }else{
+                        return '';
+                    }
+                })
                 ->addColumn('project', function($row){
                     $product = Product::where('part_no', $row->partnumber)->first();
                     return $product->project->name ?? '';
@@ -34,6 +47,9 @@ class InspectionController extends Controller
                 ->addColumn('plan', function($row){
                     $product = Product::where('part_no', $row->partnumber)->first();
                     return $product->controlPlan->name ?? '';
+                })
+                ->addColumn('user', function($row){
+                    return $row->user->name ?? '';
                 })
                 ->addColumn('created_at',function($row){
                     return date_format(date_create($row->created_at),'d M Y');

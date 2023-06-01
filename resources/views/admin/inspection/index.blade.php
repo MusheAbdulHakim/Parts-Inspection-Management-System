@@ -22,8 +22,11 @@
                 <thead>
                   <tr>
                     <th>PartNumber</th>
-                    <th>Project</th>
                     <th>Control Plan</th>
+                    <th>Project</th>
+                    <th>Features</th>
+                    <th>Date</th>
+                    <th>Operator</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -47,8 +50,11 @@
         ajax: "{{route('inspections.index')}}",
         columns: [
             {data: 'partnumber', name: 'partnumber'},
-            {data: 'project', name: 'project'},
             {data: 'plan', name: 'plan'},
+            {data: 'project', name: 'project'},
+            {data: 'features', name: 'features'},
+            {data: 'created_at', name: 'created_at'},
+            {data: 'user', name: 'user'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
